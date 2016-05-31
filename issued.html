@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="irma-web-server" value="https://demo.irmacard.org/tomcat/irma_api_server/server/" />
+	<meta name="irma-api-server" value="https://demo.irmacard.org/tomcat/irma_api_server/api/v2/" />
+
+    <script type="text/javascript" src="https://demo.irmacard.org/tomcat/irma_api_server/bower_components/jquery/dist/jquery.js"></script>
+    <script type="text/javascript" src="https://demo.irmacard.org/tomcat/irma_api_server/bower_components/jwt-decode/build/jwt-decode.js"></script>
+    <script type="text/javascript" src="https://demo.irmacard.org/tomcat/irma_api_server/client/irma.js"></script>
+    <script>
+        $(function() {
+            // Setup verification request
+            var sprequest = {
+                "data": "foobar",
+                "validity": 60,
+                "request": {
+                    "content": [
+                        {
+                            "label": "Surfnet Root",
+                            "attributes": ["irma-demo.Surfnet.root.userID"]
+                        },
+                    ]
+                }
+            };
+
+            function init() {
+                console.log("Init called!");
+                var btn = document.getElementById("verify_surfnet_root_btn")
+                var success_fun = function(data) {
+                    console.log("Authentication successful!");
+                    console.log("Authentication token:", data);
+                    $("#result_status").html("Success!");
+                    $("#result_header").html("Result");
+					var json_token  = jwt_decode(data);
+					var attributes = json_token.attributes;
+					var surfnet_id = attributes['irma-demo.Surfnet.root.userID'];
+					json_string  = JSON.stringify(surfnet_id, null, 2);
+                    $("#token-content").html("<b>irma-demo.Surfnet.root.userId </b>" + surfnet_id);
+                }
+                var cancel_fun = function(data) {
+                    console.log("Authentication cancelled!");
+                    $("#result_header").html("Result");
+                    $("#result_status").html("Cancelled!");
+                }
+                var error_fun = function(data) {
+                    console.log("Authentication failed!");
+                    console.log("Error data:", data);
+                    $("#result_header").html("Result");
+                    $("#result_status").html("Failure!");
+                }
+
+                btn.addEventListener("click", function() {
+                    console.log("Button clicked");
+                    $("#result_header").text("");
+                    $("#result_status").text("");
+                    $("#token-content").text("");
+                    IRMA.verify(sprequest, success_fun, error_fun);
+                });
+            }
+
+            init();
+        });
+    </script>
+
+
+
+
+	<title>IRMA Enrollment</title>
+  <link href="/style/irma.css" rel="stylesheet" type="text/css" />
+  <link href="http://fonts.googleapis.com/css?family=Ubuntu:regular,bold&subset=Latin" rel="stylesheet" type="text/css" />
+  <link href="/style/bootstrap.css" rel="stylesheet" type="text/css" />
+  <style>
+    body { background-color: #ffffff; }
+		div.huge {font-size: 300px; line-height: 1em;}
+    #verify {cursor: pointer; }
+	</style>
+</head>
+
+<body>
+  <div id="IRMA_verify">
+    <div class="IRMA_page">
+      <div class="IRMA_container">
+        <div class="IRMA_title">
+          IRMA attributes issued
+        </div>
+    
+        <div class="IRMA_logo_top">
+          <img src="/style/irma_logo_1024px.png" width="264" height="211" />
+        </div>
+    
+        <div class="IRMA_main_scherm">
+        <div class="IRMA_content_verify">
+<!-- content ... -->
+
+<div id="alert_box"></div>
+
+
+<hr />
+
+<h3>SurfConext attributes successfully issued!</h3>
+
+<p>
+
+Congratulations! Your attributes have been successfully loaded onto your IRMA app.
+They should be visible there.
+</p>
+
+<!---
+<p>
+You can now try them out by logging into the <a href=" https://engine.surfconext.nl/authentication/sp/debug ">SurfConext test page</a>. You need to select "IRMA" as the identity provider.
+
+</p>
+-->
+
+<p>
+You can also verify the attributes with this button.
+
+<center>
+    <button id="verify_surfnet_root_btn" class="btn-primary">verify attributes</button>
+</center>
+</p>
+
+<h3 id="result_header"></h3>
+<h2 id="result_status"></h2>
+<p id="token-content"></p>
+
+
+<!-- ... content -->
+        </div>
+            
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" src="https://demo.irmacard.org/tomcat/irma_api_server/client/irma.js" ></script>
+</body>
+</html>
