@@ -4,21 +4,14 @@
 	<meta charset="utf-8" />
 	<meta name="irma-web-server" value="https://demo.irmacard.org/tomcat/irma_api_server/server/" />
 	<meta name="irma-api-server" value="https://demo.irmacard.org/tomcat/irma_api_server/api/v2/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+  <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="js/jquery.min.js"></script>
 
 	<title>IRMA Enrollment</title>
-  <link href="/style/irma.css" rel="stylesheet" type="text/css" />
-  <link href="http://fonts.googleapis.com/css?family=Ubuntu:regular,bold&subset=Latin" rel="stylesheet" type="text/css" />
-  <link href="/style/bootstrap.css" rel="stylesheet" type="text/css" />
-  <style>
-    body { background-color: #ffffff; }
-		div.huge {font-size: 300px; line-height: 1em;}
-    #verify {cursor: pointer; }
-	</style>
 
-<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
 <script>
-
 var attributes = {
 	name: "${authenticated_user/fullName}"
 }
@@ -67,61 +60,54 @@ $(function() {
     };
 
     $("#enroll").on("click", function() {
-        var jwt = IRMA.createUnsignedJWT(iprequest);
+        var jwt = IRMA.createUnsignedIssuanceJWT(iprequest);
         IRMA.issue(jwt, success_fun, showWarning, showError);
     });
 });
 </script>
 </head>
-
 <body>
-  <div id="IRMA_verify">
-    <div class="IRMA_page">
-      <div class="IRMA_container">
-        <div class="IRMA_title">
-          IRMA ENROLLMENT
-        </div>
-    
-        <div class="IRMA_logo_top">
-          <img src="/style/irma_logo_1024px.png" width="264" height="211" />
-        </div>
-    
-        <div class="IRMA_main_scherm">
-        <div class="IRMA_content_verify">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-md-8 col-lg-6 col-md-offset-2 col-lg-offset-3">
 <!-- content ... -->
+<img src="img/ru_toplogo_nl_nieuw.jpg" style="padding-top: 10px" />
+
+<h2>Available SurfConext attributes</h2>
 
 <div id="alert_box"></div>
 
+<p>
+The following attributes are available for download:
+</p>
+      <table class="table">
+        <tr>
+					<th scope="row">Your identifier</th>
+					<td tal:content="authenticated_user/eduPersonPrincipalName">Sample uid</td>
+				</tr>
+        <tr><th scope="row">Full Name</th><td tal:content="authenticated_user/fullName">Sample Full Name</td></tr>
+        <tr><th scope="row">Given Name</th><td tal:content="authenticated_user/givenName">Sample Given Name</td></tr>
+        <tr><th scope="row">Surname</th><td tal:content="authenticated_user/surname">Sample Surname</td></tr>
+      </table>
 
-Logged in as ${authenticated_user/fullName}, <a href="?action=logout">Logout</a>
+<p>
+Click the Load attributes button to load these attributes into your IRMA app.
+</p>
+
+<button id="enroll" class="btn btn-primary">
+Load attributes into IRMA
+</button>
 
 <hr />
 
-<h3>SurfConext attributes</h3>
+<small>
+You are logged in as ${authenticated_user/fullName} (<a href="?action=logout">Logout</a>)
+</small>
 
-<p>
-The following attributes are available for download to your IRMA app:
-</p>
-      <table class="table"> 
-		<tbody>
-        <tr><th>Your identifier</th><td tal:content="authenticated_user/eduPersonPrincipalName">Sample uid</td></tr> 
-        <tr><th>Full  Name</th><td tal:content="authenticated_user/fullName">Sample Full Name</td></tr> 
-        <tr><th>Given Name</th><td tal:content="authenticated_user/givenName">Sample Given Name</td></tr> 
-        <tr><th>Surname</th><td tal:content="authenticated_user/surname">Sample Surname</td></tr> 
-		</tbody>
-      </table>
-
-
-<button id="enroll" class="btn-primary">
-Load
-</button>
 <!-- ... content -->
-        </div>
-            
       </div>
     </div>
   </div>
-</div>
 
 <script type="text/javascript" src="https://demo.irmacard.org/tomcat/irma_api_server/client/irma.js" ></script>
 </body>
