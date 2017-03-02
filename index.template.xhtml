@@ -12,29 +12,11 @@
 	<script type="text/javascript" src="js/enroll.js"></script>
 
 	<script type="text/javascript">
-	var iprequest = {
-		timeout: 60,
-		request: {
-			"credentials": [
-				{
-					"credential": "irma-demo.Surfnet.root",
-					"attributes": {
-						"userID": "${authenticated_user/eduPersonPrincipalName}",
-						"securityHash": "00000000",
-					}
-				},
-				{
-					"credential": "irma-demo.MijnOverheid.fullName",
-					"attributes": {
-						"firstnames": "${authenticated_user/givenName}",
-						"firstname": "${authenticated_user/givenName}",
-						"familyname": "${authenticated_user/fullName}",
-						"prefix": " ",
-					}
-				}
-			],
-		}
-	};
+	var userID = "${authenticated_user/eduPersonPrincipalName}";
+	var firstnames = "${authenticated_user/givenName}";
+	var firstname = firstnames;
+	var familyname = "${authenticated_user/fullName}";
+	var prefix = " ";
 	</script>
 
 	<title>Surfnet Enrollment</title>
