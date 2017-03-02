@@ -34,7 +34,7 @@ $(function() {
 	};
 
 	var success_fun = function(data) {
-		window.location = "issued.html";
+		window.location = "done.html";
 	};
 
 	$("#enroll").on("click", function() {
