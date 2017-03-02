@@ -12,10 +12,10 @@
 	<script type="text/javascript" src="js/enroll.js"></script>
 
 	<script type="text/javascript">
-	var userID = "${authenticated_user/eduPersonPrincipalName}";
-	var firstnames = "${authenticated_user/givenName}";
+	var userID = "<?= $authenticated_user->eduPersonPrincipalName ?>";
+	var firstnames = "<?= $authenticated_user->givenName ?>";
 	var firstname = firstnames;
-	var familyname = "${authenticated_user/fullName}";
+	var familyname = "<?= $authenticated_user->fullName ?>";
 	var prefix = " ";
 	</script>
 
@@ -33,18 +33,27 @@
 				<table class="table">
 					<tr>
 						<th scope="row">Your identifier</th>
-						<td tal:content="authenticated_user/eduPersonPrincipalName">Sample uid</td>
+						<td><?= $authenticated_user->eduPersonPrincipalName ?></td>
 					</tr>
-					<tr><th scope="row">Full Name</th><td tal:content="authenticated_user/fullName">Sample Full Name</td></tr>
-					<tr><th scope="row">Given Name</th><td tal:content="authenticated_user/givenName">Sample Given Name</td></tr>
-					<tr><th scope="row">Surname</th><td tal:content="authenticated_user/surname">Sample Surname</td></tr>
+					<tr>
+						<th scope="row">Full Name</th>
+						<td><?= $authenticated_user->fullName ?></td>
+					</tr>
+					<tr>
+						<th scope="row">Given Name</th>
+						<td><?= $authenticated_user->givenName ?></td>
+					</tr>
+					<tr>
+						<th scope="row">Surname</th>
+						<td><?= $authenticated_user->surname ?></td>
+					</tr>
 				</table>
 
 				<p>Click the Load attributes button to load these attributes into your IRMA app.</p>
 				<button id="enroll" class="btn btn-primary">Load attributes into IRMA</button>
 
 				<hr />
-				<small>You are logged in as ${authenticated_user/fullName} (<a href="?action=logout">Logout</a>)</small>
+				<small>You are logged in as <?= $authenticated_user->fullName ?> (<a href="?action=logout">Logout</a>)</small>
 			</div>
 		</div>
 	</div>
