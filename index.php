@@ -42,35 +42,8 @@ class IrmaAutenticatedUser {
     }
 }
 
-function handle_action($loginpage, $authenticatedpage, $donepage) {
-    $authenticated_user = new IrmaAutenticatedUser();
-
-    if (isset($_REQUEST ['action']))
-        $action = $_REQUEST['action'];
-    else
-        $action = NULL;
-
-    $authenticated = $authenticated_user->isAuthenticated();
-
-    if ($action === 'login' && !$authenticated)
-        $authenticated_user->login();
-    if ($action === 'logout' && $authenticated)
-        $authenticated_user->logout();
-
-    if ($action === 'done') {
-        $jwt = get_verification_jwt();
-        include $donepage;
-    } elseif (!$authenticated) {
-        include $loginpage;
-    } else {
-        $authenticated_user->loadAttributes();
-        $jwt = get_issuance_jwt($authenticated_user);
-        include $authenticatedpage;
-    }
-}
-
 function get_jwt_key() {
-    $pk = openssl_pkey_get_private("file://" . ROOT_DIR . "sk.pem");
+    $pk = openssl_pkey_get_private("file://" . ROOT_DIR . "surfnet-sk.pem");
     if ($pk === false)
         throw new Exception("Failed to load signing key");
     return $pk;
@@ -126,6 +99,33 @@ function get_issuance_jwt($authenticated_user) {
     ];
 
     return JWT::encode($iprequest, $pk, "RS256", "surfnet_enroll");
+}
+
+function handle_action($loginpage, $authenticatedpage, $donepage) {
+    $authenticated_user = new IrmaAutenticatedUser();
+
+    if (isset($_REQUEST ['action']))
+        $action = $_REQUEST['action'];
+    else
+        $action = NULL;
+
+    $authenticated = $authenticated_user->isAuthenticated();
+
+    if ($action === 'login' && !$authenticated)
+        $authenticated_user->login();
+    if ($action === 'logout' && $authenticated)
+        $authenticated_user->logout();
+
+    if ($action === 'done') {
+        $jwt = get_verification_jwt();
+        include $donepage;
+    } elseif (!$authenticated) {
+        include $loginpage;
+    } else {
+        $authenticated_user->loadAttributes();
+        $jwt = get_issuance_jwt($authenticated_user);
+        include $authenticatedpage;
+    }
 }
 
 handle_action("login.html", "issue.php", "done.php");

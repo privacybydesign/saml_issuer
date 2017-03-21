@@ -16,7 +16,7 @@
 	var jwt = "<?= $jwt ?>";
 	</script>
 
-	<title>IRMA Enrollment</title>
+	<title>Surfnet Enrollment Done</title>
 </head>
 
 <body>
