@@ -5,8 +5,8 @@ $(function() {
 		"request": {
 			"content": [
 				{
-					"label": "Surfnet Root",
-					"attributes": ["irma-demo.Surfnet.root.userID"]
+					"label": "Surfnet",
+					"attributes": ["pbdf.pbdf.surfnet.fullname"]
 				},
 			]
 		}
@@ -19,9 +19,9 @@ $(function() {
 		$("#result_header").html("Result");
 		var json_token  = jwt_decode(data);
 		var attributes = json_token.attributes;
-		var surfnet_id = attributes['irma-demo.Surfnet.root.userID'];
+		var surfnet_id = attributes["pbdf.pbdf.surfnet.fullname"];
 		json_string  = JSON.stringify(surfnet_id, null, 2);
-		$("#token-content").html("<b>irma-demo.Surfnet.root.userId </b>" + surfnet_id);
+		$("#token-content").html("<b>Name:</b> " + surfnet_id);
 	}
 
 	var cancel_fun = function(data) {
