@@ -10,7 +10,7 @@ $(function() {
 	};
 
 	var success_fun = function(data) {
-		window.location = "done.html";
+		window.location = "?action=done";
 	};
 
 	$("#enroll").on("click", function() {

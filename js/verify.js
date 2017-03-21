@@ -1,17 +1,4 @@
 $(function() {
-	// Setup verification request
-	var sprequest = {
-		"validity": 60,
-		"request": {
-			"content": [
-				{
-					"label": "Surfnet",
-					"attributes": ["pbdf.pbdf.surfnet.fullname"]
-				},
-			]
-		}
-	};
-
 	var success_fun = function(data) {
 		console.log("Authentication successful!");
 		console.log("Authentication token:", data);
@@ -21,7 +8,7 @@ $(function() {
 		var attributes = json_token.attributes;
 		var surfnet_id = attributes["pbdf.pbdf.surfnet.fullname"];
 		json_string  = JSON.stringify(surfnet_id, null, 2);
-		$("#token-content").html("<b>Name:</b> " + surfnet_id);
+		$("#token-content").html("<b>Full name:</b> " + surfnet_id);
 	}
 
 	var cancel_fun = function(data) {
@@ -42,7 +29,6 @@ $(function() {
 		$("#result_header").text("");
 		$("#result_status").text("");
 		$("#token-content").text("");
-		var jwt = IRMA.createUnsignedVerificationJWT(sprequest);
 		IRMA.verify(jwt, success_fun, error_fun);
 	});
 

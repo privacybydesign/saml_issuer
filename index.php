@@ -10,11 +10,6 @@ use \Firebase\JWT\JWT;
 class IrmaAutenticatedUser {
     private $saml_authenticator;
 
-    public $eduPersonPrincipalName = NULL;
-    public $fullName = NULL;
-    public $givenName = NULL;
-    public $surname = NULL;
-
     function __construct() {
         $this->saml_authenticator = new SimpleSAML_Auth_Simple('surfnet');
     }
@@ -47,7 +42,7 @@ class IrmaAutenticatedUser {
     }
 }
 
-function irma_page_requires_authentication($loginpage, $authenticatedpage) {
+function handle_action($loginpage, $authenticatedpage, $donepage) {
     $authenticated_user = new IrmaAutenticatedUser();
 
     if (isset($_REQUEST ['action']))
@@ -62,21 +57,49 @@ function irma_page_requires_authentication($loginpage, $authenticatedpage) {
     if ($action === 'logout' && $authenticated)
         $authenticated_user->logout();
 
-    if (!$authenticated) {
+    if ($action === 'done') {
+        $jwt = get_verification_jwt();
+        include $donepage;
+    } elseif (!$authenticated) {
         include $loginpage;
     } else {
         $authenticated_user->loadAttributes();
-        $jwt = get_jwt($authenticated_user);
+        $jwt = get_issuance_jwt($authenticated_user);
         include $authenticatedpage;
     }
 }
 
-function get_jwt($authenticated_user) {
+function get_jwt_key() {
     $pk = openssl_pkey_get_private("file://" . ROOT_DIR . "sk.pem");
-    if ($pk === false) {
+    if ($pk === false)
         throw new Exception("Failed to load signing key");
-    }
+    return $pk;
+}
 
+function get_verification_jwt() {
+    $pk = get_jwt_key();
+    $sprequest = [
+        "sub" => "verification_request",
+        "iss" => "Privacy by Design Foundation",
+        "iat" => time(),
+        "sprequest" => [
+            "validity" => 60,
+            "request" => [
+                "content" => [
+                    [
+                        "label" => "Surfnet full name",
+                        "attributes" => ["pbdf.pbdf.surfnet.fullname"]
+                    ],
+                ]
+            ]
+        ]
+    ];
+
+    return JWT::encode($sprequest, $pk, "RS256", "surfnet_enroll");
+}
+
+function get_issuance_jwt($authenticated_user) {
+    $pk = get_jwt_key();
     $iprequest = [
         "sub" => "issue_request",
         "iss" => "Privacy by Design Foundation",
@@ -105,4 +128,4 @@ function get_jwt($authenticated_user) {
     return JWT::encode($iprequest, $pk, "RS256", "surfnet_enroll");
 }
 
-irma_page_requires_authentication("login.html", "issue.php");
+handle_action("login.html", "issue.php", "done.php");
