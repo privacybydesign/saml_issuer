@@ -61,7 +61,7 @@
 				<button id="enroll" class="btn btn-primary">Load attributes into IRMA</button>
 
 				<hr />
-				<small>You are logged in as <?= $authenticated_user->fullName ?> (<a href="?action=logout">Logout</a>)</small>
+				<small>You are logged in as <?= $authenticated_user->fullname ?> (<a href="?action=logout">Logout</a>)</small>
 			</div>
 		</div>
 	</div>
