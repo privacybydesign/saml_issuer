@@ -15,20 +15,20 @@
 	var jwt = "<?= $jwt ?>";
 	</script>
 
-	<title>Surfnet Enrollment</title>
+	<title>Surfnet attributen</title>
 </head>
 <body>
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-12 col-md-8 col-lg-6 col-md-offset-2 col-lg-offset-3">
-				<h2>Available Surfnet attributes</h2>
+				<h2>Beschikbare Surfnet attributen</h2>
 
 				<div id="alert_box"></div>
 
-				<p>The following attributes are available for download:</p>
+				<p>De volgende attributen kunnen nu in uw IRMA app geladen worden:</p>
 				<table class="table">
 					<tr>
-						<th scope="row">Institute</th>
+						<th scope="row">Instituut</th>
 						<td><?= $authenticated_user->institute ?></td>
 					</tr>
 					<tr>
@@ -40,28 +40,28 @@
 						<td><?= $authenticated_user->id ?></td>
 					</tr>
 					<tr>
-						<th scope="row">Full Name</th>
+						<th scope="row">Volledige naam</th>
 						<td><?= $authenticated_user->fullname ?></td>
 					</tr>
 					<tr>
-						<th scope="row">Given Name</th>
+						<th scope="row">Voornaam</th>
 						<td><?= $authenticated_user->firstname ?></td>
 					</tr>
 					<tr>
-						<th scope="row">Family Name</th>
+						<th scope="row">Achternaam</th>
 						<td><?= $authenticated_user->familyname ?></td>
 					</tr>
 					<tr>
-						<th scope="row">Email address</th>
+						<th scope="row">Emailadres</th>
 						<td><?= $authenticated_user->email ?></td>
 					</tr>
 				</table>
 
-				<p>Click the Load attributes button to load these attributes into your IRMA app.</p>
-				<button id="enroll" class="btn btn-primary">Load attributes into IRMA</button>
+				<p>Klik hier om deze attributen in uw IRMA app te laden.</p>
+				<button id="enroll" class="btn btn-primary">Laad attributen in IRMA app</button>
 
 				<hr />
-				<small>You are logged in as <?= $authenticated_user->fullname ?> (<a href="?action=logout">Logout</a>)</small>
+				<small>U bent ingelogd als <?= $authenticated_user->fullname ?> (<a href="?action=logout">Log uit</a>)</small>
 			</div>
 		</div>
 	</div>
