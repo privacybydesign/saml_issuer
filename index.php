@@ -83,6 +83,7 @@ function get_issuance_jwt($authenticated_user) {
                 "credentials" => [
                     [
                         "credential" => "pbdf.pbdf.surfnet",
+                        "validity" => (new DateTime("+3 months"))->getTimestamp(),
                         "attributes" => [
                             "institute" => $authenticated_user->institute,
                             "type" => $authenticated_user->type,
