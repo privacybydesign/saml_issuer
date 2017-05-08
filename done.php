@@ -28,19 +28,21 @@
 				<div id="alert_box"></div>
 
 				<p>
-					Gefeliciteerd! Uw attributen zijn nu in uw IRMA app geladen.
+					Gefeliciteerd! Uw attributen zijn nu in uw IRMA app geladen. Daar zijn ze nu zichtbaar.
 				</p>
 
 				<p>
-					U kunt deze attributen gebruiken op iedere website die ze accepteert. U kunt ze ook nu testen door op de knop hieronder te klikken.
+					U kunt deze attributen gebruiken op iedere website die ze accepteert.<br/>
+					Door op de knop hieronder te klikken kunt u dit testen; u toont dan uw naam-attribuut.
 				</p>
 
-				<button id="verify_surfnet_root_btn" class="btn btn-primary">Test attributen</button>
+				<button id="verify_surfnet_root_btn" class="btn btn-primary">Toon naam-attribuut</button>
 
 				<h3 id="result_header"></h3>
 				<h4 id="result_status"></h4>
 				<p id="token-content"></p>
 
+				<a href="/uitgifte/">Keer terug naar de attribuut-uitgifte pagina</a>
 			</div>
 		</div>
 	</div>
