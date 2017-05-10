@@ -7,8 +7,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 	<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-	<script type="text/javascript" src="https://privacybydesign.foundation/tomcat/irma_api_server/client/irma.js"></script>
 	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="https://privacybydesign.foundation/tomcat/irma_api_server/client/irma.js"></script>
 	<script type="text/javascript" src="js/enroll.js"></script>
 
 	<script type="text/javascript">
