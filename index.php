@@ -39,6 +39,14 @@ class IrmaAutenticatedUser {
         $this->firstname = $attributes["urn:mace:dir:attribute-def:givenName"][0];
         $this->familyname = $attributes["urn:mace:dir:attribute-def:sn"][0];
         $this->email = $attributes["urn:mace:dir:attribute-def:mail"][0];
+
+        if ($this->institute == NULL) $this->institute = " ";
+        if ($this->type == NULL) $this->type = " ";
+        if ($this->id == NULL) $this->id = " ";
+        if ($this->fullname == NULL) $this->fullname = " ";
+        if ($this->firstname == NULL) $this->firstname = " ";
+        if ($this->familyname == NULL) $this->familyname = " ";
+        if ($this->email == NULL) $this->email = " ";
     }
 }
 
