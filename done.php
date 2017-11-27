@@ -6,11 +6,11 @@
 	<meta name="irma-api-server" value="https://privacybydesign.foundation/tomcat/irma_api_server/api/v2/" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-	<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="../js/jquery.min.js"></script>
 	<script type="text/javascript" src="https://privacybydesign.foundation/tomcat/irma_api_server/bower_components/jwt-decode/build/jwt-decode.js"></script>
 	<script type="text/javascript" src="https://privacybydesign.foundation/tomcat/irma_api_server/client/irma.js" async defer></script>
-	<script type="text/javascript" src="js/verify.js"></script>
+	<script type="text/javascript" src="../js/verify.js"></script>
 
 	<script type="text/javascript">
 	var jwt = "<?= $jwt ?>";
