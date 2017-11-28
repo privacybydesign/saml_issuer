@@ -14,16 +14,17 @@
 
 	<script type="text/javascript">
 	var jwt = "<?= $jwt ?>";
+	var fullname_attribute = "<?= $fullname_attribute ?>";
 	</script>
 
-	<title>Surfnet attributen geladen</title>
+	<title><?= $provider_name ?> attributen geladen</title>
 </head>
 
 <body>
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-12 col-md-8 col-lg-6 col-md-offset-2 col-lg-offset-3">
-				<h2>Surfnet attributen zijn geladen</h2>
+				<h2><?= $provider_name ?> attributen zijn geladen</h2>
 
 				<div id="alert_box"></div>
 
@@ -36,7 +37,7 @@
 					Door op de knop hieronder te klikken kunt u dit testen; u toont dan uw naam-attribuut.
 				</p>
 
-				<button id="verify_surfnet_root_btn" class="btn btn-primary">Toon naam-attribuut</button>
+				<button id="verify_btn" class="btn btn-primary">Toon naam-attribuut</button>
 
 				<h3 id="result_header"></h3>
 				<h4 id="result_status"></h4>

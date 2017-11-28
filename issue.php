@@ -15,53 +15,31 @@
 	var jwt = "<?= $jwt ?>";
 	</script>
 
-	<title>Surfnet attributen</title>
+	<title><?= PROVIDER_NAME ?> attributen</title>
 </head>
 <body>
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-12 col-md-8 col-lg-6 col-md-offset-2 col-lg-offset-3">
-				<h2>Beschikbare Surfnet attributen</h2>
+				<h2>Beschikbare <?= PROVIDER_NAME ?> attributen</h2>
 
 				<div id="alert_box"></div>
 
 				<p>De volgende attributen kunnen nu in uw IRMA app geladen worden:</p>
 				<table class="table">
+<?php foreach (ATTRIBUTE_HUMAN_NAMES as $key => $human) { ?>
 					<tr>
-						<th scope="row">Instituut</th>
-						<td><?= $authenticated_user->institute ?></td>
+						<th scope="row"><?= $human ?></th>
+						<td><?= $irma_attributes[$key] ?></td>
 					</tr>
-					<tr>
-						<th scope="row">Type</th>
-						<td><?= $authenticated_user->type ?></td>
-					</tr>
-					<tr>
-						<th scope="row">ID</th>
-						<td><?= $authenticated_user->id ?></td>
-					</tr>
-					<tr>
-						<th scope="row">Volledige naam</th>
-						<td><?= $authenticated_user->fullname ?></td>
-					</tr>
-					<tr>
-						<th scope="row">Voornaam</th>
-						<td><?= $authenticated_user->firstname ?></td>
-					</tr>
-					<tr>
-						<th scope="row">Achternaam</th>
-						<td><?= $authenticated_user->familyname ?></td>
-					</tr>
-					<tr>
-						<th scope="row">Emailadres</th>
-						<td><?= $authenticated_user->email ?></td>
-					</tr>
+<?php } ?>
 				</table>
 
 				<p>Klik hier om deze attributen in uw IRMA app te laden.</p>
 				<button id="enroll" class="btn btn-primary">Laad attributen in IRMA app</button>
 
 				<hr />
-				<small>U bent ingelogd als <?= $authenticated_user->fullname ?> (<a href="?action=logout">Log uit</a>)</small>
+				<small>U bent ingelogd als <?= $irma_attributes['fullname'] ?> (<a href="?action=logout">Log uit</a>)</small>
 			</div>
 		</div>
 	</div>

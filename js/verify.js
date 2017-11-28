@@ -2,8 +2,8 @@ $(function() {
 	var success_fun = function(data) {
 		$("#result_status").html("Succes!");
 		$("#result_header").html("Resultaat");
-		var surfnet_id = jwt_decode(data).attributes["pbdf.pbdf.surfnet.fullname"];
-		$("#token-content").html("<b>Naam:</b> " + surfnet_id);
+		var fullname = jwt_decode(data).attributes[fullname_attribute];
+		$("#token-content").html("<b>Naam:</b> " + fullname);
 	}
 
 	var cancel_fun = function(data) {
@@ -18,7 +18,7 @@ $(function() {
 		$("#result_status").html("Mislukt!");
 	}
 
-	$("#verify_surfnet_root_btn").on("click", function() {
+	$("#verify_btn").on("click", function() {
 		$("#result_header").text("");
 		$("#result_status").text("");
 		$("#token-content").text("");
