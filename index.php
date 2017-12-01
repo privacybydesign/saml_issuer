@@ -21,13 +21,17 @@ define('PAGE_DONE',  '../done.php');
 function map_saml_attributes($saml_attributes) {
     $irma_attributes = [];
     foreach (MAP_IRMA_SAML_ATTRIBUTES as $irma_key => $saml_key) {
+        $value = ' ';
         if (isset($saml_attributes[$saml_key]) &&
                 count($saml_attributes[$saml_key]) > 0 &&
                 $saml_attributes[$saml_key] !== NULL) {
-            $irma_attributes[$irma_key] = $saml_attributes[$saml_key][0];
-        } else {
-            $irma_attributes[$irma_key] = ' ';
+            $value = $saml_attributes[$saml_key][0];
         }
+        if ($irma_key === 'dateofbirth' && preg_match('#^[0-9]{2}/[0-9]{2}/[0-9]{4}$#', $value)) {
+            $parts = explode('/', $value);
+            $value = "{$parts[1]}-{$parts[0]}-{$parts[2]}";
+        }
+        $irma_attributes[$irma_key] = $value;
     }
 
     return $irma_attributes;
