@@ -1,17 +1,22 @@
 <?php
 
-use \Firebase\JWT\JWT;
-
-define('PAGE_LOGIN', '../login.php');
-define('PAGE_ISSUE', '../issue.php');
-define('PAGE_DONE',  '../done.php');
-
 if (!defined('PROVIDER')) {
     // Trying to load this PHP script directly (old style), redirect to surfnet
     // issuer.
     header('Location: surfnet/', true, 301);
     exit('redirect to surfnet/');
 }
+
+define('ROOT_DIR', __DIR__ . '/../../../');
+
+require_once ROOT_DIR . 'php/vendor/autoload.php';
+require_once ROOT_DIR . 'simplesamlphp/lib/_autoload.php';
+
+use \Firebase\JWT\JWT;
+
+define('PAGE_LOGIN', '../login.php');
+define('PAGE_ISSUE', '../issue.php');
+define('PAGE_DONE',  '../done.php');
 
 function map_saml_attributes($saml_attributes) {
     $irma_attributes = [];

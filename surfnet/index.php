@@ -1,10 +1,5 @@
 <?php
 
-define('ROOT_DIR', __DIR__ . '/../../../../');
-
-require_once ROOT_DIR . 'php/vendor/autoload.php';
-require_once ROOT_DIR . 'simplesamlphp/lib/_autoload.php';
-
 define('PROVIDER',  'surfnet');
 define('PROVIDER_NAME', 'Surfnet');
 define('SERVER_NAME', 'surfnet_enroll');
