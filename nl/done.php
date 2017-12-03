@@ -16,33 +16,43 @@
 	var jwt = "<?= $jwt ?>";
 	</script>
 
-	<title>Surfnet attributen geladen</title>
+	<title>SURFconext attributen geladen</title>
 </head>
 
 <body>
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-12 col-md-8 col-lg-6 col-md-offset-2 col-lg-offset-3">
-				<h2>Surfnet attributen zijn geladen</h2>
+				<h2>SURFconext attributen zijn geladen</h2>
 
 				<div id="alert_box"></div>
 
 				<p>
-					Gefeliciteerd! Uw attributen zijn nu in uw IRMA app geladen. Daar zijn ze nu zichtbaar.
+					Gefeliciteerd! Uw attributen
+					zijn nu in uw IRMA app
+					geladen. Daar zijn ze nu
+					zichtbaar.
 				</p>
 
 				<p>
-					U kunt deze attributen gebruiken op iedere website die ze accepteert.<br/>
-					Door op de knop hieronder te klikken kunt u dit testen; u toont dan uw naam-attribuut.
+					U kunt deze attributen
+					gebruiken op iedere website
+					die ze accepteert.<br/>  Door
+					op de knop hieronder te
+					klikken kunt u dit testen; u
+					toont dan uw naam.
 				</p>
 
-				<button id="verify_surfnet_root_btn" class="btn btn-primary">Toon naam-attribuut</button>
+				<button id="verify_surfnet_root_btn"
+				class="btn btn-primary">Onthul
+				naam</button>
 
 				<h3 id="result_header"></h3>
 				<h4 id="result_status"></h4>
 				<p id="token-content"></p>
 
-				<a href="/uitgifte/">Keer terug naar de attribuut-uitgifte pagina</a>
+				<a href="/uitgifte/">Terug</a> naar
+				attribuut uitgifte.
 			</div>
 		</div>
 	</div>
