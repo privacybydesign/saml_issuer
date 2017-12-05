@@ -65,10 +65,12 @@
 				app</button>
 
 				<hr />
-				<small>U bent ingelogd als
+				U bent ingelogd als
 				<?= $authenticated_user->fullname ?>
 				(<a href="?action=logout">Log
-				uit</a>)</small>
+				uit</a>)
+				<br>
+				<a href="https://privacybydesign.foundation/uitgifte/">Terug</a> naar attribuut uitgifte.
 			</div>
 		</div>
 	</div>

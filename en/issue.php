@@ -64,10 +64,13 @@
 				btn-primary">Load attributes</button>
 
 				<hr />
-				<small>You are loggin in as
+				You are loggin in as
 				<?= $authenticated_user->fullname ?>
 				(<a href="?action=logout">Log
-				uit</a>)</small>
+				out</a>)
+				<br>
+				<a href="https://privacybydesign.foundation/issuance/">Back</a> to attribute issuance.
+
 			</div>
 		</div>
 	</div>
