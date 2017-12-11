@@ -19,8 +19,9 @@ define('PAGE_ISSUE', '../issue.php');
 define('PAGE_DONE',  '../done.php');
 
 function map_saml_attributes($saml_attributes) {
+    global $MAP_IRMA_SAML_ATTRIBUTES;
     $irma_attributes = [];
-    foreach (MAP_IRMA_SAML_ATTRIBUTES as $irma_key => $saml_key) {
+    foreach ($MAP_IRMA_SAML_ATTRIBUTES as $irma_key => $saml_key) {
         $value = ' ';
         if (isset($saml_attributes[$saml_key]) &&
                 count($saml_attributes[$saml_key]) > 0 &&
@@ -90,7 +91,7 @@ function get_verification_jwt($label, $attributes) {
 }
 
 function handle_request() {
-    $saml_authenticator = new SimpleSAML_Auth_Simple(PROVIDER);
+    $saml_authenticator = new \SimpleSAML\Auth\Simple(PROVIDER);
 
     if (isset($_REQUEST ['action'])) {
         $action = $_REQUEST['action'];

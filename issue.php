@@ -27,7 +27,7 @@
 
 				<p>De volgende attributen kunnen nu in uw IRMA app geladen worden:</p>
 				<table class="table">
-<?php foreach (ATTRIBUTE_HUMAN_NAMES as $key => $human) { ?>
+<?php global $ATTRIBUTE_HUMAN_NAMES; foreach ($ATTRIBUTE_HUMAN_NAMES as $key => $human) { ?>
 					<tr>
 						<th scope="row"><?= $human ?></th>
 						<td><?= $irma_attributes[$key] ?></td>
