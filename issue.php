@@ -30,7 +30,11 @@
 <?php foreach ($irma_attributes as $key => $value) { ?>
 					<tr>
 						<th scope="row"><?= $ATTRIBUTE_HUMAN_NAMES[$key] ?></th>
+<?php   if ($key == 'profileurl') { ?>
+						<td><a href="<?= $value ?>"><?= $value ?></a></td>
+<?php   } else { ?>
 						<td><?= htmlspecialchars($value, ENT_QUOTES|ENT_HTML5) ?></td>
+<?php   } ?>
 					</tr>
 <?php } ?>
 				</table>
