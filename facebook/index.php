@@ -16,13 +16,4 @@ $MAP_IRMA_SAML_ATTRIBUTES = [
     'dateofbirth' => 'facebook.birthday',
 ];
 
-$ATTRIBUTE_HUMAN_NAMES = [
-    'id'          => 'ID',
-    'fullname'    => 'Volledige naam',
-    'firstname'   => 'Voornaam',
-    'familyname'  => 'Achternaam',
-    'email'       => 'E-mailadres',
-    'dateofbirth' => 'Geboortedatum',
-];
-
 require '../index.php';

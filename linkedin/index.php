@@ -14,11 +14,4 @@ $MAP_IRMA_SAML_ATTRIBUTES = [
     'email'       => 'linkedin.emailAddress',
 ];
 
-$ATTRIBUTE_HUMAN_NAMES = [
-    'id'          => 'ID',
-    'firstname'   => 'Voornaam',
-    'familyname'  => 'Achternaam',
-    'email'       => 'E-mailadres',
-];
-
 require '../index.php';

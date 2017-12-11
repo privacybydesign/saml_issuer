@@ -18,6 +18,19 @@ define('PAGE_LOGIN', '../login.php');
 define('PAGE_ISSUE', '../issue.php');
 define('PAGE_DONE',  '../done.php');
 
+$ATTRIBUTE_HUMAN_NAMES = [
+    'id'          => 'ID',
+    'username'    => 'Gebruikersnaam',
+    'profileurl'  => 'Profiel',
+    'fullname'    => 'Volledige naam',
+    'firstname'   => 'Voornaam',
+    'familyname'  => 'Achternaam',
+    'email'       => 'E-mailadres',
+    'dateofbirth' => 'Geboortedatum',
+    'institute'   => 'Instituut',
+    'type'        => 'Type',
+];
+
 function map_saml_attributes($saml_attributes) {
     global $MAP_IRMA_SAML_ATTRIBUTES;
     $irma_attributes = [];
@@ -91,6 +104,8 @@ function get_verification_jwt($label, $attributes) {
 }
 
 function handle_request() {
+    global $ATTRIBUTE_HUMAN_NAMES;
+
     $saml_authenticator = new \SimpleSAML\Auth\Simple(PROVIDER);
 
     if (isset($_REQUEST ['action'])) {
