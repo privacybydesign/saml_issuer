@@ -48,11 +48,17 @@ function map_saml_attributes($saml_attributes) {
         $irma_attributes[$irma_key] = $value;
     }
 
-    if (array_key_exists('profileurl', $irma_attributes) && !array_key_exists('username', $irma_attributes) && defined('PROFILE_URL_FORMAT')) {
-        preg_match(PROFILE_URL_FORMAT, $irma_attributes['profileurl'], $matches);
+    // Add username from profileurl
+    if (array_key_exists('profileurl', $irma_attributes) && !array_key_exists('username', $irma_attributes) && defined('PROFILE_URL_REGEX')) {
+        preg_match(PROFILE_URL_REGEX, $irma_attributes['profileurl'], $matches);
         if (count($matches) >= 2) {
             $irma_attributes['username'] = $matches[1];
         }
+    }
+
+    // Add profileurl from username
+    if (array_key_exists('username', $irma_attributes) && !array_key_exists('profileurl', $irma_attributes) && defined('PROFILE_URL_FORMAT')) {
+        $irma_attributes['profileurl'] = str_replace(':username:', $irma_attributes['username'], PROFILE_URL_FORMAT);
     }
 
     return $irma_attributes;
