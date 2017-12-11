@@ -8,7 +8,6 @@ define('IRMA_NAME_ATTRIBUTE', 'fullname');
 define('VERIFY_NAME_LABEL', 'Facebook full name');
 
 $MAP_IRMA_SAML_ATTRIBUTES = [
-    'id'          => 'facebook.id',
     'fullname'    => 'facebook.name',
     'firstname'   => 'facebook.first_name',
     'familyname'  => 'facebook.last_name',
