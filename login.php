@@ -37,6 +37,19 @@
 					Nadat u Facebook toestemming heeft gegeven kunt u de attributen direct
 					in de IRMA app laden.
 				</p>
+
+<?php } else if (PROVIDER == 'linkedin') { ?>
+				<p>
+					Attributen van LinkedIn (naam, email adres, enz.) kunnen eenvoudig in
+					de IRMA app geladen worden. Hiervoor dient u in te loggen in LinkedIn
+					via de knop hieronder.
+				</p>
+
+				<p>
+					Na het inloggen kunt u direct uw LinkedIn attributen in de IRMA app
+					laden. Wij zullen deze gegevens niet bewaren.
+				</p>
+
 <?php } ?>
 
 				<a href="?action=login" class="btn btn-primary">Login om attributen te laden</a>
