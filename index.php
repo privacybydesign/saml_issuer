@@ -20,14 +20,14 @@ define('PAGE_DONE',  '../done.php');
 
 $ATTRIBUTE_HUMAN_NAMES = [
     'id'          => 'ID',
-    'username'    => 'Gebruikersnaam',
-    'profileurl'  => 'Profiel',
-    'fullname'    => 'Volledige naam',
-    'firstname'   => 'Voornaam',
-    'familyname'  => 'Achternaam',
-    'email'       => 'E-mailadres',
-    'dateofbirth' => 'Geboortedatum',
-    'institute'   => 'Instituut',
+    'username'    => 'Username',
+    'profileurl'  => 'Profile',
+    'fullname'    => 'Full name',
+    'firstname'   => 'First name',
+    'familyname'  => 'Family name',
+    'email'       => 'Email address',
+    'dateofbirth' => 'Birthdate',
+    'institute'   => 'Institute',
     'type'        => 'Type',
 ];
 

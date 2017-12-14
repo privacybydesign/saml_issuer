@@ -17,33 +17,34 @@
 	var fullname_attribute = "<?= $fullname_attribute ?>";
 	</script>
 
-	<title><?= $provider_name ?> attributen geladen</title>
+	<title><?= $provider_name ?> attributes loaded</title>
 </head>
 
 <body>
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-12 col-md-8 col-lg-6 col-md-offset-2 col-lg-offset-3">
-				<h2><?= $provider_name ?> attributen zijn geladen</h2>
+				<h2><?= $provider_name ?> attributes have been loaded</h2>
 
 				<div id="alert_box"></div>
 
 				<p>
-					Gefeliciteerd! Uw attributen zijn nu in uw IRMA app geladen. Daar zijn ze nu zichtbaar.
+					Congratulations! Your attributes have been added to your IRMA
+					app. They should now be visible there.
 				</p>
 
 				<p>
-					U kunt deze attributen gebruiken op iedere website die ze accepteert.<br/>
-					Door op de knop hieronder te klikken kunt u dit testen; u toont dan uw naam-attribuut.
+					You can now use these attributes on any website that accpets them. <br/>
+					By clicking the button below you can test this, by disclosing your name.
 				</p>
 
-				<button id="verify_btn" class="btn btn-primary">Toon naam-attribuut</button>
+				<button id="verify_btn" class="btn btn-primary">Disclose name attribute</button>
 
 				<h3 id="result_header"></h3>
 				<h4 id="result_status"></h4>
 				<p id="token-content"></p>
 
-				<a href="/uitgifte/">Keer terug naar de attribuut-uitgifte pagina</a>
+				<a href="/issuance/">Back to attribute issuance</a>
 			</div>
 		</div>
 	</div>

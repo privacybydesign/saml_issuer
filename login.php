@@ -6,72 +6,74 @@
 
 	<link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 
-	<title><?= PROVIDER_NAME ?> attributen</title>
+	<title><?= PROVIDER_NAME ?> attributes</title>
 </head>
 <body>
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-12 col-md-8 col-lg-6 col-md-offset-2 col-lg-offset-3">
-				<h2>Laad attributen via <?= PROVIDER_NAME ?></h2>
+				<h2>Load attributes from <?= PROVIDER_NAME ?></h2>
 
 <?php if (PROVIDER == 'surfnet') { ?>
 				<p>
-					De attributen van uw hoger onderwijsinstelling kunnen nu in uw
-					IRMA app geladen worden via Surfnet.
+					Attributes from your educational institute can be added to your IRMA
+					app via SURFconext.
 				</p>
 
 				<p>
-					Om uw attributen te laden moet u eerst inloggen bij uw onderwijsinstelling.
-					Wij ontvangen dan uw attributen. Daarna kunt u ze laden in uw IRMA app.
+					In order to load these attributes, you first have to log into your own
+					institute. With your permission, the Privacy by Design foundation then
+					receives your attributes. Subsequently, they can be loaded into your IRMA app.
 				</p>
 
 <?php } else if (PROVIDER == 'facebook') { ?>
 				<p>
-					Attributen van Facebook kunnen eenvoudig in de IRMA app geladen
-					worden. Om deze te laden is het nodig IRMA toegang te geven tot basis
-					profielgegevens. Deze gebruiken wij alleen tijdens het uitgeven van
-					attributen.
+					Attributes from Facebook can now be loaded into your IRMA app.
+					To load these attributes it is necessary that you give IRMA access
+					to your basic profile data. We use this data only during attribute laoding.
 				</p>
 
 				<p>
-					Nadat u Facebook toestemming heeft gegeven kunt u de attributen direct
-					in de IRMA app laden.
+					After you have given this permission on Facebook the attributes can be
+					loaded into your IRMA app.
 				</p>
 
 <?php } else if (PROVIDER == 'linkedin') { ?>
 				<p>
-					Attributen van LinkedIn (naam, email adres, enz.) kunnen eenvoudig in
-					de IRMA app geladen worden. Hiervoor dient u in te loggen in LinkedIn
-					via de knop hieronder.
+					Attributes from LinkedIn can now be loaded into your IRMA app.
+					To load these attributes it is necessary that you log in on LinkedIn,
+					and give IRMA access to your basic profile data. We use this data only
+					during attribute loading.
 				</p>
 
 				<p>
-					Na het inloggen kunt u direct uw LinkedIn attributen in de IRMA app
-					laden. Wij zullen deze gegevens niet bewaren.
+					After you have given this permission on LinkedIn the attributes can be
+					loaded into your IRMA app.
 				</p>
 
 <?php } else if (PROVIDER == 'twitter') { ?>
 				<p>
-					Attributen van Twitter (naam, email adres, enz.) kunnen eenvoudig in
-					de IRMA app geladen worden. Hiervoor dient u in te loggen in Twitter
-					via de knop hieronder.
+					Attributes from Twitter can now be loaded into your IRMA app.
+					To load these attributes it is necessary that you log in on Twitter,
+					and give IRMA access to your basic profile data. We use this data only
+					during attribute loading.
 				</p>
 
 				<p>
-					Twitter geeft ook toestemming tot allerlei informatie (tweets,
-					volgers) die wij niet gebruiken. Helaas is het op dit moment
-					onmogelijk om dat uit te zetten. Wij downloaden deze informatie niet
-					van Twitter dus zullen het zeker niet bewaren.
+					Twitter also gives us access to more information than neccessary, such
+					as your tweets and follows, that we do not use. Unfortunately it is
+					impossible for us to disable this. However, we do not download or use
+					thisthe data in any way.
 				</p>
 
 				<p>
-					Na het inloggen kunt u direct uw Twitter attributen in de IRMA app
-					laden. Wij zullen deze gegevens niet bewaren.
+					After you have given this permission on Twitter the attributes can be
+					loaded into your IRMA app.
 				</p>
 
 <?php } ?>
 
-				<a href="?action=login" class="btn btn-primary">Login om attributen te laden</a>
+				<a href="?action=login" class="btn btn-primary">Log in to load attributes</a>
 			</div>
 		</div>
 	</div>

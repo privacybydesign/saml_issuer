@@ -15,17 +15,17 @@
 	var jwt = "<?= $jwt ?>";
 	</script>
 
-	<title><?= PROVIDER_NAME ?> attributen</title>
+	<title><?= PROVIDER_NAME ?> attributes</title>
 </head>
 <body>
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-12 col-md-8 col-lg-6 col-md-offset-2 col-lg-offset-3">
-				<h2>Beschikbare <?= PROVIDER_NAME ?> attributen</h2>
+				<h2>Available <?= PROVIDER_NAME ?> attributes</h2>
 
 				<div id="alert_box"></div>
 
-				<p>De volgende attributen kunnen nu in uw IRMA app geladen worden:</p>
+				<p>The attributes below can be added to your IRMA app:</p>
 				<table class="table">
 <?php foreach ($irma_attributes as $key => $value) { ?>
 					<tr>
@@ -39,11 +39,11 @@
 <?php } ?>
 				</table>
 
-				<p>Klik hier om deze attributen in uw IRMA app te laden.</p>
-				<button id="enroll" class="btn btn-primary">Laad attributen in IRMA app</button>
+				<p>Click here to add this attributes to your IRMA app.</p>
+				<button id="enroll" class="btn btn-primary">Load attributes in IRMA app</button>
 
 				<hr />
-				<small>U bent ingelogd als <?= $irma_attributes['fullname'] ?> (<a href="?action=logout">Log uit</a>)</small>
+				<small>You are logged in as <?= $irma_attributes['fullname'] ?> (<a href="?action=logout">Log out</a>)</small>
 			</div>
 		</div>
 	</div>
