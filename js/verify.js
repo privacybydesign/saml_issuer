@@ -1,28 +1,29 @@
 $(function() {
-	var success_fun = function(data) {
-		$("#result_status").html("Success!");
-		$("#result_header").html("Result");
+	function onSuccess(data) {
 		var fullname = jwt_decode(data).attributes[fullname_attribute];
-		$("#token-content").html("<b>Name:</b> " + fullname);
+		$("#token-content")
+			.removeClass('hide')
+			.find('.name').text(fullname);
 	}
 
-	var cancel_fun = function(data) {
-		$("#result_header").html("Result");
-		$("#result_status").html("Cancelled!");
+	function onCancel(msg) {
+		console.warn('CANCEL:', msg);
+		$('.alert.alert-warning')
+			.removeClass('hide')
+			.find('.message').text(msg);
 	}
 
-	var error_fun = function(data) {
-		console.log("Authentication failed!");
-		console.log("Error data:", data);
-		$("#result_header").html("Result");
-		$("#result_status").html("Failed!");
+	function onError(msg) {
+		console.error('ERROR:', msg);
+		$('.alert.alert-danger')
+			.removeClass('hide')
+			.find('.message').text(msg);
 	}
 
 	$("#verify_btn").on("click", function() {
-		$("#result_header").text("");
-		$("#result_status").text("");
-		$("#token-content").text("");
-		IRMA.verify(jwt, success_fun, error_fun);
+		$('.alert').addClass('hide');
+		$("#token-content").addClass('hide');
+		IRMA.verify(jwt, onSuccess, onCancel, onError);
 	});
 
 });

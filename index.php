@@ -1,5 +1,7 @@
 <?php
 
+require_once 'config.php';
+
 if (!defined('PROVIDER')) {
     // Trying to load this PHP script directly (old style), redirect to surfnet
     // issuer.
@@ -14,22 +16,40 @@ require_once ROOT_DIR . 'simplesamlphp/lib/_autoload.php';
 
 use \Firebase\JWT\JWT;
 
-define('PAGE_LOGIN', '../login.php');
-define('PAGE_ISSUE', '../issue.php');
-define('PAGE_DONE',  '../done.php');
+define('PAGE_LOGIN', '../login-' . LANG . '.php');
+define('PAGE_ISSUE', '../issue-' . LANG . '.php');
+define('PAGE_DONE',  '../done-' . LANG . '.php');
 
-$ATTRIBUTE_HUMAN_NAMES = [
-    'id'          => 'ID',
-    'username'    => 'Username',
-    'profileurl'  => 'Profile',
-    'fullname'    => 'Full name',
-    'firstname'   => 'First name',
-    'familyname'  => 'Family name',
-    'email'       => 'Email address',
-    'dateofbirth' => 'Birthdate',
-    'institute'   => 'Institute',
-    'type'        => 'Type',
-];
+if (LANG == 'nl') {
+    $ATTRIBUTE_HUMAN_NAMES = [
+        'id'          => 'ID',
+        'username'    => 'Gebruikersnaam',
+        'profileurl'  => 'Profiel',
+        'fullname'    => 'Volledige naam',
+        'firstname'   => 'Voornaam',
+        'familyname'  => 'Achternaam',
+        'email'       => 'E-mailadres',
+        'dateofbirth' => 'Geboortedatum',
+        'institute'   => 'Instituut',
+        'type'        => 'Type',
+    ];
+    $VERIFY_NAME_LABEL = PROVIDER . " volledige naam";
+
+} else { // en, or fallback
+    $ATTRIBUTE_HUMAN_NAMES = [
+        'id'          => 'ID',
+        'username'    => 'Username',
+        'profileurl'  => 'Profile',
+        'fullname'    => 'Full name',
+        'firstname'   => 'First name',
+        'familyname'  => 'Family name',
+        'email'       => 'Email address',
+        'dateofbirth' => 'Birthdate',
+        'institute'   => 'Institute',
+        'type'        => 'Type',
+    ];
+    $VERIFY_NAME_LABEL = PROVIDER . " full name";
+}
 
 function map_saml_attributes($saml_attributes) {
     global $MAP_IRMA_SAML_ATTRIBUTES;
@@ -109,7 +129,7 @@ function get_verification_jwt($label, $attributes) {
 }
 
 function handle_request() {
-    global $ATTRIBUTE_HUMAN_NAMES;
+    global $ATTRIBUTE_HUMAN_NAMES, $VERIFY_NAME_LABEL;
 
     $saml_authenticator = new \SimpleSAML\Auth\Simple(PROVIDER);
 
@@ -125,15 +145,15 @@ function handle_request() {
         $saml_authenticator->logout();
     } else if ($action === 'done') {
         $fullname_attribute = CREDENTIAL . '.' . IRMA_NAME_ATTRIBUTE;
-        $jwt = get_verification_jwt(VERIFY_NAME_LABEL, [$fullname_attribute]);
-        include PAGE_DONE;
+        $jwt = get_verification_jwt($VERIFY_NAME_LABEL, [$fullname_attribute]);
+        require PAGE_DONE;
     } elseif ($saml_authenticator->isAuthenticated()) {
         $irma_attributes = map_saml_attributes($saml_authenticator->getAttributes());
         $jwt = get_issuance_jwt($irma_attributes);
-        include PAGE_ISSUE;
+        require PAGE_ISSUE;
 
     } else {
-        include PAGE_LOGIN;
+        require PAGE_LOGIN;
     }
 }
 

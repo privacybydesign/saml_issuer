@@ -5,7 +5,6 @@ define('PROVIDER_NAME', 'Surfnet');
 define('SERVER_NAME', 'surfnet_enroll');
 define('CREDENTIAL', 'pbdf.pbdf.surfnet');
 define('IRMA_NAME_ATTRIBUTE', 'fullname');
-define('VERIFY_NAME_LABEL', 'Surfnet full name');
 
 $MAP_IRMA_SAML_ATTRIBUTES = [
     'institute'  => 'urn:mace:terena.org:attribute-def:schacHomeOrganization',

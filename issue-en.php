@@ -23,7 +23,14 @@
 			<div class="col-xs-12 col-md-8 col-lg-6 col-md-offset-2 col-lg-offset-3">
 				<h2>Available <?= PROVIDER_NAME ?> attributes</h2>
 
-				<div id="alert_box"></div>
+				<div class="alert alert-warning hide" role="alert">
+					<strong>Cancelled</strong><br/>
+					<small class="message"></small>
+				</div>
+				<div class="alert alert-danger hide" role="alert">
+					<strong>Error</strong>: cannot issue credential.<br/>
+					<small class="message"></small>
+				</div>
 
 				<p>The attributes below can be added to your IRMA app:</p>
 				<table class="table">

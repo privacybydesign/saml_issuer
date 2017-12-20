@@ -1,19 +1,24 @@
 $(function() {
-	var showWarning = function(msg) {
-		$("#alert_box").html('<div class="alert alert-warning" role="alert">'
-			 + '<strong>Warning:</strong> ' + msg + '</div>');
-	};
-
-	var showError = function (msg) {
-		$("#alert_box").html('<div class="alert alert-danger" role="alert">'
-			 + '<strong>Error:</strong> ' + msg + '</div>');
-	};
-
-	var success_fun = function(data) {
+	function onSuccess(data) {
 		window.location = "?action=done";
+	}
+
+	function onCancel(msg) {
+		console.warn('CANCEL:', msg);
+		$('.alert.alert-warning')
+			.removeClass('hide')
+			.find('.message').text(msg);
+	};
+
+	function onError(msg) {
+		console.error('ERROR:', msg);
+		$('.alert.alert-danger')
+			.removeClass('hide')
+			.find('.message').text(msg);
 	};
 
 	$("#enroll").on("click", function() {
-		IRMA.issue(jwt, success_fun, showWarning, showError);
+		$('.alert').addClass('hide');
+		IRMA.issue(jwt, onSuccess, onCancel, onError);
 	});
 });
