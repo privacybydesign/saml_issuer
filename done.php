@@ -17,14 +17,14 @@
 	var fullname_attribute = "<?= $fullname_attribute ?>";
 	</script>
 
-	<title><?= $provider_name ?> attributes loaded</title>
+	<title><?= PROVIDER_NAME ?> attributes loaded</title>
 </head>
 
 <body>
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-12 col-md-8 col-lg-6 col-md-offset-2 col-lg-offset-3">
-				<h2><?= $provider_name ?> attributes have been loaded</h2>
+				<h2><?= PROVIDER_NAME ?> attributes have been loaded</h2>
 
 				<div id="alert_box"></div>
 
