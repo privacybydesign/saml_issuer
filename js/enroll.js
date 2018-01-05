@@ -1,3 +1,12 @@
+var MESSAGES = {
+	'en': {
+		'failed-getting-jwt': 'Failed to load attributes: cannot get the JWT from the server. Is there a problem with the connection?',
+	},
+	'nl': {
+		'failed-getting-jwt': 'Kan attributen niet laden: JWT kan niet opgehaald worden van de server. Is er een probleem met de verbinding?',
+	},
+}[$(document.documentElement).prop('lang')];
+
 $(function() {
 	function onSuccess(data) {
 		window.location = "?action=done";
@@ -17,8 +26,18 @@ $(function() {
 			.find('.message').text(msg);
 	};
 
-	$("#enroll").on("click", function() {
+	$("#enroll").on("click", function(e) {
+		e.target.disabled = true;
 		$('.alert').addClass('hide');
-		IRMA.issue(jwt, onSuccess, onCancel, onError);
+		$.get('?output=jwt')
+			.always(function() {
+				e.target.disabled = false;
+			})
+			.done(function(jwt) {
+				IRMA.issue(jwt, onSuccess, onCancel, onError);
+			})
+			.fail(function(jqXhr) {
+				onError(MESSAGES['failed-getting-jwt']);
+			});
 	});
 });

@@ -149,8 +149,12 @@ function handle_request() {
         require PAGE_DONE;
     } elseif ($saml_authenticator->isAuthenticated()) {
         $irma_attributes = map_saml_attributes($saml_authenticator->getAttributes());
-        $jwt = get_issuance_jwt($irma_attributes);
-        require PAGE_ISSUE;
+        if (isset($_GET['output']) && $_GET['output'] == 'jwt') {
+            header('Content-Type: text/plain');
+            echo get_issuance_jwt($irma_attributes);
+        } else {
+            require PAGE_ISSUE;
+        }
 
     } else {
         require PAGE_LOGIN;
