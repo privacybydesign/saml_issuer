@@ -71,7 +71,7 @@
 
 <?php } ?>
 
-				<a href="?action=login" class="btn btn-primary">Login om attributen te laden</a>
+				<a href="?action=login" class="btn btn-primary">Log in om attributen te laden</a>
 			</div>
 		</div>
 	</div>

@@ -30,7 +30,7 @@
 				<p>
 					Attributes from Facebook can now be loaded into your IRMA app.
 					To load these attributes it is necessary that you give IRMA access
-					to your basic profile data. We use this data only during attribute laoding.
+					to your basic profile data. We use this data only during attribute loading.
 				</p>
 
 				<p>
@@ -63,7 +63,7 @@
 					Twitter also gives us access to more information than neccessary, such
 					as your tweets and follows, that we do not use. Unfortunately it is
 					impossible for us to disable this. However, we do not download or use
-					thisthe data in any way.
+					this data in any way.
 				</p>
 
 				<p>
