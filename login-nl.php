@@ -17,7 +17,7 @@
 <?php if (PROVIDER == 'surfnet') { ?>
 				<p>
 					De attributen van uw hoger onderwijsinstelling kunnen nu in uw
-					IRMA app geladen worden via Surfnet.
+					IRMA app geladen worden via <?= PROVIDER_NAME ?>.
 				</p>
 
 				<p>

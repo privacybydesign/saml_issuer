@@ -17,7 +17,7 @@
 <?php if (PROVIDER == 'surfnet') { ?>
 				<p>
 					Attributes from your educational institute can be added to your IRMA
-					app via SURFconext.
+					app via <?= PROVIDER_NAME ?>.
 				</p>
 
 				<p>
