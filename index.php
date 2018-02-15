@@ -83,7 +83,7 @@ function get_jwt_key() {
     return $pk;
 }
 
-function get_issuance_jwt($irma_attributes) {
+function get_issuance_jwt($irma_attributes, $validity) {
     $iprequest = [
         'sub' => 'issue_request',
         'iss' => 'Privacy by Design Foundation',
@@ -94,7 +94,7 @@ function get_issuance_jwt($irma_attributes) {
                 'credentials' => [
                     [
                         'credential' => CREDENTIAL,
-                        'validity' => (new DateTime('+3 months'))->getTimestamp(),
+                        'validity' => $validity,
                         'attributes' => $irma_attributes,
                     ]
                 ]
@@ -151,9 +151,10 @@ function handle_request() {
         require PAGE_DONE;
     } elseif ($saml_authenticator->isAuthenticated()) {
         $irma_attributes = map_saml_attributes($saml_authenticator->getAttributes());
+        $validity = (new DateTime(VALIDITY))->getTimestamp();
         if (isset($_GET['output']) && $_GET['output'] == 'jwt') {
             header('Content-Type: text/plain');
-            echo get_issuance_jwt($irma_attributes);
+            echo get_issuance_jwt($irma_attributes, $validity);
         } else {
             require PAGE_ISSUE;
         }

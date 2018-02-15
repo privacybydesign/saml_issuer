@@ -5,6 +5,7 @@ define('PROVIDER_NAME', 'eduGAIN');
 define('SERVER_NAME', 'surfnet_enroll');
 define('CREDENTIAL', 'pbdf.pbdf.surfnet');
 define('IRMA_NAME_ATTRIBUTE', 'fullname');
+define('VALIDITY', '+3 months');
 
 $MAP_IRMA_SAML_ATTRIBUTES = [
     'institute'  => 'urn:mace:terena.org:attribute-def:schacHomeOrganization',

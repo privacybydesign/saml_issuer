@@ -5,6 +5,7 @@ define('PROVIDER_NAME', 'Facebook');
 define('SERVER_NAME', 'facebook_enroll');
 define('CREDENTIAL', 'pbdf.pbdf.facebook');
 define('IRMA_NAME_ATTRIBUTE', 'fullname');
+define('VALIDITY', '+1 year');
 
 $MAP_IRMA_SAML_ATTRIBUTES = [
     'fullname'    => 'facebook.name',

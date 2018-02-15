@@ -6,6 +6,7 @@ define('SERVER_NAME', 'twitter_enroll');
 define('CREDENTIAL', 'pbdf.pbdf.twitter');
 define('IRMA_NAME_ATTRIBUTE', 'fullname');
 define('PROFILE_URL_FORMAT', 'https://twitter.com/:username:');
+define('VALIDITY', '+1 year');
 
 $MAP_IRMA_SAML_ATTRIBUTES = [
     'username'    => 'twitter.screen_name',
