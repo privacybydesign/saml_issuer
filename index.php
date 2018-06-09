@@ -22,7 +22,8 @@ define('PAGE_DONE',  '../done-' . LANG . '.php');
 
 if (LANG == 'nl') {
     $ATTRIBUTE_HUMAN_NAMES = [
-        'id'          => 'ID',
+        'id'          => 'Gebruiker ID',
+        'fullid'      => 'Volledig ID',
         'username'    => 'Gebruikersnaam',
         'profileurl'  => 'Profiel',
         'fullname'    => 'Volledige naam',
@@ -37,7 +38,8 @@ if (LANG == 'nl') {
 
 } else { // en, or fallback
     $ATTRIBUTE_HUMAN_NAMES = [
-        'id'          => 'ID',
+        'id'          => 'User ID',
+        'fullid'      => 'Full ID',
         'username'    => 'Username',
         'profileurl'  => 'Profile',
         'fullname'    => 'Full name',
