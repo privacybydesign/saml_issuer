@@ -55,7 +55,7 @@ function map_saml_attributes($saml_attributes) {
     global $MAP_IRMA_SAML_ATTRIBUTES;
     $irma_attributes = [];
     foreach ($MAP_IRMA_SAML_ATTRIBUTES as $irma_key => $saml_key) {
-        $value = ' ';
+        $value = NULL;
         if (isset($saml_attributes[$saml_key]) &&
                 count($saml_attributes[$saml_key]) > 0 &&
                 $saml_attributes[$saml_key] !== NULL) {
@@ -65,7 +65,8 @@ function map_saml_attributes($saml_attributes) {
             $parts = explode('/', $value);
             $value = "{$parts[1]}-{$parts[0]}-{$parts[2]}";
         }
-        $irma_attributes[$irma_key] = $value;
+        if ($value !== NULL)
+            $irma_attributes[$irma_key] = $value;
     }
 
     // Add profileurl from username
