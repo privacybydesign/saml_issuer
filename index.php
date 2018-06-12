@@ -63,9 +63,13 @@ function map_saml_attributes($saml_attributes) {
                 $saml_attributes[$saml_key] !== NULL) {
             $value = $saml_attributes[$saml_key][0];
         }
-        if ($irma_key === 'dateofbirth' && preg_match('#^[0-9]{2}/[0-9]{2}/[0-9]{4}$#', $value)) {
-            $parts = explode('/', $value);
-            $value = "{$parts[1]}-{$parts[0]}-{$parts[2]}";
+        if ($irma_key === 'dateofbirth') {
+            if (preg_match('#^[0-9]{2}/[0-9]{2}/[0-9]{4}$#', $value)) {
+                $parts = explode('/', $value);
+                $value = "{$parts[1]}-{$parts[0]}-{$parts[2]}";
+            }
+            if ($value === NULL)
+                $value = ' '; // Fallback to old solution for absent attributes: dateofbirth is not (yet) optional :(
         }
         if ($value !== NULL)
             $irma_attributes[$irma_key] = $value;
