@@ -159,6 +159,13 @@ function handle_request() {
     } elseif ($saml_authenticator->isAuthenticated()) {
         $irma_attributes = map_saml_attributes($saml_authenticator->getAttributes());
         $validity = (new DateTime(VALIDITY))->getTimestamp();
+
+        $logentry = date('r') . ' - '
+          . $saml_authenticator->getAuthData('saml:sp:IdP') . ' - '
+          . json_encode($irma_attributes) . " "
+          . json_encode($saml_authenticator->getAttributes()) . "\n";
+        error_log($logentry, 3, ROOT_DIR . 'logs/php.log');
+
         if (isset($_GET['output']) && $_GET['output'] == 'jwt') {
             header('Content-Type: text/plain');
             echo get_issuance_jwt($irma_attributes, $validity);
