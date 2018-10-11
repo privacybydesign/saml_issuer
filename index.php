@@ -9,11 +9,6 @@ if (!defined('PROVIDER')) {
     exit('redirect to surfnet/');
 }
 
-define('ROOT_DIR', __DIR__ . '/../../../');
-
-require_once ROOT_DIR . 'php/vendor/autoload.php';
-require_once ROOT_DIR . 'simplesamlphp/lib/_autoload.php';
-
 use \Firebase\JWT\JWT;
 
 define('PAGE_LOGIN', '../login-' . LANG . '.php');
@@ -84,7 +79,7 @@ function map_saml_attributes($saml_attributes) {
 }
 
 function get_jwt_key() {
-    $pk = openssl_pkey_get_private('file://' . ROOT_DIR . 'saml-sk.pem');
+    $pk = openssl_pkey_get_private('file://' . KEY_FILE);
     if ($pk === false)
         throw new Exception('get_jwt_key: failed to load signing key');
     return $pk;
@@ -164,7 +159,7 @@ function handle_request() {
           . $saml_authenticator->getAuthData('saml:sp:IdP') . ' - '
           . json_encode($irma_attributes) . " "
           . json_encode($saml_authenticator->getAttributes()) . "\n";
-        error_log($logentry, 3, ROOT_DIR . 'logs/php.log');
+        error_log($logentry, 3, LOG_FILE);
 
         if (isset($_GET['output']) && $_GET['output'] == 'jwt') {
             header('Content-Type: text/plain');
