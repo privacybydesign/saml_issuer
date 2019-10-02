@@ -1,9 +1,9 @@
 var MESSAGES = {
 	'en': {
-		'failed-getting-jwt': 'Failed to load attributes: cannot get the JWT from the server. Is there a problem with the connection?',
+		'failed-starting-irma-session': 'Failed to load attributes: cannot start IRMA session at IRMA server. Is there a problem with the connection?',
 	},
 	'nl': {
-		'failed-getting-jwt': 'Kan attributen niet laden: JWT kan niet opgehaald worden van de server. Is er een probleem met de verbinding?',
+		'failed-starting-irma-session': 'Kan attributen niet laden: IRMA session kan niet gestart worden bij de IRMA server. Is er een probleem met de verbinding?',
 	},
 }[$(document.documentElement).prop('lang')];
 
@@ -12,32 +12,43 @@ $(function() {
 		window.location = "?action=done";
 	}
 
-	function onCancel(msg) {
+	function onCancel() {
 		console.warn('CANCEL:', msg);
 		$('#warning')
 			.removeClass('hide')
 			.find('.message').text(msg);
-	};
+	}
 
 	function onError(msg) {
 		console.error('ERROR:', msg);
 		$('#error')
 			.removeClass('hide')
 			.find('.message').text(msg);
-	};
+	}
+
+	function onIrmaError(msg) {
+		if (msg === 'CANCELLED') {
+			onCancel();
+		} else {
+			onError(msg);
+		}
+	}
 
 	$("#enroll").on("click", function(e) {
 		e.target.disabled = true;
 		$('.alert').addClass('hide');
-		$.get('?output=jwt')
+		$.get('?output=irma-session')
 			.always(function() {
 				e.target.disabled = false;
 			})
-			.done(function(jwt) {
-				IRMA.issue(jwt, onSuccess, onCancel, onError);
+			.done(function(sessionpackagejson) {
+				const sessionpackage = JSON.parse(sessionpackagejson);
+				const options = {language: lang, token: sessionpackage.token, server: irma_server_url}
+				irma.handleSession(sessionpackage.sessionPtr, options)
+					.then(onSuccess, onIrmaError);
 			})
 			.fail(function(jqXhr) {
-				onError(MESSAGES['failed-getting-jwt']);
+				onError(MESSAGES['failed-starting-irma-session']);
 			});
 	});
 });

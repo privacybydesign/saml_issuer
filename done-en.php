@@ -2,20 +2,19 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
-	<meta name="irma-web-server" value="https://privacybydesign.foundation/tomcat/irma_api_server/server/" />
-	<meta name="irma-api-server" value="https://privacybydesign.foundation/tomcat/irma_api_server/api/v2/" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <script type="text/javascript">
+        let verification_session = <?= $verification_session ?>;
+        let fullname_attribute = "<?= $fullname_attribute ?>";
+        let irma_server_url = "<?= IRMA_SERVER_URL ?>";
+        let lang = "<?= LANG ?>";
+    </script>
 
 	<link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="../js/jquery.min.js"></script>
-	<script type="text/javascript" src="https://privacybydesign.foundation/tomcat/irma_api_server/bower_components/jwt-decode/build/jwt-decode.js"></script>
-	<script type="text/javascript" src="https://privacybydesign.foundation/tomcat/irma_api_server/client/irma.js" async defer></script>
+	<script type="text/javascript" src="../js/irma.js" async defer></script>
 	<script type="text/javascript" src="../js/verify.js"></script>
-
-	<script type="text/javascript">
-	var jwt = "<?= $jwt ?>";
-	var fullname_attribute = "<?= $fullname_attribute ?>";
-	</script>
 
 	<title><?= PROVIDER_NAME ?> attributes loaded</title>
 </head>

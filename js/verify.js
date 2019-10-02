@@ -1,6 +1,6 @@
 $(function() {
 	function onSuccess(data) {
-		var fullname = jwt_decode(data).attributes[fullname_attribute];
+		var fullname = data.disclosed[0][0].rawvalue;
 		$("#token-content")
 			.removeClass('hide')
 			.find('.name').text(fullname);
@@ -20,10 +20,21 @@ $(function() {
 			.find('.message').text(msg);
 	}
 
+	function onIrmaError(msg) {
+		if (msg === "CANCELLED") {
+			onCancel();
+		} else {
+			onError(msg);
+		}
+	}
+
 	$("#verify_btn").on("click", function() {
 		$('.alert').addClass('hide');
 		$("#token-content").addClass('hide');
-		IRMA.verify(jwt, onSuccess, onCancel, onError);
+		$("#verify_btn").attr("disabled", true);
+		const options = {language: lang, token: verification_session.token, server: irma_server_url};
+		irma.handleSession(verification_session.sessionPtr, options)
+			.then(onSuccess, onIrmaError);
 	});
 
 });

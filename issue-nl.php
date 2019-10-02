@@ -2,13 +2,15 @@
 <html lang="nl">
 <head>
 	<meta charset="utf-8" />
-	<meta name="irma-web-server" value="https://privacybydesign.foundation/tomcat/irma_api_server/server/" />
-	<meta name="irma-api-server" value="https://privacybydesign.foundation/tomcat/irma_api_server/api/v2/" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 	<link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script type="application/javascript">
+        let irma_server_url = "<?= IRMA_SERVER_URL ?>";
+        let lang = "<?= LANG ?>";
+    </script>
 	<script type="text/javascript" src="../js/jquery.min.js"></script>
-	<script type="text/javascript" src="https://privacybydesign.foundation/tomcat/irma_api_server/client/irma.js"></script>
+    <script type="text/javascript" src="../js/irma.js"></script>
 	<script type="text/javascript" src="../js/enroll.js"></script>
 
 	<title><?= PROVIDER_NAME ?> attributen</title>
