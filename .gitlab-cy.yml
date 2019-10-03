@@ -1,0 +1,20 @@
+
+image: privacybydesign/node_yarn:latest
+
+stages:
+  - build
+
+before_script:
+  - set -euxo pipefail
+  - yarn install
+
+build:
+  stage: build
+  script:
+    - set -euxo pipefail
+    - mkdir build
+    - cp -R !(build) build
+    - rm build/node_modures -rf
+    - rm build/build.sh build/composer.* build/config.sample.php build/package.json build/README.md build/yarn*
+  artifacts:
+    paths: build/*

@@ -7,7 +7,7 @@ $(function() {
 	}
 
 	function onCancel(msg) {
-		console.warn('CANCEL:', msg);
+		console.warn('SESSION CANCELLED');
 		$('.alert.alert-warning')
 			.removeClass('hide')
 			.find('.message').text(msg);
@@ -22,7 +22,7 @@ $(function() {
 
 	function onIrmaError(msg) {
 		if (msg === "CANCELLED") {
-			onCancel();
+			onCancel(msg);
 		} else {
 			onError(msg);
 		}

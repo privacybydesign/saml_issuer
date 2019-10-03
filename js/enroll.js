@@ -12,8 +12,8 @@ $(function() {
 		window.location = "?action=done";
 	}
 
-	function onCancel() {
-		console.warn('CANCEL:', msg);
+	function onCancel(msg) {
+		console.warn('SESSION CANCELLED');
 		$('#warning')
 			.removeClass('hide')
 			.find('.message').text(msg);
@@ -28,7 +28,7 @@ $(function() {
 
 	function onIrmaError(msg) {
 		if (msg === 'CANCELLED') {
-			onCancel();
+			onCancel(msg);
 		} else {
 			onError(msg);
 		}
