@@ -13,8 +13,9 @@ build:
   script:
     - set -euxo pipefail
     - mkdir build
-    - cp -R !(build) build
-    - rm build/node_modures -rf
-    - rm build/build.sh build/composer.* build/config.sample.php build/package.json build/README.md build/yarn*
+    - cp -R ./{css,edugain,facebook,js,linkedin,surfnet,twitter,vendor} build
+    - cp *.php build
+    - rm build/*.sample.php
   artifacts:
-    paths: build/*
+    paths:
+    - build/*
