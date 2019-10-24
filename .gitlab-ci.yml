@@ -1,4 +1,3 @@
-
 image: privacybydesign/node_yarn:latest
 
 stages:
@@ -15,6 +14,7 @@ build:
   stage: build
   script:
     - set -euxo pipefail
+    - ./build.sh
     - mkdir build
     - cp -R ./{css,edugain,facebook,js,linkedin,surfnet,twitter,vendor} build
     - cp *.php build
