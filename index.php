@@ -77,7 +77,7 @@ function map_saml_attributes($saml_attributes) {
 }
 
 function start_session($sessionrequest) {
-    $protocol = explode(':', IRMA_SERVER_URL, 2)[0];
+    $protocol = explode(':', IRMA_SERVER_URL_BACKEND, 2)[0];
     $jsonsr = json_encode($sessionrequest);
     $api_call = array(
         $protocol => array(
@@ -88,7 +88,7 @@ function start_session($sessionrequest) {
             'content' => $jsonsr
         )
     );
-    $resp = file_get_contents(IRMA_SERVER_URL . '/session', false, stream_context_create($api_call));
+    $resp = file_get_contents(IRMA_SERVER_URL_BACKEND . '/session', false, stream_context_create($api_call));
     if (! $resp) {
         die();
     }
