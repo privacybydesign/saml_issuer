@@ -22,3 +22,12 @@ build:
   artifacts:
     paths:
     - build/*
+
+install-simplesamlphp:
+  stage: build
+  script:
+    - set -euxo pipefail
+    - ./install-simplesamlphp.sh
+  artifacts:
+    paths:
+      - simplesamlphp/*
