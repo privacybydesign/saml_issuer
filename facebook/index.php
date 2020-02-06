@@ -12,7 +12,6 @@ $MAP_IRMA_SAML_ATTRIBUTES = [
     'firstname'   => 'facebook.first_name',
     'familyname'  => 'facebook.last_name',
     'email'       => 'facebook.email',
-    'dateofbirth' => 'facebook.birthday',
 ];
 
 require '../index.php';
