@@ -20,6 +20,8 @@ build:
     - cp *.php build
     - rm build/*.sample.php
   artifacts:
+    # Disabling artifact expiry is not supported yet, so make
+    expire_in: 100 year
     paths:
     - build/*
 
@@ -29,5 +31,7 @@ install-simplesamlphp:
     - set -euxo pipefail
     - ./install-simplesamlphp.sh
   artifacts:
+    # Disabling artifact expiry is not supported yet, so make
+    expire_in: 100 year
     paths:
       - simplesamlphp/*
