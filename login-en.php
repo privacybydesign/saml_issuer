@@ -27,6 +27,12 @@
 				</p>
 
 <?php } else if (PROVIDER == 'facebook') { ?>
+                <p>
+                    <b>
+                        Due to technical difficulties it is currently not possible to get or
+                        renew Facebook IRMA cards.
+                    </b>
+                </p>
 				<p>
 					Attributes from Facebook can now be loaded into your IRMA app.
 					To load these attributes it is necessary that you give IRMA access

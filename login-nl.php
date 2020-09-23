@@ -26,6 +26,12 @@
 				</p>
 
 <?php } else if (PROVIDER == 'facebook') { ?>
+                <p>
+                    <b>
+                        Vanwege technische problemen kunt u op dit moment geen IRMA-kaartjes
+                        van Facebook ophalen of verlengen.
+                    </b>
+                </p>
 				<p>
 					Attributen van Facebook kunnen eenvoudig in de IRMA app geladen
 					worden. Om deze te laden is het nodig IRMA toegang te geven tot basis
