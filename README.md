@@ -1,10 +1,11 @@
 # saml_issuer
 
-A SimpleSAMLphp library for issuing attributes coming from a SAML Identity Provider. Currently supports SURFconext, eduGAIN, Facebook, LinkedIn and Twitter.
+A SimpleSAMLphp library for issuing attributes coming from a SAML Identity Provider.
+Currently supports SURFconext, eduGAIN, LinkedIn and Twitter.
 
 ## Build
  * `composer install`
- * `npm install`
+ * `yarn install`
  * `./build.sh`
  * `./install-simplesamlphp`
  * Move the simplesamlphp directory to your php root and set php root in `config.php` of saml_issuer
