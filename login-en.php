@@ -61,6 +61,25 @@
 
 <?php } ?>
 
+<?php if (PROVIDER_NAME == 'eduGAIN') { ?>
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						Support
+					</div>
+					<div class="panel-body">
+						<p>
+							Issuance of IRMA attributes is not supported by all educational institutes affiliated with
+							eduGAIN. Therefore, it might happen that your institute is available as an option in the list,
+							but when you confirm your choice, an error message is shown.
+						</p>
+						<p>
+							Is your educational institute not connected to this service and
+							do you want to change that? Please contact the IT department of your educational institute.
+						</p>
+					</div>
+				</div>
+<?php } ?>
+
 				<a href="?action=login" class="btn btn-primary">Log in to load attributes</a>
 			</div>
 		</div>
