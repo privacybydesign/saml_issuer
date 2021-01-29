@@ -16,14 +16,18 @@
 
 <?php if (PROVIDER == 'surfnet') { ?>
 				<p>
-					Attributes from your educational institute can be added to your IRMA
-					app via <?= PROVIDER_NAME ?>.
+					Your personal data at your educational institution (such as
+					name, email or registration number) can be loaded into your
+					IRMA app via a cooperation between <?= PROVIDER_NAME ?> and the
+					Privacy by Design Foundation.
 				</p>
 
 				<p>
-					In order to load these attributes, you first have to log into your own
-					institute. With your permission, the Privacy by Design foundation then
-					receives your attributes. Subsequently, they can be loaded into your IRMA app.
+					In order to load your attributes you first login to your own
+					institution. The foundation then receives your data via
+					<?= PROVIDER_NAME ?> and loads them into your IRMA app. The
+					foundation immediately removes your data. In your IRMA app the
+					data remain valid for three months.
 				</p>
 
 <?php } else if (PROVIDER == 'linkedin') { ?>
@@ -64,17 +68,19 @@
 <?php if (PROVIDER_NAME == 'eduGAIN') { ?>
 				<div class="panel panel-info">
 					<div class="panel-heading">
-						Support
+						Does this work for me?
 					</div>
 					<div class="panel-body">
 						<p>
-							Issuance of IRMA attributes is not supported by all educational institutes affiliated with
-							eduGAIN. Therefore, it might happen that your institute is available as an option in the list,
-							but when you confirm your choice, an error message is shown.
+							Loading your data works if, firstly, your institution is part of
+							eduGAIN, and secondly, your institution allows data transfer to
+							IRMA (the Privacy by Design Foundation).
 						</p>
 						<p>
-							Is your educational institute not connected to this service and
-							do you want to change that? Please contact the IT department of your educational institute.
+							The button below shows if your institution has joined eduGAIN.
+							If subsequent loading into IRMA fails, your institution has
+							not agreed to the required data transfer. You can then contact
+							the IT department of your own institution.
 						</p>
 					</div>
 				</div>
