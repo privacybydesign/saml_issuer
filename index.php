@@ -142,12 +142,6 @@ function handle_request() {
         $irma_attributes = map_saml_attributes($saml_authenticator->getAttributes());
         $validity = (new DateTime(VALIDITY))->getTimestamp();
 
-        $logentry = date('r') . ' - '
-          . $saml_authenticator->getAuthData('saml:sp:IdP') . ' - '
-          . json_encode($irma_attributes) . " "
-          . json_encode($saml_authenticator->getAttributes()) . "\n";
-        error_log($logentry, 3, LOG_FILE);
-
         if (isset($_GET['output']) && $_GET['output'] == 'irma-session') {
             header('Content-Type: text/plain');
             echo start_issuance_session($irma_attributes, $validity);
