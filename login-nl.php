@@ -17,16 +17,16 @@
 <?php if (PROVIDER == 'surfnet') { ?>
 				<p>
 					Uw persoonsgegevens bij uw hoger onderwijsinstelling (zoals
-					naam, e-mail, of registratienummer) kunnen nu in uw
+					naam, e-mail, of registratienummer) kunnen in uw
 					IRMA-app geladen worden, via een samenwerking tussen <?= PROVIDER_NAME ?>
 					en de stichting Privacy by Design.
 				</p>
 
 				<p>
-					Om uw attributen te laden logt u eerst in bij uw onderwijsinstelling.
+					Om uw attributen te laden logt u eerst in bij uw eigen onderwijsinstelling.
 					De stichting ontvangt dan uw attributen via <?= PROVIDER_NAME ?>
-					en laadt ze in uw IRMA-app. Uw gegevens in de IRMA-app blijven drie
-					maanden geldig.
+					en laadt ze in uw IRMA-app. Vervolgens verwijdert de stichting uw gegevens.
+					Uw gegevens in de IRMA-app blijven drie maanden geldig.
 				</p>
 
 
