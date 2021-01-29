@@ -16,13 +16,17 @@
 
 <?php if (PROVIDER == 'surfnet') { ?>
 				<p>
-					De attributen van uw hoger onderwijsinstelling kunnen nu in uw
-					IRMA app geladen worden via <?= PROVIDER_NAME ?>.
+					Uw persoonsgegevens bij uw hoger onderwijsinstelling (zoals
+					naam, e-mail, of registratienummer) kunnen nu in uw
+					IRMA-app geladen worden, via een samenwerking tussen <?= PROVIDER_NAME ?>
+					en de stichting Privacy by Design.
 				</p>
 
 				<p>
-					Om uw attributen te laden moet u eerst inloggen bij uw onderwijsinstelling.
-					Wij ontvangen dan uw attributen. Daarna kunt u ze laden in uw IRMA app.
+					Om uw attributen te laden logt u eerst in bij uw onderwijsinstelling.
+					De stichting ontvangt dan uw attributen via <?= PROVIDER_NAME ?>
+					en laadt ze in uw IRMA-app. Uw gegevens in de IRMA-app blijven drie
+					maanden geldig.
 				</p>
 
 
@@ -62,17 +66,18 @@
 <?php if (PROVIDER_NAME == 'eduGAIN') { ?>
 				<div class="panel panel-info">
 					<div class="panel-heading">
-						Ondersteuning
+						Werkt dit ook voor mij?
 					</div>
 					<div class="panel-body">
 						<p>
-							Uitgifte van IRMA-attributen wordt niet door alle onderwijsinstellingen ondersteund die bij eduGAIN
-							zijn aangesloten. Het kan dus voorkomen dat uw onderwijsinstelling wel in de lijst voorkomt,
-							maar dat u na het bevestigen van uw keuze een foutmelding te zien krijgt.
+							Om uw gegevens te kunnen laden moet allereerst uw onderwijsinstelling aangesloten zijn bij
+							eduGAIN. Daarnaast moet uw instelling instemmen met het doorgeven van persoonsgegevens aan
+							IRMA (de Stichting Privacy by Design).
 						</p>
 						<p>
-							Ontbreekt de koppeling met uw onderwijsinstelling en wilt u
-							daar verandering in brengen? Neem dan contact op met de IT-afdeling van uw onderwijsinstelling.
+							Via de onderstaande knop kunt u zien of uw instelling bij eduGAIN aangesloten is. Als het
+							laden in IRMA daarna niet lukt, heeft uw instelling daarvoor geen toestemming gegeven.
+							U kunt daarover contact opnemen met de IT-afdeling van uw eigen instelling.
 						</p>
 					</div>
 				</div>
