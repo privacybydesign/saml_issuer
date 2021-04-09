@@ -4,7 +4,6 @@ require_once '../config.php';
 
 define('PROVIDER',  'surfnet');
 define('PROVIDER_NAME', 'Surfnet');
-define('SERVER_NAME', 'surfnet_enroll');
 define('CREDENTIAL', IRMA_ISSUER_ID . '.surfnet-2');
 define('IRMA_NAME_ATTRIBUTE', 'fullname');
 define('VALIDITY', '+3 months');

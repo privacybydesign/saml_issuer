@@ -4,7 +4,6 @@ require_once '../config.php';
 
 define('PROVIDER', 'linkedin');
 define('PROVIDER_NAME', 'LinkedIn');
-define('SERVER_NAME', 'linkedin_enroll');
 define('CREDENTIAL', IRMA_ISSUER_ID . '.linkedin');
 define('IRMA_NAME_ATTRIBUTE', 'familyname');
 define('VALIDITY', '+1 year');

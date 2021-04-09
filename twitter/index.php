@@ -4,7 +4,6 @@ require_once '../config.php';
 
 define('PROVIDER', 'twitter');
 define('PROVIDER_NAME', 'Twitter');
-define('SERVER_NAME', 'twitter_enroll');
 define('CREDENTIAL', IRMA_ISSUER_ID . '.twitter');
 define('IRMA_NAME_ATTRIBUTE', 'fullname');
 define('PROFILE_URL_FORMAT', 'https://twitter.com/:username:');
