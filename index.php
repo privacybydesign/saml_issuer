@@ -3,10 +3,10 @@
 require_once 'config.php';
 
 if (!defined('PROVIDER')) {
-    // Trying to load this PHP script directly (old style), redirect to surfnet
+    // Trying to load this PHP script directly (old style), redirect to surfconext
     // issuer.
-    header('Location: surfnet/', true, 301);
-    exit('redirect to surfnet/');
+    header('Location: surfconext/', true, 301);
+    exit('redirect to surfconext/');
 }
 
 use \Firebase\JWT\JWT;
