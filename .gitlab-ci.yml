@@ -16,7 +16,7 @@ build:
     - set -euxo pipefail
     - ./build.sh
     - mkdir build
-    - cp -R ./{css,edugain,js,linkedin,surfnet,twitter,vendor} build
+    - cp -R ./{css,edugain,js,linkedin,surfconext,twitter,vendor} build
     - cp *.php build
     - rm build/*.sample.php
   artifacts:
