@@ -4,7 +4,7 @@
   "repository": "https://github.com/privacybydesign/saml_issuer",
   "license": "MIT",
   "dependencies": {
-    "@privacybydesign/irmajs": "^0.2.2",
+    "@privacybydesign/irma-frontend": "^0.4.3",
     "jquery": "^3.4.1"
   }
 }
