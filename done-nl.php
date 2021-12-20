@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <script type="text/javascript">
-        let verification_session = <?= $verification_session ?>;
-        let fullname_attribute = "<?= $fullname_attribute ?>";
         let irma_server_url = "<?= IRMA_SERVER_URL ?>";
         let lang = "<?= LANG ?>";
     </script>

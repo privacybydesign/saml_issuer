@@ -27,28 +27,25 @@ $(function() {
 	}
 
 	function onIrmaError(msg) {
-		if (msg === 'CANCELLED') {
+		if (msg === 'Aborted') {
 			onCancel(msg);
 		} else {
 			onError(msg);
 		}
 	}
 
-	$("#enroll").on("click", function(e) {
-		e.target.disabled = true;
+	$("#enroll").on("click", function() {
 		$('.alert').addClass('hide');
-		$.get('?output=irma-session')
-			.always(function() {
-				e.target.disabled = false;
-			})
-			.done(function(sessionpackagejson) {
-				const sessionpackage = JSON.parse(sessionpackagejson);
-				const options = {language: lang, token: sessionpackage.token, server: irma_server_url}
-				irma.handleSession(sessionpackage.sessionPtr, options)
-					.then(onSuccess, onIrmaError);
-			})
-			.fail(function(jqXhr) {
-				onError(MESSAGES['failed-starting-irma-session']);
-			});
+		irma.newPopup({
+			language: lang,
+			session: {
+				url: irma_server_url,
+				start: {
+					url: () => '?output=irma-session',
+				},
+			},
+		})
+			.start()
+			.then(onSuccess, onIrmaError);
 	});
 });

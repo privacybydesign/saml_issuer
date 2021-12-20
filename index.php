@@ -135,9 +135,13 @@ function handle_request() {
     } else if ($action === 'logout' && $saml_authenticator->isAuthenticated()) {
         $saml_authenticator->logout();
     } else if ($action === 'done') {
-        $fullname_attribute = CREDENTIAL . '.' . IRMA_NAME_ATTRIBUTE;
-        $verification_session = start_verification_session([[[$fullname_attribute]]]);
-        require PAGE_DONE;
+        if (isset($_GET['output']) && $_GET['output'] == 'irma-session') {
+            header('Content-Type: text/plain');
+            $fullname_attribute = CREDENTIAL . '.' . IRMA_NAME_ATTRIBUTE;
+            echo start_verification_session([[[$fullname_attribute]]]);
+        } else {
+            require PAGE_DONE;
+        }
     } elseif ($saml_authenticator->isAuthenticated()) {
         $irma_attributes = map_saml_attributes($saml_authenticator->getAttributes());
         $validity = (new DateTime(VALIDITY))->getTimestamp();

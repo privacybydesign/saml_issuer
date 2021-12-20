@@ -21,7 +21,7 @@ $(function() {
 	}
 
 	function onIrmaError(msg) {
-		if (msg === "CANCELLED") {
+		if (msg === "Aborted") {
 			onCancel(msg);
 		} else {
 			onError(msg);
@@ -31,9 +31,16 @@ $(function() {
 	$("#verify_btn").on("click", function() {
 		$('.alert').addClass('hide');
 		$("#token-content").addClass('hide');
-		$("#verify_btn").attr("disabled", true);
-		const options = {language: lang, token: verification_session.token, server: irma_server_url};
-		irma.handleSession(verification_session.sessionPtr, options)
+		irma.newPopup({
+			language: lang,
+			session: {
+				url: irma_server_url,
+				start: {
+					url: () => '?action=done&output=irma-session',
+				},
+			},
+		})
+			.start()
 			.then(onSuccess, onIrmaError);
 	});
 
