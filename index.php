@@ -9,8 +9,6 @@ if (!defined('PROVIDER')) {
     exit('redirect to surfconext/');
 }
 
-use \Firebase\JWT\JWT;
-
 define('PAGE_LOGIN', '../login-' . LANG . '.php');
 define('PAGE_ISSUE', '../issue-' . LANG . '.php');
 define('PAGE_DONE',  '../done-' . LANG . '.php');
