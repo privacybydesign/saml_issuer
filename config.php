@@ -5,7 +5,6 @@ define('ROOT_DIR', __DIR__ . '');
 define('LOG_FILE', ROOT_DIR . 'logs/php.log');
 define('IRMA_SERVER_API_TOKEN', getenv('API_TOKEN'));
 define('IRMA_SERVER_URL', getenv('IRMA_SERVER_URL'));
-define('IRMA_SERVER_URL_BACKEND', getenv('IRMA_SERVER_URL_BACKEND'));
 
 define('IRMA_ISSUER_ID', 'pbdf-staging.sidn-pbdf');
 
