@@ -75,10 +75,9 @@ function map_saml_attributes($saml_attributes) {
 }
 
 function start_session($sessionrequest) {
-    $protocol = explode(':', IRMA_SERVER_URL_BACKEND, 2)[0];
     $jsonsr = json_encode($sessionrequest);
     $api_call = array(
-        $protocol => array(
+        'http' => array(
             'method' => 'POST',
             'header' => "Content-type: application/json\r\n"
                 . "Content-Length: " . strlen($jsonsr) . "\r\n"

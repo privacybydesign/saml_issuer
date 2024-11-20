@@ -1,0 +1,16 @@
+name: Status checks
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+  # Make it possible to trigger the checks manually.
+  workflow_dispatch:
+
+jobs:
+  docker-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Dockerfile build stage
+        run: docker build -t privacybydesign/saml_issuer:build .
