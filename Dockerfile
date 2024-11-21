@@ -26,9 +26,6 @@ RUN ./build.sh
 RUN chmod +x install-simplesamlphp.sh
 RUN ./install-simplesamlphp.sh
 
-# RUN chmod +x build_artifacts.sh
-# RUN ./build_artifacts.sh
-
 FROM php:8.0-apache
 
 COPY --from=builder /app/ /var/www/html/
