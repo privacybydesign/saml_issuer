@@ -85,7 +85,7 @@ function start_session($sessionrequest) {
             'content' => $jsonsr
         )
     );
-    $resp = file_get_contents(IRMA_SERVER_URL_BACKEND . '/session', false, stream_context_create($api_call));
+    $resp = file_get_contents(IRMA_SERVER_URL . '/session', false, stream_context_create($api_call));
     if (! $resp) {
         die();
     }
