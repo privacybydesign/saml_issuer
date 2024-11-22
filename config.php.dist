@@ -53,7 +53,7 @@ $config = [
          * need to compute the right URLs yourself and pass them dynamically
          * to SimpleSAMLphp's API.
          */
-        //'baseURL' => 'https://example.com',
+        'baseURL' => rtrim((strpos(getenv('HOST_NAME'), 'https://') === 0 ? getenv('HOST_NAME') : 'https://' . getenv('HOST_NAME')), '/'),
     ],
 
     /*
