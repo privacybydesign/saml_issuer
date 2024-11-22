@@ -31,7 +31,8 @@ $config = [
      * external url, no matter where you come from (direct access or via the
      * reverse proxy).
      */
-    'baseurlpath' => 'simplesaml/',
+    // this evaluates to "https://HOST_NAME/simplesaml/"
+    'baseurlpath' => rtrim((strpos(getenv('HOST_NAME'), 'https://') === 0 ? getenv('HOST_NAME') : 'https://' . getenv('HOST_NAME')), '/') . '/simplesaml/',
 
     /*
      * The 'application' configuration array groups a set configuration options

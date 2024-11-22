@@ -3,6 +3,13 @@
 A SimpleSAMLphp library for issuing attributes coming from a SAML Identity Provider.
 Currently supports SURFconext, eduGAIN, LinkedIn and Twitter.
 
+# Environment variables
+| Variable | description |
+| --- | --- |
+| `HOST_NAME` | Url on which this issuer runs |
+| `IRMA_SERVER_URL` | Url for the IRMA server this issuer talks to |
+| `IRMA_SERVER_API_TOKEN` | API token for the IRMA server |
+
 ## Build
  * `composer install`
  * `yarn install`
