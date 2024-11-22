@@ -98,7 +98,7 @@ $config = [
 
   'twitter' => array(
     'authtwitter:Twitter',
-    'key' => getenv('TWITTER_KEY')
+    'key' => getenv('TWITTER_KEY'),
     'secret' => getenv('TWITTER_SECRET'),
     // Forces the user to enter their credentials to ensure the correct users account is authorized.
     // Details: https://dev.twitter.com/docs/api/1/get/oauth/authenticate
@@ -108,7 +108,7 @@ $config = [
 
   'linkedin' => array(
     'authoauth2:LinkedInV2Auth',
-    'clientId' => getenv("LINKEDIN_CLIENT_ID"),
+    'clientId' => getenv('LINKEDIN_CLIENT_ID'),
     'clientSecret' => getenv('LINKEDIN_CLIENT_SECRET'),
     'scopes' => array('r_liteprofile', 'r_emailaddress'),
   ),
