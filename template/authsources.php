@@ -110,6 +110,6 @@ $config = array(
     'authoauth2:LinkedInV2Auth',
     'clientId' => getenv('LINKEDIN_CLIENT_ID'),
     'clientSecret' => getenv('LINKEDIN_CLIENT_SECRET'),
-    'scopes' => array('r_liteprofile', 'r_emailaddress'),
+    'scopes' => array('openid', 'email', 'profile'),
   ),
 );
