@@ -8,7 +8,8 @@ RUN apt-get update && apt-get install -y \
     php-mbstring \
     php-curl \
     php-sqlite3 \
-    unzip
+    unzip \
+    cron
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
@@ -23,8 +24,8 @@ RUN chmod +x build.sh
 RUN ./build.sh
 
 
-RUN chmod +x install-simplesamlphp.sh
-RUN ./install-simplesamlphp.sh
+RUN chmod +x setup-php.sh
+RUN ./setup-php.sh
 
 FROM php:8.0-apache
 
@@ -36,3 +37,7 @@ RUN chown -R www-data:www-data /var/www/html \
 RUN echo "Listen 8080" >> /etc/apache2/ports.conf
 
 EXPOSE 8080
+
+RUN chmod +x run.sh
+
+CMD ["./run.sh"]

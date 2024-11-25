@@ -536,8 +536,11 @@ $config = [
      * one of the functionalities below, but in some cases you could run multiple functionalities.
      * In example when you are setting up a federation bridge.
      */
-    'enable.saml20-idp' => false,
-    'enable.adfs-idp' => false,
+    'enable.saml20-idp'		=> true,
+	'enable.shib13-idp'		=> false,
+	'enable.adfs-idp'		=> false,
+	'enable.wsfed-sp'		=> false,
+	'enable.authmemcookie'  => false,
 
 
 
@@ -558,7 +561,9 @@ $config = [
      */
 
     'module.enable' => [
-        'exampleauth' => false,
+        'authoauth2' => true,
+        'cron' => true,
+        'oauth' => true,
         'core' => true,
         'admin' => true,
         'saml' => true
@@ -1055,6 +1060,18 @@ $config = [
             'class' => 'core:AttributeAdd', 'groups' => ['users', 'members']
         ],
         */
+	/*
+		10 => array(
+			'class' => 'core:AttributeMap', 'removeurnprefix'
+		),
+		*/
+
+		/*
+		 * Generate the 'group' attribute populated from other variables, including eduPersonAffiliation.
+		 */
+		60 => array('class' => 'core:GenerateGroups', 'eduPersonAffiliation'),
+		// All users will be members of 'users' and 'members'
+		61 => array('class' => 'core:AttributeAdd', 'groups' => array('users', 'members')),
 
         // Adopts language from attribute to use in UI
         90 => 'core:LanguageAdaptor',
