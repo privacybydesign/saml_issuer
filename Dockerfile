@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y \
     php-mbstring \
     php-curl \
     php-sqlite3 \
+    php-ldap \
     unzip \
     cron
 
