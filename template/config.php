@@ -69,9 +69,10 @@ $config = [
      * root directory.
      */
     'cachedir' => '/var/cache/simplesamlphp',
-    //'loggingdir' => '/var/log/',
-    //'datadir' => '/var/data/',
+    'loggingdir' => '/var/simplesamlphp/log',
+    'datadir' => '/var/simplesaml/data',
     //'tempdir' => '/tmp/simplesamlphp',
+    'tempdir' => '/var/simplesamlphp/tmp',
 
     /*
      * Certificate and key material can be loaded from different possible
@@ -322,9 +323,9 @@ $config = [
      * empty array.
      */
     'debug' => [
-        'saml' => false,
+        'saml' => true,
         'backtraces' => true,
-        'validatexml' => false,
+        'validatexml' => true,
     ],
 
     /*
@@ -366,8 +367,8 @@ $config = [
      * must exist and be writable for SimpleSAMLphp. If set to something else, set
      * loggingdir above to 'null'.
      */
-    'logging.level' => SimpleSAML\Logger::NOTICE,
-    'logging.handler' => 'syslog',
+    'logging.level' => SimpleSAML\Logger::DEBUG,
+    'logging.handler' => 'file',
 
     /*
      * Specify the format of the logs. Its use varies depending on the log handler used (for instance, you cannot
@@ -911,7 +912,7 @@ $config = [
      *
      * Defaults to true.
      */
-    'production' => true,
+    'production' => false,
 
     /*
      * SimpleSAMLphp modules can host static resources which are served through PHP.

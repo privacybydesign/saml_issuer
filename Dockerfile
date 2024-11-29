@@ -40,6 +40,14 @@ RUN mkdir -p /var/cache/simplesamlphp/core
 RUN chown -R www-data:www-data /var/cache/simplesamlphp
 RUN chmod -R 755 /var/cache/simplesamlphp
 
+RUN mkdir -p /var/simplesamlphp/tmp
+RUN mkdir -p /var/simplesamlphp/data
+RUN mkdir -p /var/simplesamlphp/log
+
+RUN chown -R www-data:www-data /var/simplesamlphp/tmp && chmod -R 750 /var/simplesamlphp/tmp
+RUN chown -R www-data:www-data /var/simplesamlphp/data && chmod -R 750 /var/simplesamlphp/data
+RUN chown -R www-data:www-data /var/simplesamlphp/log && chmod -R 750 /var/simplesamlphp/log
+
 RUN echo "Listen 8080" >> /etc/apache2/ports.conf
 
 EXPOSE 8080
