@@ -107,7 +107,8 @@ $config = array(
   ),
 
   'linkedin' => array(
-    'authoauth2:LinkedInV2Auth',
+    'authoauth2:OpenIDConnect',
+    'issuer' => 'https://www.linkedin.com/oauth',
     'clientId' => getenv('LINKEDIN_CLIENT_ID'),
     'clientSecret' => getenv('LINKEDIN_CLIENT_SECRET'),
     'scopes' => array('openid', 'email', 'profile'),
