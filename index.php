@@ -140,7 +140,12 @@ function handle_request() {
             require PAGE_DONE;
         }
     } elseif ($saml_authenticator->isAuthenticated()) {
-        $irma_attributes = map_saml_attributes($saml_authenticator->getAttributes());
+        $attrs = $saml_authenticator->getAttributes();
+
+        $file = "/var/simplesamlphp/log/caesar.log";
+        file_put_contents($file, $attrs, FILE_APPEND);
+        
+        $irma_attributes = map_saml_attributes($attrs);
         $validity = (new DateTime(VALIDITY))->getTimestamp();
 
         if (isset($_GET['output']) && $_GET['output'] == 'irma-session') {
