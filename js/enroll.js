@@ -36,7 +36,7 @@ $(function() {
 
 	$("#enroll").on("click", function() {
 		$('.alert').addClass('hide');
-		irma.newPopup({
+		yivi.newPopup({
 			language: lang,
 			session: {
 				url: irma_server_url,
