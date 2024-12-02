@@ -107,7 +107,7 @@ $config = array(
   'twitter' => [
     'authoauth2:OAuth2',
     'urlAuthorize' => 'https://www.twitter.com/i/oauth2/authorize',
-    'urlAccessToken' => 'https://www.twitter.com/i/oauth2/token',
+    'urlAccessToken' => 'https://api.twitter.com/2/oauth2/token',
     'urlResourceOwnerDetails' => 'https://www.twitter.com/userinfo',
     'clientId' => getenv('TWITTER_CLIENT_ID'),
     'clientSecret' => getenv('TWITTER_CLIENT_SECRET'),
