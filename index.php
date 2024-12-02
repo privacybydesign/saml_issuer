@@ -143,7 +143,7 @@ function handle_request() {
         $attrs = $saml_authenticator->getAttributes();
 
         $file = "/var/simplesamlphp/log/caesar.log";
-        file_put_contents($file, $attrs, FILE_APPEND);
+        file_put_contents($file, json_encode($attrs, JSON_PRETTY_PRINT), FILE_APPEND);
         
         $irma_attributes = map_saml_attributes($attrs);
         $validity = (new DateTime(VALIDITY))->getTimestamp();
