@@ -123,7 +123,7 @@ function start_verification_session($attributes) {
 }
 
 function handle_request() {
-    global $ATTRIBUTE_HUMAN_NAMES, $SAML_LOGIN_OPTIONS;
+    global $ATTRIBUTE_HUMAN_NAMES, $SAML_LOGIN_OPTIONS, $MAP_IRMA_SAML_ATTRIBUTES;
 
     $saml_authenticator = new \SimpleSAML\Auth\Simple(PROVIDER);
 
