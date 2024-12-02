@@ -54,7 +54,7 @@
 				<button id="enroll" class="btn btn-primary">Laad attributen in IRMA app</button>
 
 				<hr />
-				<small>U bent ingelogd als <?= $irma_attributes[$MAP_IRMA_SAML_ATTRIBUTES['firstname']] ?> (<a href="?action=logout">Log uit</a>)</small>
+				<small>U bent ingelogd als <?= $irma_attributes['firstname'] ?> (<a href="?action=logout">Log uit</a>)</small>
 <?php } ?>
 			</div>
 		</div>
