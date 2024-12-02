@@ -113,4 +113,14 @@ $config = array(
     'clientSecret' => getenv('LINKEDIN_CLIENT_SECRET'),
     'scopes' => array('openid', 'email', 'profile'),
   ),
+
+  'twitter' => [
+    'authoauth2:OAuth2',
+    'urlAuthorize' => 'https://www.api.x.com/oauth2/authorize',
+    'urlAccessToken' => 'https://www.api.x.com/oauth2/token',
+    'urlResourceOwnerDetails' => 'https://api.api.x.com/userinfo',
+    'clientId' => getenv('TWITTER_CLIENT_ID'),
+    'clientSecret' => getenv('TWITTER_CLIENT_SECRET'),
+    'scopes' => ['email', 'profile'],
+  ]
 );

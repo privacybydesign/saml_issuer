@@ -11,6 +11,8 @@ Currently supports SURFconext, eduGAIN, LinkedIn and Twitter.
 | `IRMA_SERVER_API_TOKEN` | API token for the IRMA server |
 | `LINKEDIN_CLIENT_ID` | LinkedIn Client ID |
 | `LINKEDIN_CLIENT_SECRET` | LinkedIn Client Secret |
+| `TWITTER_CLIENT_ID` | Twitter Client ID |
+| `TWITTER_CLIENT_SECRET` | Twitter Client Secret |
 
 ## Build
  * `composer install`
