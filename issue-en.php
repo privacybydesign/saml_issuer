@@ -10,7 +10,7 @@
         let lang = "<?= LANG ?>";
     </script>
 	<script type="text/javascript" src="../js/jquery.min.js"></script>
-	<script type="text/javascript" src="../js/irma.js"></script>
+	<script type="text/javascript" src="../js/yivi.js"></script>
 	<script type="text/javascript" src="../js/enroll.js"></script>
 
 	<title><?= PROVIDER_NAME ?> attributes</title>
