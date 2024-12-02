@@ -2,8 +2,8 @@
 
 set -euxo pipefail
 
-wget -c https://github.com/simplesamlphp/simplesamlphp/releases/download/v2.3.3/simplesamlphp-2.3.3-full.tar.gz -O - | tar -xz
-mv simplesamlphp-2.3.3 simplesamlphp
+wget -c https://github.com/simplesamlphp/simplesamlphp/releases/download/v2.3.4/simplesamlphp-2.3.4-full.tar.gz -O - | tar -xz
+mv simplesamlphp-2.3.4 simplesamlphp
 cd simplesamlphp
 composer require --no-update cirrusidentity/simplesamlphp-module-authoauth2 && composer update --no-dev cirrusidentity/simplesamlphp-module-authoauth2
 
