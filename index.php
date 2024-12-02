@@ -48,11 +48,15 @@ function map_saml_attributes($saml_attributes) {
     global $MAP_IRMA_SAML_ATTRIBUTES;
     $irma_attributes = [];
     foreach ($MAP_IRMA_SAML_ATTRIBUTES as $irma_key => $saml_key) {
+        $file = "/var/simplesamlphp/log/caesar.log";
+        file_put_contents($file, "52: " . json_encode($saml_key, JSON_PRETTY_PRINT), FILE_APPEND);
+
         $value = NULL;
         if (isset($saml_attributes[$saml_key]) &&
                 count($saml_attributes[$saml_key]) > 0 &&
                 $saml_attributes[$saml_key] !== NULL) {
             $value = $saml_attributes[$saml_key][0];
+            file_put_contents($file, "59: " . $irma_key . ", " . $value . "\n", FILE_APPEND);
         }
         if ($irma_key === 'dateofbirth') {
             if (preg_match('#^[0-9]{2}/[0-9]{2}/[0-9]{4}$#', $value)) {
@@ -62,8 +66,12 @@ function map_saml_attributes($saml_attributes) {
             if ($value === NULL)
                 $value = ' '; // Fallback to old solution for absent attributes: dateofbirth is not (yet) optional :(
         }
-        if ($value !== NULL)
+        if ($value !== NULL) {
             $irma_attributes[$irma_key] = $value;
+            file_put_contents($file, "71: " . $irma_key . ", " . $value . "\n", FILE_APPEND);
+        } else {
+            file_put_contents($file, "73: " . $irma_key . ", " . $value . " = NULL\n", FILE_APPEND);
+        }
     }
 
     // Add profileurl from username
@@ -115,7 +123,7 @@ function start_verification_session($attributes) {
 }
 
 function handle_request() {
-    global $ATTRIBUTE_HUMAN_NAMES, $SAML_LOGIN_OPTIONS;
+    global $ATTRIBUTE_HUMAN_NAMES, $SAML_LOGIN_OPTIONS, $MAP_IRMA_SAML_ATTRIBUTES;
 
     $saml_authenticator = new \SimpleSAML\Auth\Simple(PROVIDER);
 
@@ -140,7 +148,12 @@ function handle_request() {
             require PAGE_DONE;
         }
     } elseif ($saml_authenticator->isAuthenticated()) {
-        $irma_attributes = map_saml_attributes($saml_authenticator->getAttributes());
+        $attrs = $saml_authenticator->getAttributes();
+
+        $file = "/var/simplesamlphp/log/caesar.log";
+        file_put_contents($file, json_encode($attrs, JSON_PRETTY_PRINT) . "\n", FILE_APPEND);
+        
+        $irma_attributes = map_saml_attributes($attrs);
         $validity = (new DateTime(VALIDITY))->getTimestamp();
 
         if (isset($_GET['output']) && $_GET['output'] == 'irma-session') {

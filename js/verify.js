@@ -31,7 +31,7 @@ $(function() {
 	$("#verify_btn").on("click", function() {
 		$('.alert').addClass('hide');
 		$("#token-content").addClass('hide');
-		irma.newPopup({
+		yivi.newPopup({
 			language: lang,
 			session: {
 				url: irma_server_url,

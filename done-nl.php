@@ -11,7 +11,7 @@
 
     <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="../js/jquery.min.js"></script>
-    <script type="text/javascript" src="../js/irma.js" async defer></script>
+    <script type="text/javascript" src="../js/yivi.js" async defer></script>
     <script type="text/javascript" src="../js/verify.js"></script>
 
     <title><?= PROVIDER_NAME ?> attributen geladen</title>
