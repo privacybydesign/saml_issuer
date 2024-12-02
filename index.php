@@ -49,14 +49,14 @@ function map_saml_attributes($saml_attributes) {
     $irma_attributes = [];
     foreach ($MAP_IRMA_SAML_ATTRIBUTES as $irma_key => $saml_key) {
         $file = "/var/simplesamlphp/log/caesar.log";
-        file_put_contents($file, "52: " .. json_encode($saml_key, JSON_PRETTY_PRINT), FILE_APPEND);
+        file_put_contents($file, "52: " . json_encode($saml_key, JSON_PRETTY_PRINT), FILE_APPEND);
 
         $value = NULL;
         if (isset($saml_attributes[$saml_key]) &&
                 count($saml_attributes[$saml_key]) > 0 &&
                 $saml_attributes[$saml_key] !== NULL) {
             $value = $saml_attributes[$saml_key][0];
-            file_put_contents($file, "59: " .. $irma_key .. ", " .. $value, FILE_APPEND);
+            file_put_contents($file, "59: " . $irma_key . ", " . $value, FILE_APPEND);
         }
         if ($irma_key === 'dateofbirth') {
             if (preg_match('#^[0-9]{2}/[0-9]{2}/[0-9]{4}$#', $value)) {
@@ -68,9 +68,9 @@ function map_saml_attributes($saml_attributes) {
         }
         if ($value !== NULL) {
             $irma_attributes[$irma_key] = $value;
-            file_put_contents($file, "71: " .. $irma_key .. ", " .. $value, FILE_APPEND);
+            file_put_contents($file, "71: " . $irma_key . ", " . $value, FILE_APPEND);
         } else {
-            file_put_contents($file, "73: " .. $irma_key .. ", " .. $value .. " = NULL", FILE_APPEND);
+            file_put_contents($file, "73: " . $irma_key . ", " . $value . " = NULL", FILE_APPEND);
         }
     }
 
