@@ -15,32 +15,32 @@ define('PAGE_DONE',  '../done-' . LANG . '.php');
 
 if (LANG == 'nl') {
     $ATTRIBUTE_HUMAN_NAMES = [
-        'sub'          => 'Gebruiker ID',
-        // 'fullid'      => 'Volledig ID',
-        // 'username'    => 'Gebruikersnaam',
-        // 'profileurl'  => 'Profiel',
-        'name'    => 'Volledige naam',
-        'given_name'   => 'Voornaam',
-        'family_name'  => 'Achternaam',
+        'id'          => 'Gebruiker ID',
+        'fullid'      => 'Volledig ID',
+        'username'    => 'Gebruikersnaam',
+        'profileurl'  => 'Profiel',
+        'fullname'    => 'Volledige naam',
+        'firstname'   => 'Voornaam',
+        'familyname'  => 'Achternaam',
         'email'       => 'E-mailadres',
-        // 'dateofbirth' => 'Geboortedatum',
-        // 'institute'   => 'Instituut',
-        // 'type'        => 'Type',
+        'dateofbirth' => 'Geboortedatum',
+        'institute'   => 'Instituut',
+        'type'        => 'Type',
     ];
 
 } else { // en, or fallback
     $ATTRIBUTE_HUMAN_NAMES = [
-        'sub'          => 'User ID',
-        // 'fullid'      => 'Full ID',
-        // 'username'    => 'Username',
-        // 'profileurl'  => 'Profile',
-        'name'    => 'Full name',
-        'given_name'   => 'First name',
-        'family_name'  => 'Family name',
+        'id'          => 'User ID',
+        'fullid'      => 'Full ID',
+        'username'    => 'Username',
+        'profileurl'  => 'Profile',
+        'fullname'    => 'Full name',
+        'firstname'   => 'First name',
+        'familyname'  => 'Family name',
         'email'       => 'Email address',
-        // 'dateofbirth' => 'Birthdate',
-        // 'institute'   => 'Institute',
-        // 'type'        => 'Type',
+        'dateofbirth' => 'Birthdate',
+        'institute'   => 'Institute',
+        'type'        => 'Type',
     ];
 }
 
