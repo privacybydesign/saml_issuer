@@ -8,7 +8,7 @@ Currently supports SURFconext, eduGAIN, LinkedIn and Twitter.
 | --- | --- |
 | `HOST_NAME` | Url on which this issuer runs |
 | `IRMA_SERVER_URL` | Url for the IRMA server this issuer talks to |
-| `IRMA_SERVER_API_TOKEN` | API token for the IRMA server |
+| `API_TOKEN` | API token for the IRMA server |
 | `LINKEDIN_CLIENT_ID` | LinkedIn Client ID |
 | `LINKEDIN_CLIENT_SECRET` | LinkedIn Client Secret |
 | `TWITTER_CLIENT_ID` | Twitter Client ID |
