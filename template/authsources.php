@@ -104,13 +104,13 @@ $config = array(
     'scopes' => array('openid', 'email', 'profile'),
   ),
 
-  'twitter' => [
-    'authoauth2:OAuth2',
-    'urlAuthorize' => 'https://www.twitter.com/i/oauth2/authorize',
-    'urlAccessToken' => 'https://api.twitter.com/2/oauth2/token',
-    'urlResourceOwnerDetails' => 'https://www.twitter.com/userinfo',
-    'clientId' => getenv('TWITTER_CLIENT_ID'),
-    'clientSecret' => getenv('TWITTER_CLIENT_SECRET'),
-    'scopes' => ['users.read'],
-  ]
+  'twitter' => array(
+    'authtwitter:Twitter',
+    'key' => getenv('TWITTER_CLIENT_KEY'),
+    'secret' => getenv('TWITTER_CLIENT_SECRET'),
+    // Forces the user to enter their credentials to ensure the correct users account is authorized.
+    // Details: https://dev.twitter.com/docs/api/1/get/oauth/authenticate
+    'force_login' => FALSE,
+    'include_email' => TRUE,
+  ),
 );
