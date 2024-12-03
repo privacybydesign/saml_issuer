@@ -6,6 +6,7 @@ wget -c https://github.com/simplesamlphp/simplesamlphp/releases/download/v2.3.4/
 mv simplesamlphp-2.3.4 simplesamlphp
 cd simplesamlphp
 composer require --no-update cirrusidentity/simplesamlphp-module-authoauth2 && composer update --no-dev cirrusidentity/simplesamlphp-module-authoauth2
+composer require --no-update simplesamlphp/simplesamlphp-module-authtwitter && composer update --no-dev simplesamlphp/simplesamlphp-module-authtwitter
 
 cp ../template/config.php ./config/config.php
 cp ../template/authsources.php ./config/authsources.php
