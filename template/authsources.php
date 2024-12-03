@@ -111,6 +111,6 @@ $config = array(
     'urlResourceOwnerDetails' => 'https://www.twitter.com/userinfo',
     'clientId' => getenv('TWITTER_CLIENT_ID'),
     'clientSecret' => getenv('TWITTER_CLIENT_SECRET'),
-    'scopes' => ['email', 'profile'],
+    'scopes' => ['users.read'],
   ]
 );
