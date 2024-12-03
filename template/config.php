@@ -563,6 +563,7 @@ $config = [
 
     'module.enable' => [
         'authoauth2' => true,
+        'authtwitter' => true,
         'cron' => true,
         'oauth' => true,
         'core' => true,
