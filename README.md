@@ -4,6 +4,8 @@ A SimpleSAMLphp library for issuing attributes coming from a SAML Identity Provi
 Currently supports SURFconext, eduGAIN, LinkedIn and Twitter.
 
 # Environment variables
+See `sample.env` for a list of required environment variables. Copy the file to `.env` and fill in the secrets.
+
 | Variable | description |
 | --- | --- |
 | `HOST_NAME` | Url on which this issuer runs |
@@ -23,3 +25,12 @@ Currently supports SURFconext, eduGAIN, LinkedIn and Twitter.
  * Add the API keys in simplesamlphp: `config/authsources.php`
  * Host both the `simplesamlphp/www` and the `saml_issuer` directory on a web server
    (the url of `simplesamlphp/www` must be set as basepathurl in `config/config.php` of simplesamlphp)
+
+## Run with docker
+```bash
+docker build . -t saml-issuer
+```
+
+```bash
+docker run --env-file .env -p 8080:80 saml-issuer
+```

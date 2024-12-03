@@ -112,5 +112,6 @@ $config = array(
     'clientId' => getenv('TWITTER_CLIENT_ID'),
     'clientSecret' => getenv('TWITTER_CLIENT_SECRET'),
     'scopes' => ['users.read'],
+    'pkceMethod' => 'S256',
   ]
 );
