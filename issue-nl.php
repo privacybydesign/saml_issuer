@@ -10,7 +10,7 @@
         let lang = "<?= LANG ?>";
     </script>
 	<script type="text/javascript" src="../js/jquery.min.js"></script>
-    <script type="text/javascript" src="../js/irma.js"></script>
+    <script type="text/javascript" src="../js/yivi.js"></script>
 	<script type="text/javascript" src="../js/enroll.js"></script>
 
 	<title><?= PROVIDER_NAME ?> attributen</title>
@@ -54,7 +54,7 @@
 				<button id="enroll" class="btn btn-primary">Laad attributen in IRMA app</button>
 
 				<hr />
-				<small>U bent ingelogd als <?= $irma_attributes['fullname'] ?> (<a href="?action=logout">Log uit</a>)</small>
+				<small>U bent ingelogd als <?= $irma_attributes['firstname'] ?> (<a href="?action=logout">Log uit</a>)</small>
 <?php } ?>
 			</div>
 		</div>

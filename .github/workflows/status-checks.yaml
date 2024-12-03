@@ -1,16 +1,42 @@
-name: Status checks
+name: Build and Push Docker Image
 
 on:
-  push:
-    branches: [ master ]
   pull_request:
-  # Make it possible to trigger the checks manually.
-  workflow_dispatch:
+    branches:
+      - "**" # Trigger on all branches for pull requests
 
 jobs:
-  docker-build:
+  build-and-push:
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      packages: write
+
     steps:
-      - uses: actions/checkout@v4
-      - name: Run Dockerfile build stage
-        run: docker build -t privacybydesign/saml_issuer:build .
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=semver,pattern={{major}}.{{minor}}.{{patch}}
+            type=raw,value=${{ github.head_ref }}
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
