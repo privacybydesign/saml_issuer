@@ -3,8 +3,7 @@
 require_once 'config.php';
 
 if (!defined('PROVIDER')) {
-    // Trying to load this PHP script directly (old style), redirect to surfconext
-    // issuer.
+    // Trying to load this PHP script directly (old style), redirect to surfconext issuer.
     header('Location: surfconext/', true, 301);
     exit('redirect to surfconext/');
 }
@@ -48,7 +47,7 @@ function map_saml_attributes($saml_attributes) {
     global $MAP_IRMA_SAML_ATTRIBUTES;
     $irma_attributes = [];
     foreach ($MAP_IRMA_SAML_ATTRIBUTES as $irma_key => $saml_key) {
-        $file = "/var/simplesamlphp/log/caesar.log";
+        $file = "/var/log/simplesamlphp/yivi.log";
         file_put_contents($file, "52: " . json_encode($saml_key, JSON_PRETTY_PRINT), FILE_APPEND);
 
         $value = NULL;

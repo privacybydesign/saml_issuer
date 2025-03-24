@@ -1,20 +1,20 @@
 # saml_issuer
 
 A SimpleSAMLphp library for issuing attributes coming from a SAML Identity Provider.
-Currently supports SURFconext, eduGAIN, LinkedIn and Twitter.
+Currently supports SURFconext, eduGAIN and LinkedIn.
 
 # Environment variables
 See `sample.env` for a list of required environment variables. Copy the file to `.env` and fill in the secrets.
+A list of optional environment variables for SimpleSAMLphp Docker image [can be found here](https://github.com/cirrusidentity/docker-simplesamlphp/tree/master?tab=readme-ov-file#environmental-variables).
 
 | Variable | description |
 | --- | --- |
+| `HTTP_PROTOCOL` | 'http' or 'https' |
 | `HOST_NAME` | Url on which this issuer runs |
 | `IRMA_SERVER_URL` | Url for the IRMA server this issuer talks to |
 | `API_TOKEN` | API token for the IRMA server |
 | `LINKEDIN_CLIENT_ID` | LinkedIn Client ID |
 | `LINKEDIN_CLIENT_SECRET` | LinkedIn Client Secret |
-| `TWITTER_CLIENT_ID` | Twitter Client ID |
-| `TWITTER_CLIENT_SECRET` | Twitter Client Secret |
 
 ## Build
  * `composer install`
@@ -32,5 +32,5 @@ docker build . -t saml-issuer
 ```
 
 ```bash
-docker run --env-file .env -p 8080:80 saml-issuer
+docker run --env-file .env -p 8080:8080 saml-issuer
 ```
