@@ -149,7 +149,7 @@ function handle_request() {
     } elseif ($saml_authenticator->isAuthenticated()) {
         $attrs = $saml_authenticator->getAttributes();
 
-        $file = "/var/simplesamlphp/log/caesar.log";
+        $file = "/var/log/simplesamlphp/yivi.log";
         file_put_contents($file, json_encode($attrs, JSON_PRETTY_PRINT) . "\n", FILE_APPEND);
         
         $irma_attributes = map_saml_attributes($attrs);
