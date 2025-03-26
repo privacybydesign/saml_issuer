@@ -4,17 +4,20 @@ A SimpleSAMLphp library for issuing attributes coming from a SAML Identity Provi
 Currently supports SURFconext, eduGAIN and LinkedIn.
 
 # Environment variables
-See `sample.env` for a list of required environment variables. Copy the file to `.env` and fill in the secrets.
+See `sample.env` for a list of environment variables. Copy the file to `.env` and fill in the secrets.
 A list of optional environment variables for SimpleSAMLphp Docker image [can be found here](https://github.com/cirrusidentity/docker-simplesamlphp/tree/master?tab=readme-ov-file#environmental-variables).
 
-| Variable | description |
-| --- | --- |
-| `HTTP_PROTOCOL` | 'http' or 'https' |
-| `HOST_NAME` | Url on which this issuer runs |
-| `IRMA_SERVER_URL` | Url for the IRMA server this issuer talks to |
-| `API_TOKEN` | API token for the IRMA server |
-| `LINKEDIN_CLIENT_ID` | LinkedIn Client ID |
-| `LINKEDIN_CLIENT_SECRET` | LinkedIn Client Secret |
+| Variable | description | required |
+| --- | --- | --- |
+| `HOST_NAME` | Url on which this issuer runs | ✅ |
+| `IRMA_SERVER_URL` | Url for the IRMA server this issuer talks to | ✅ |
+| `API_TOKEN` | API token for the IRMA server | ✅ |
+| `LINKEDIN_CLIENT_ID` | LinkedIn Client ID | ✅ |
+| `LINKEDIN_CLIENT_SECRET` | LinkedIn Client Secret | ✅ |
+| `HTTP_PROTOCOL` | 'http' or 'https'; defaults to 'https' if unspecified | |
+| `SIMPLESAMLPHP_CONFIG_DIR` | Path to load SimpleSAMLphp config files from. Defaults to `/var/simplesamlphp/config` if unspecified | |
+| `SIMPLESAMLPHP_METADATA_DIR` | Path to load SimpleSAMLphp default metadata files from. Defaults to `/var/simplesamlphp/metadata` if unspecified | |
+| `SIMPLESAMLPHP_CERT_DIR` | Path to load SimpleSAMLphp certificate files from. Defaults to `/var/simplesamlphp/cert` if unspecified | |
 
 ## Build
  * `composer install`
