@@ -46,4 +46,5 @@ COPY --from=builder /app/js/       /var/www/js/
 COPY                edugain/       /var/www/edugain/
 COPY                linkedin/      /var/www/linkedin/
 COPY                surfconext/    /var/www/surfconext/
+COPY                *.html         /var/www/
 COPY                *.php          /var/www/
