@@ -9,7 +9,7 @@ define('IRMA_NAME_ATTRIBUTE', 'fullname');
 define('VALIDITY', '+1 year');
 
 $MAP_IRMA_SAML_ATTRIBUTES = [
-    'fullname'    => 'oid.name',
+    'fullname'    => 'oidc.name',
     'firstname'   => 'oidc.given_name',
     'familyname'  => 'oidc.family_name',
     'email'       => 'oidc.email',
