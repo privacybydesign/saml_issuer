@@ -5,7 +5,7 @@ Currently supports SURFconext, eduGAIN and LinkedIn.
 
 # Environment variables
 See `sample.env` for a list of environment variables. Copy the file to `.env` and fill in the secrets.
-A list of optional environment variables for SimpleSAMLphp Docker image [can be found here](https://github.com/cirrusidentity/docker-simplesamlphp/tree/master?tab=readme-ov-file#environmental-variables).
+A list of optional environment variables (expect for `APACHE_CERT_NAME`, which) for SimpleSAMLphp Docker image [can be found here](https://github.com/cirrusidentity/docker-simplesamlphp/tree/master?tab=readme-ov-file#environmental-variables).
 
 | Variable | description | required |
 | --- | --- | --- |
@@ -14,6 +14,8 @@ A list of optional environment variables for SimpleSAMLphp Docker image [can be 
 | `API_TOKEN` | API token for the IRMA server | ✅ |
 | `LINKEDIN_CLIENT_ID` | LinkedIn Client ID | ✅ |
 | `LINKEDIN_CLIENT_SECRET` | LinkedIn Client Secret | ✅ |
+| `APACHE_CERT_PATH` | Path to the SSL certificate Apache will use for the host. The cert needs to be mounted inside the pod. | ✅ |
+| `APACHE_KEY_PATH` | Path to the SSL key Apache will use for the host. The key needs to be mounted inside the pod. | ✅ |
 | `HTTP_PROTOCOL` | 'http' or 'https'; defaults to 'https' if unspecified | |
 | `SIMPLESAMLPHP_CONFIG_DIR` | Path to load SimpleSAMLphp config files from. Defaults to `/var/simplesamlphp/config` if unspecified | |
 | `SIMPLESAMLPHP_METADATA_DIR` | Path to load SimpleSAMLphp default metadata files from. Defaults to `/var/simplesamlphp/metadata` if unspecified | |
