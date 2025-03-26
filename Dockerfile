@@ -27,6 +27,7 @@ ADD apache.conf /etc/apache2/sites-available/ssp.conf
 
 # Add runtime startup script
 ADD run-on-start.sh /opt/simplesaml/
+RUN chmod +x /opt/simplesaml/run-on-start.sh
 
 # Install SimpleSAMLphp modules
 WORKDIR ${SSP_DIR}
