@@ -34,6 +34,9 @@ WORKDIR ${SSP_DIR}
 RUN composer config prefer-stable true \
         && composer require --update-no-dev cirrusidentity/simplesamlphp-module-authoauth2
 
+# Allow extra memory for SimpleSAMLphp
+RUN echo "php_value memory_limit 512M" >> "/var/simplesamlphp/src/SimpleSAML/.htaccess"
+
 RUN mkdir -p /var/data/simplesamlphp
 RUN mkdir -p /var/log/simplesamlphp
 
