@@ -19,8 +19,4 @@ $MAP_IRMA_SAML_ATTRIBUTES = [
     'email'      => 'urn:mace:dir:attribute-def:mail',
 ];
 
-// $SAML_LOGIN_OPTIONS = [
-//     'saml:idp' => 'https://engine.surfconext.nl/authentication/idp/metadata',
-// ];
-
 require '../index.php';

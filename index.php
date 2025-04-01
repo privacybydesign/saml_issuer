@@ -121,7 +121,7 @@ function start_verification_session($attributes) {
 }
 
 function handle_request() {
-    global $ATTRIBUTE_HUMAN_NAMES, $SAML_LOGIN_OPTIONS, $MAP_IRMA_SAML_ATTRIBUTES;
+    global $ATTRIBUTE_HUMAN_NAMES, $MAP_IRMA_SAML_ATTRIBUTES;
 
     $saml_authenticator = new \SimpleSAML\Auth\Simple(PROVIDER);
 
@@ -132,9 +132,7 @@ function handle_request() {
     }
 
     if ($action === 'login' && !$saml_authenticator->isAuthenticated()) {
-        if (!isset($SAML_LOGIN_OPTIONS))
-            $SAML_LOGIN_OPTIONS = [];
-        $saml_authenticator->login($SAML_LOGIN_OPTIONS);
+        $saml_authenticator->login();
     } else if ($action === 'logout' && $saml_authenticator->isAuthenticated()) {
         $saml_authenticator->logout();
     } else if ($action === 'done') {

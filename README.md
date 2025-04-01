@@ -12,6 +12,7 @@ A list of optional environment variables (expect for `APACHE_CERT_NAME`, which) 
 | `HOST_NAME` | Url on which this issuer runs | ✅ |
 | `IRMA_SERVER_URL` | Url for the IRMA server this issuer talks to | ✅ |
 | `API_TOKEN` | API token for the IRMA server | ✅ |
+| `SURFCONEXT_IDP_METADATA_URL` | URL to the metadata of SURFconext IdP | ✅ |
 | `LINKEDIN_CLIENT_ID` | LinkedIn Client ID | ✅ |
 | `LINKEDIN_CLIENT_SECRET` | LinkedIn Client Secret | ✅ |
 | `APACHE_CERT_PATH` | Path to the SSL certificate Apache will use for the host. The cert needs to be mounted inside the pod. | ✅ |
