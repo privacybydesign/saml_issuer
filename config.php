@@ -1,5 +1,9 @@
 <?php
-define('LANG', 'en');
+
+// Only set language if undefined
+if (!defined('LANG')) {
+    define('LANG', 'nl');
+}
 
 define('ROOT_DIR', __DIR__ . '');
 define('LOG_FILE', '/var/log/simplesamlphp/yivi.log');
