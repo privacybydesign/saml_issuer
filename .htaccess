@@ -1,2 +1,0 @@
-RewriteEngine on
-RewriteRule "^/(nl|en)/(.*)(?:\?.*)$" "/$2?lang=$1" [L,QSA]

@@ -45,7 +45,7 @@ COPY --from=builder /app/css/                /var/www/css/
 COPY --from=builder /app/js/                 /var/www/js/
 
 # Add project files
-COPY edugain/                 /var/www/edugain/
-COPY linkedin/                /var/www/linkedin/
-COPY surfconext/              /var/www/surfconext/
-COPY *.html *.php .htaccess   /var/www/
+COPY edugain/       /var/www/edugain/
+COPY linkedin/      /var/www/linkedin/
+COPY surfconext/    /var/www/surfconext/
+COPY *.html *.php   /var/www/
