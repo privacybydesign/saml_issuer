@@ -1,7 +1,9 @@
 <?php
 
-// Only set language if undefined
-if (!defined('LANG')) {
+// Only set language if it is not already set in the querystring
+if(isset($_GET['lang'])) {
+    define('LANG', $_GET['lang']);
+} else {
     define('LANG', 'nl');
 }
 
