@@ -1,8 +1,8 @@
 <?php
 
 // Only set language if it is not already set in the querystring
-if(isset($_GET['lang'])) {
-    define('LANG', $_GET['lang']);
+if(getenv('lang')) {
+    define('LANG', getenv('lang'));
 } else {
     define('LANG', 'nl');
 }

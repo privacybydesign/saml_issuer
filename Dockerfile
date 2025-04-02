@@ -22,13 +22,6 @@ FROM cirrusid/simplesamlphp:v2.3.7 AS runtime
 
 ENV SSP_NEW_UI=true
 
-# Overwrite default Apache config
-ADD apache.conf /etc/apache2/sites-available/ssp.conf
-
-# Add runtime startup script
-ADD run-on-start.sh /opt/simplesaml/
-RUN chmod +x /opt/simplesaml/run-on-start.sh
-
 # Install SimpleSAMLphp modules
 WORKDIR ${SSP_DIR}
 RUN composer config prefer-stable true \
@@ -43,6 +36,13 @@ RUN chown -R www-data:www-data /var/log/simplesamlphp && chmod -R 750 /var/log/s
 # Add build files
 COPY --from=builder /app/css/                /var/www/css/
 COPY --from=builder /app/js/                 /var/www/js/
+
+# Overwrite default Apache config
+ADD apache.conf /etc/apache2/sites-available/ssp.conf
+
+# Add runtime startup script
+ADD run-on-start.sh /opt/simplesaml/
+RUN chmod +x /opt/simplesaml/run-on-start.sh
 
 # Add project files
 COPY edugain/       /var/www/edugain/
