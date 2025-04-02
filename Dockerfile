@@ -40,10 +40,12 @@ RUN mkdir -p /var/log/simplesamlphp
 RUN chown -R www-data:www-data /var/data/simplesamlphp && chmod -R 750 /var/data/simplesamlphp
 RUN chown -R www-data:www-data /var/log/simplesamlphp && chmod -R 750 /var/log/simplesamlphp
 
+# Add build files
+COPY --from=builder /app/css/                /var/www/css/
+COPY --from=builder /app/js/                 /var/www/js/
+
 # Add project files
-COPY --from=builder /app/css/      /var/www/css/
-COPY --from=builder /app/js/       /var/www/js/
-COPY                edugain/       /var/www/edugain/
-COPY                linkedin/      /var/www/linkedin/
-COPY                surfconext/    /var/www/surfconext/
-COPY                *.html *.php   /var/www/
+COPY edugain/                 /var/www/edugain/
+COPY linkedin/                /var/www/linkedin/
+COPY surfconext/              /var/www/surfconext/
+COPY *.html *.php .htaccess   /var/www/
