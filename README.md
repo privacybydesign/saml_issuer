@@ -31,6 +31,11 @@ A list of optional environment variables (expect for `APACHE_CERT_NAME`, which) 
 docker build . -t saml-issuer
 ```
 
+In case you're using the wildcard testing certificate (see below), make sure to always build using `--pull` to get the latest Cirrus image (so Docker updates the cached image if needed). This way, the testing certificate will always be valid.
+```bash
+docker build . -t saml-issuer --pull
+```
+
 ### Configure `.env` file
 Create a `.env` file for the configuration of the container.
 SimpleSAMLphp config and metadata template files can be found in the [SimpleSAMLphp Github repository](https://github.com/simplesamlphp/simplesamlphp).
@@ -41,6 +46,7 @@ This is also true for local development. You can provide your own keys via volum
 
 The image is created with a wildcard certificate for testing, which can be found at the locations below.
 If you use this cert, make sure the `HOST_NAME` matches `*.local.stack-dev.cirrusidentity.com`, where `*` can be any valid subdomain.
+The certificate expires every 90 days. If it is expired, you can delete the 
 - APACHE_CERT_PATH: /etc/ssl/certs/local-stack-dev.pem
 - APACHE_KEY_PATH: /etc/ssl/private/local-stack-dev.key
 
