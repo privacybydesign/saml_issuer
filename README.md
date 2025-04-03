@@ -1,7 +1,7 @@
 # saml_issuer
 
 A SimpleSAMLphp library for issuing attributes coming from a SAML Identity Provider.
-Currently supports SURFconext, eduGAIN and LinkedIn.
+Currently supports SURFconext and LinkedIn.
 
 # Environment variables
 See `sample.env` for a list of environment variables. Copy the file to `.env` and fill in the secrets.
@@ -42,3 +42,8 @@ docker build . -t saml-issuer
 ```bash
 docker run --env-file .env -p 8080:8080 saml-issuer
 ```
+
+# Documentation
+Below the documentation regarding the supported IdPs can be found:
+- [SURFconext](https://servicedesk.surf.nl/wiki/spaces/IAM/pages/128909810/SURFconext+for+Service+Providers)
+- [LinkedIN](https://learn.microsoft.com/en-us/linkedin/shared/authentication/authentication)

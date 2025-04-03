@@ -45,7 +45,6 @@ ADD run-on-start.sh /opt/simplesaml/
 RUN chmod +x /opt/simplesaml/run-on-start.sh
 
 # Add project files
-COPY edugain/       /var/www/edugain/
 COPY linkedin/      /var/www/linkedin/
 COPY surfconext/    /var/www/surfconext/
 COPY *.html *.php   /var/www/
