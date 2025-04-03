@@ -4,11 +4,11 @@
 FROM node:23-alpine AS builder
 WORKDIR /app
 
-ADD js/ ./js/
-ADD css/ ./css/
-ADD yarn.lock .
-ADD package.json .
-ADD build.sh .
+COPY js/ ./js/
+COPY css/ ./css/
+COPY yarn.lock .
+COPY package.json .
+COPY build.sh .
 
 RUN yarn install
 
@@ -25,7 +25,7 @@ ENV SSP_NEW_UI=true
 # Install SimpleSAMLphp modules
 WORKDIR ${SSP_DIR}
 RUN composer config prefer-stable true \
-        && composer require --update-no-dev cirrusidentity/simplesamlphp-module-authoauth2
+        && composer require --update-no-dev cirrusidentity/simplesamlphp-module-authoauth2:4.1.0
 
 RUN mkdir -p /var/data/simplesamlphp
 RUN mkdir -p /var/log/simplesamlphp
@@ -38,10 +38,10 @@ COPY --from=builder /app/css/                /var/www/css/
 COPY --from=builder /app/js/                 /var/www/js/
 
 # Overwrite default Apache config
-ADD apache.conf /etc/apache2/sites-available/ssp.conf
+COPY apache.conf /etc/apache2/sites-available/ssp.conf
 
 # Add runtime startup script
-ADD run-on-start.sh /opt/simplesaml/
+COPY run-on-start.sh /opt/simplesaml/
 RUN chmod +x /opt/simplesaml/run-on-start.sh
 
 # Add project files
