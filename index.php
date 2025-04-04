@@ -3,8 +3,7 @@
 require_once 'config.php';
 
 if (!defined('PROVIDER')) {
-    // Trying to load this PHP script directly (old style), redirect to surfconext
-    // issuer.
+    // Trying to load this PHP script directly (old style), redirect to surfconext issuer.
     header('Location: surfconext/', true, 301);
     exit('redirect to surfconext/');
 }
@@ -48,15 +47,14 @@ function map_saml_attributes($saml_attributes) {
     global $MAP_IRMA_SAML_ATTRIBUTES;
     $irma_attributes = [];
     foreach ($MAP_IRMA_SAML_ATTRIBUTES as $irma_key => $saml_key) {
-        $file = "/var/simplesamlphp/log/caesar.log";
-        file_put_contents($file, "52: " . json_encode($saml_key, JSON_PRETTY_PRINT), FILE_APPEND);
+        writeLog("50: " . json_encode($saml_key, JSON_PRETTY_PRINT));
 
         $value = NULL;
         if (isset($saml_attributes[$saml_key]) &&
                 count($saml_attributes[$saml_key]) > 0 &&
                 $saml_attributes[$saml_key] !== NULL) {
             $value = $saml_attributes[$saml_key][0];
-            file_put_contents($file, "59: " . $irma_key . ", " . $value . "\n", FILE_APPEND);
+            writeLog("57: " . $irma_key . ", " . $value);
         }
         if ($irma_key === 'dateofbirth') {
             if (preg_match('#^[0-9]{2}/[0-9]{2}/[0-9]{4}$#', $value)) {
@@ -68,9 +66,9 @@ function map_saml_attributes($saml_attributes) {
         }
         if ($value !== NULL) {
             $irma_attributes[$irma_key] = $value;
-            file_put_contents($file, "71: " . $irma_key . ", " . $value . "\n", FILE_APPEND);
+            writeLog("69: " . $irma_key . ", " . $value);
         } else {
-            file_put_contents($file, "73: " . $irma_key . ", " . $value . " = NULL\n", FILE_APPEND);
+            writeLog("71: " . $irma_key . ", " . $value . " = NULL");
         }
     }
 
@@ -123,7 +121,7 @@ function start_verification_session($attributes) {
 }
 
 function handle_request() {
-    global $ATTRIBUTE_HUMAN_NAMES, $SAML_LOGIN_OPTIONS, $MAP_IRMA_SAML_ATTRIBUTES;
+    global $ATTRIBUTE_HUMAN_NAMES, $MAP_IRMA_SAML_ATTRIBUTES;
 
     $saml_authenticator = new \SimpleSAML\Auth\Simple(PROVIDER);
 
@@ -134,9 +132,7 @@ function handle_request() {
     }
 
     if ($action === 'login' && !$saml_authenticator->isAuthenticated()) {
-        if (!isset($SAML_LOGIN_OPTIONS))
-            $SAML_LOGIN_OPTIONS = [];
-        $saml_authenticator->login($SAML_LOGIN_OPTIONS);
+        $saml_authenticator->login();
     } else if ($action === 'logout' && $saml_authenticator->isAuthenticated()) {
         $saml_authenticator->logout();
     } else if ($action === 'done') {
@@ -150,8 +146,7 @@ function handle_request() {
     } elseif ($saml_authenticator->isAuthenticated()) {
         $attrs = $saml_authenticator->getAttributes();
 
-        $file = "/var/simplesamlphp/log/caesar.log";
-        file_put_contents($file, json_encode($attrs, JSON_PRETTY_PRINT) . "\n", FILE_APPEND);
+        writeLog(json_encode($attrs, JSON_PRETTY_PRINT));
         
         $irma_attributes = map_saml_attributes($attrs);
         $validity = (new DateTime(VALIDITY))->getTimestamp();
@@ -165,6 +160,14 @@ function handle_request() {
 
     } else {
         require PAGE_LOGIN;
+    }
+}
+
+function writeLog($message) {
+    if (ENABLE_IRMA_LOGGING) {
+        $timestamp = date('Y-m-d H:i:s');
+        $logMessage = "[$timestamp] $message" . PHP_EOL;
+        file_put_contents(LOG_FILE, $logMessage, FILE_APPEND);
     }
 }
 

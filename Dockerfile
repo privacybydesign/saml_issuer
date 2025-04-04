@@ -1,57 +1,50 @@
-FROM node:18 AS builder
-
-RUN apt-get update && apt-get install -y \
-    php \
-    php-cli \
-    php-zip \
-    php-xml \
-    php-mbstring \
-    php-curl \
-    php-sqlite3 \
-    php-ldap \
-    unzip \
-    cron
-
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
+####################
+# Build image
+####################
+FROM node:22-alpine AS builder
 WORKDIR /app
 
-COPY . .
+COPY js/ ./js/
+COPY css/ ./css/
+COPY yarn.lock .
+COPY package.json .
+COPY build.sh .
 
-RUN composer install
 RUN yarn install
 
 RUN chmod +x build.sh
 RUN ./build.sh
 
+####################
+# Runtime image
+####################
+FROM cirrusid/simplesamlphp:v2.3.7 AS runtime
 
-RUN chmod +x setup-php.sh
-RUN ./setup-php.sh
+ENV SSP_NEW_UI=true
 
-FROM php:8.2-apache
+# Install SimpleSAMLphp modules
+WORKDIR ${SSP_DIR}
+RUN composer config prefer-stable true \
+        && composer require --update-no-dev cirrusidentity/simplesamlphp-module-authoauth2:4.1.0
 
-COPY --from=builder /app/ /var/www/html/
+RUN mkdir -p /var/data/simplesamlphp
+RUN mkdir -p /var/log/simplesamlphp
 
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html
+RUN chown -R www-data:www-data /var/data/simplesamlphp && chmod -R 750 /var/data/simplesamlphp
+RUN chown -R www-data:www-data /var/log/simplesamlphp && chmod -R 750 /var/log/simplesamlphp
 
-RUN ln -s simplesamlphp/public simplesaml
-RUN mkdir -p /var/cache/simplesamlphp/core
-RUN chown -R www-data:www-data /var/cache/simplesamlphp
-RUN chmod -R 755 /var/cache/simplesamlphp
+# Add build files
+COPY --from=builder /app/css/                /var/www/css/
+COPY --from=builder /app/js/                 /var/www/js/
 
-RUN mkdir -p /var/simplesamlphp/tmp
-RUN mkdir -p /var/simplesamlphp/data
-RUN mkdir -p /var/simplesamlphp/log
+# Overwrite default Apache config
+COPY apache.conf /etc/apache2/sites-available/ssp.conf
 
-RUN chown -R www-data:www-data /var/simplesamlphp/tmp && chmod -R 750 /var/simplesamlphp/tmp
-RUN chown -R www-data:www-data /var/simplesamlphp/data && chmod -R 750 /var/simplesamlphp/data
-RUN chown -R www-data:www-data /var/simplesamlphp/log && chmod -R 750 /var/simplesamlphp/log
+# Add runtime startup script
+COPY run-on-start.sh /opt/simplesaml/
+RUN chmod +x /opt/simplesaml/run-on-start.sh
 
-RUN echo "Listen 8080" >> /etc/apache2/ports.conf
-
-EXPOSE 8080
-
-RUN chmod +x run.sh
-
-CMD ["./run.sh"]
+# Add project files
+COPY linkedin/      /var/www/linkedin/
+COPY surfconext/    /var/www/surfconext/
+COPY *.html *.php   /var/www/
