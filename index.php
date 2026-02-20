@@ -99,13 +99,15 @@ function start_session($sessionrequest) {
 }
 
 function start_issuance_session($irma_attributes, $validity) {
+    $sdJwtBatchSize = defined('IRMA_SDJWT_BATCH_SIZE') ? IRMA_SDJWT_BATCH_SIZE : 0;
+
     $iprequest = [
         "@context" => "https://irma.app/ld/request/issuance/v2",
         "credentials" => [[
             "credential" => CREDENTIAL,
             "validity" => $validity,
             "attributes" => $irma_attributes,
-            "sdJwtBatchSize" => IRMA_SDJWT_BATCH_SIZE
+            "sdJwtBatchSize" => $sdJwtBatchSize
         ]]
     ];
 

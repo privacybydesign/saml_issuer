@@ -14,8 +14,5 @@ if (!getenv('IRMA_ISSUER_ID')) {
 }
 define('IRMA_ISSUER_ID', getenv('IRMA_ISSUER_ID') ?: 'pbdf.pbdf');
 
-// By default, do not issue SD-JWTS, unless configured in the sub-configs (e.g. surfconext/index.php) by setting the IRMA_SDJWT_BATCH_SIZE environment variable
-define('IRMA_SDJWT_BATCH_SIZE', 0);
-
 require_once getenv('SSP_DIR') . '/vendor/autoload.php';
 require_once getenv('SSP_DIR') . '/lib/_autoload.php';
