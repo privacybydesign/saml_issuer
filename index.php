@@ -104,7 +104,8 @@ function start_issuance_session($irma_attributes, $validity) {
         "credentials" => [[
             "credential" => CREDENTIAL,
             "validity" => $validity,
-            "attributes" => $irma_attributes
+            "attributes" => $irma_attributes,
+            "sdJwtBatchSize" => IRMA_SDJWT_BATCH_SIZE
         ]]
     ];
 

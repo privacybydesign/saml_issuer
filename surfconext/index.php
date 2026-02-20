@@ -7,6 +7,7 @@ define('PROVIDER_NAME', 'SURFconext');
 define('CREDENTIAL', IRMA_ISSUER_ID . '.surfnet-2');
 define('IRMA_NAME_ATTRIBUTE', 'fullname');
 define('VALIDITY', '+3 months');
+define('IRMA_SDJWT_BATCH_SIZE', getenv('IRMA_SDJWT_BATCH_SIZE') ?: 50);
 
 $MAP_IRMA_SAML_ATTRIBUTES = [
     'institute'  => 'urn:mace:terena.org:attribute-def:schacHomeOrganization',
