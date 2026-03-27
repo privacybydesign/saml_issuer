@@ -18,14 +18,14 @@ RUN ./build.sh
 ####################
 # Runtime image
 ####################
-FROM cirrusid/simplesamlphp:v2.3.7 AS runtime
+FROM cirrusid/simplesamlphp:v2.5.0 AS runtime
 
 ENV SSP_NEW_UI=true
 
 # Install SimpleSAMLphp modules
 WORKDIR ${SSP_DIR}
 RUN composer config prefer-stable true \
-        && composer require --update-no-dev cirrusidentity/simplesamlphp-module-authoauth2:4.1.0
+        && composer require --update-no-dev cirrusidentity/simplesamlphp-module-authoauth2:^5.0
 
 RUN mkdir -p /var/data/simplesamlphp
 RUN mkdir -p /var/log/simplesamlphp
