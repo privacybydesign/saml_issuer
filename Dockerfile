@@ -36,6 +36,8 @@ RUN chown -R www-data:www-data /var/log/simplesamlphp && chmod -R 750 /var/log/s
 # Add build files
 COPY --from=builder /app/css/                /var/www/css/
 COPY --from=builder /app/js/                 /var/www/js/
+COPY fonts/                                  /var/www/fonts/
+COPY images/                                 /var/www/images/
 
 # Overwrite default Apache config
 COPY apache.conf /etc/apache2/sites-available/ssp.conf

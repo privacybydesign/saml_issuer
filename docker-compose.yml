@@ -1,0 +1,45 @@
+services:
+  saml-issuer:
+    build: .
+    ports:
+      - "8443:443"
+    environment:
+      # Apache/Host config
+      - HTTP_PROTOCOL=https
+      - HOST_NAME=localhost
+      - APACHE_CERT_PATH=/mnt/ssl/tls.crt
+      - APACHE_KEY_PATH=/mnt/ssl/tls.key
+
+      # SimpleSAMLphp config
+      - SIMPLESAMLPHP_CONFIG_DIR=/mnt/simplesamlphp/config
+      - SIMPLESAMLPHP_METADATA_DIR=/mnt/simplesamlphp/metadata
+      - SIMPLESAMLPHP_CERT_DIR=/mnt/simplesamlphp/cert/
+      - SSP_SECRET_SALT=${SSP_SECRET_SALT:-defaultsecretchangeme123456789}
+      - SSP_ADMIN_PASSWORD=${SSP_ADMIN_PASSWORD:-admin}
+
+      # Yivi/IRMA config
+      - IRMA_SERVER_URL=${IRMA_SERVER_URL:-https://is.staging.yivi.app}
+      - API_TOKEN=${API_TOKEN:-}
+      - IRMA_ISSUER_ID=${IRMA_ISSUER_ID:-irma-demo.sidn-pbdf}
+
+      # SURFconext config
+      - SURFCONEXT_IDP_METADATA_URL=${SURFCONEXT_IDP_METADATA_URL:-https://engine.test.surfconext.nl/authentication/idp/metadata}
+
+      # LinkedIn OAuth config (optional)
+      - LINKEDIN_CLIENT_ID=${LINKEDIN_CLIENT_ID:-}
+      - LINKEDIN_CLIENT_SECRET=${LINKEDIN_CLIENT_SECRET:-}
+    volumes:
+      # SimpleSAMLphp configuration files
+      - ./config/simplesamlphp:/mnt/simplesamlphp/config:ro
+      # SimpleSAMLphp metadata
+      - ./config/metadata:/mnt/simplesamlphp/metadata:ro
+      # SimpleSAMLphp certificates (SAML signing)
+      - ./config/cert:/mnt/simplesamlphp/cert:ro
+      # SSL/TLS certificates for Apache
+      - ./config/ssl:/mnt/ssl:ro
+    healthcheck:
+      test: ["CMD", "curl", "-k", "-f", "https://localhost/healthy.html"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 15s

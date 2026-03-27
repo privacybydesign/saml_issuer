@@ -3,56 +3,46 @@
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <script type="text/javascript">
-        let irma_server_url = "<?= IRMA_SERVER_URL ?>";
-        let lang = "<?= LANG ?>";
-    </script>
-
-	<link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-	<script type="text/javascript" src="../js/jquery.min.js"></script>
-	<script type="text/javascript" src="../js/yivi.js" async defer></script>
-	<script type="text/javascript" src="../js/verify.js"></script>
-
+	<link href="../css/style.css" rel="stylesheet" type="text/css" />
 	<title><?= PROVIDER_NAME ?> attributes loaded</title>
 </head>
-
 <body>
-	<div class="container">
-		<div class="row">
-			<div class="col-xs-12 col-md-8 col-lg-6 col-md-offset-2 col-lg-offset-3">
-				<h2><?= PROVIDER_NAME ?> attributes have been loaded</h2>
-
-				<div class="alert alert-warning hide" role="alert">
-					<strong>Cancelled</strong><br/>
-					<small class="message"></small>
-				</div>
-				<div class="alert alert-danger hide" role="alert">
-					<strong>Error</strong>: cannot verify credential.<br/>
-					<small class="message"></small>
+	<div id="container">
+		<header>
+			<div class="header-spacer"></div>
+			<h1><?= PROVIDER_NAME ?> attributes have been loaded</h1>
+			<?php
+			$path = preg_replace('#^/(nl|en)/#', '/', $_SERVER['REQUEST_URI']);
+			$path = preg_replace('/\?.*$/', '', $path);
+			$qs = $_SERVER['QUERY_STRING'] ? '?' . $_SERVER['QUERY_STRING'] : '';
+			?>
+			<div class="lang-switch">
+				<a href="/nl<?= $path . $qs ?>">NL</a>
+				<a href="/en<?= $path . $qs ?>" class="active">EN</a>
+			</div>
+		</header>
+		<main>
+			<div class="content">
+				<div class="imageContainer">
+					<img src="../images/done.png" alt="Success" />
 				</div>
 
 				<p>
-					Congratulations! Your attributes have been added to your IRMA
+					Congratulations! Your attributes have been added to your Yivi
 					app. They should now be visible there.
 				</p>
 
 				<p>
-					You can now use these attributes on any website that accpets them. <br/>
-					By clicking the button below you can test this, by disclosing your name.
+					You can now use these attributes on any website that accepts them.
 				</p>
-
-				<p>
-					<button id="verify_btn" class="btn btn-primary">Disclose name attribute</button>
-					<a href="/issuance/">Back to attribute issuance</a>
-				</p>
-
-				<div id="token-content" class="hide">
-					<h3>Result</h3>
-					<p><strong>Name</strong>: <span class="name"></span></p>
-				</div>
 			</div>
-		</div>
+		</main>
+		<footer>
+			<div class="actions">
+				<div></div>
+				<a href="/issuance/" class="primary">Back to attribute issuance</a>
+			</div>
+		</footer>
 	</div>
 </body>
 </html>
