@@ -39,7 +39,7 @@
 		<footer>
 			<div class="actions">
 				<div></div>
-				<a href="/nl/" class="primary">Meer attributen laden</a>
+				<a href="?action=logout" class="primary">Uitloggen</a>
 			</div>
 		</footer>
 	</div>

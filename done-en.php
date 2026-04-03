@@ -40,7 +40,7 @@
 		<footer>
 			<div class="actions">
 				<div></div>
-				<a href="/en/" class="primary">Load more attributes</a>
+				<a href="?action=logout" class="primary">Log out</a>
 			</div>
 		</footer>
 	</div>
