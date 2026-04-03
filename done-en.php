@@ -40,7 +40,7 @@
 		<footer>
 			<div class="actions">
 				<div></div>
-				<a href="/issuance/" class="primary">Back to attribute issuance</a>
+				<a href="/en/" class="primary">Load more attributes</a>
 			</div>
 		</footer>
 	</div>

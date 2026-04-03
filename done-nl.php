@@ -39,7 +39,7 @@
 		<footer>
 			<div class="actions">
 				<div></div>
-				<a href="/uitgifte/" class="primary">Terug naar attribuut-uitgifte</a>
+				<a href="/nl/" class="primary">Meer attributen laden</a>
 			</div>
 		</footer>
 	</div>
