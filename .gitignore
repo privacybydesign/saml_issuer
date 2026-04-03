@@ -1,2 +1,4 @@
 .env
 mounts/
+config/
+node_modules/

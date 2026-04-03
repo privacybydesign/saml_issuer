@@ -18,14 +18,14 @@ RUN ./build.sh
 ####################
 # Runtime image
 ####################
-FROM cirrusid/simplesamlphp:v2.3.7 AS runtime
+FROM cirrusid/simplesamlphp:v2.5.0 AS runtime
 
 ENV SSP_NEW_UI=true
 
 # Install SimpleSAMLphp modules
 WORKDIR ${SSP_DIR}
 RUN composer config prefer-stable true \
-        && composer require --update-no-dev cirrusidentity/simplesamlphp-module-authoauth2:4.1.0
+        && composer require --update-no-dev cirrusidentity/simplesamlphp-module-authoauth2:^5.0
 
 RUN mkdir -p /var/data/simplesamlphp
 RUN mkdir -p /var/log/simplesamlphp
@@ -36,6 +36,8 @@ RUN chown -R www-data:www-data /var/log/simplesamlphp && chmod -R 750 /var/log/s
 # Add build files
 COPY --from=builder /app/css/                /var/www/css/
 COPY --from=builder /app/js/                 /var/www/js/
+COPY fonts/                                  /var/www/fonts/
+COPY images/                                 /var/www/images/
 
 # Overwrite default Apache config
 COPY apache.conf /etc/apache2/sites-available/ssp.conf
