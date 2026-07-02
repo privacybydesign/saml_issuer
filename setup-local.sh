@@ -41,7 +41,7 @@ if [ ! -f "$(dirname "$0")/.env" ]; then
     cat > "$(dirname "$0")/.env" << 'EOF'
 # SimpleSAMLphp configuration
 SSP_SECRET_SALT=localdevelopmentsalt123456789
-SSP_ADMIN_PASSWORD=admin
+SSP_ADMIN_PASSWORD=localdev-change-me
 
 # Yivi/IRMA configuration
 IRMA_SERVER_URL=https://is.staging.yivi.app

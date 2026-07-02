@@ -1,3 +1,8 @@
+// Configuration is passed from the server via data-* attributes on <body>
+// (instead of an inline <script>) so that a strict script-src CSP can be used.
+var irma_server_url = document.body.dataset.irmaServerUrl;
+var lang = document.body.dataset.lang;
+
 var MESSAGES = {
 	'en': {
 		'failed-starting-irma-session': 'Failed to load attributes: cannot start IRMA session at IRMA server. Is there a problem with the connection?',
