@@ -6,7 +6,7 @@
 	<link href="../css/style.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="../js/jquery.min.js"></script>
 	<script type="text/javascript" src="../js/yivi.js"></script>
-	<script type="text/javascript" src="../js/enroll.js"></script>
+	<script type="text/javascript" src="../js/enroll.js" defer></script>
 	<title><?= PROVIDER_NAME ?> attributes</title>
 </head>
 <body data-irma-server-url="<?= h(IRMA_SERVER_URL) ?>" data-lang="<?= h(LANG) ?>">
