@@ -47,28 +47,22 @@ function map_saml_attributes($saml_attributes) {
     global $MAP_IRMA_SAML_ATTRIBUTES;
     $irma_attributes = [];
     foreach ($MAP_IRMA_SAML_ATTRIBUTES as $irma_key => $saml_key) {
-        writeLog("50: " . json_encode($saml_key, JSON_PRETTY_PRINT));
-
         $value = NULL;
         if (isset($saml_attributes[$saml_key]) &&
                 count($saml_attributes[$saml_key]) > 0 &&
                 $saml_attributes[$saml_key] !== NULL) {
             $value = $saml_attributes[$saml_key][0];
-            writeLog("57: " . $irma_key . ", " . $value);
         }
         if ($irma_key === 'dateofbirth') {
+            if ($value === NULL)
+                $value = ' '; // Fallback to old solution for absent attributes: dateofbirth is not (yet) optional :(
             if (preg_match('#^[0-9]{2}/[0-9]{2}/[0-9]{4}$#', $value)) {
                 $parts = explode('/', $value);
                 $value = "{$parts[1]}-{$parts[0]}-{$parts[2]}";
             }
-            if ($value === NULL)
-                $value = ' '; // Fallback to old solution for absent attributes: dateofbirth is not (yet) optional :(
         }
         if ($value !== NULL) {
             $irma_attributes[$irma_key] = $value;
-            writeLog("69: " . $irma_key . ", " . $value);
-        } else {
-            writeLog("71: " . $irma_key . ", " . $value . " = NULL");
         }
     }
 
