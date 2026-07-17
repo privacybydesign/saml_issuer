@@ -1,3 +1,6 @@
+// Configuration is passed from the server via data-* attributes on <body>
+// (instead of an inline <script>) so that a strict script-src CSP can be used.
+
 var MESSAGES = {
 	'en': {
 		'failed-starting-irma-session': 'Failed to load attributes: cannot start IRMA session at IRMA server. Is there a problem with the connection?',
@@ -8,6 +11,12 @@ var MESSAGES = {
 }[$(document.documentElement).prop('lang')];
 
 $(function() {
+	// Read the server-provided config now that <body> is guaranteed to exist.
+	// (This script is loaded from <head>, so reading document.body at top level
+	// would run before the element is parsed and throw a TypeError.)
+	var irma_server_url = document.body.dataset.irmaServerUrl;
+	var lang = document.body.dataset.lang;
+
 	function onSuccess() {
 		window.location = "?action=done";
 	}
