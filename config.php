@@ -1,5 +1,8 @@
 <?php
 
+// Pure, SSP-free helpers (unit-tested in tests/).
+require_once __DIR__ . '/helpers.php';
+
 // Only set language if it is not already set in the querystring
 define('LANG', getenv('lang') ?: 'nl');
 
