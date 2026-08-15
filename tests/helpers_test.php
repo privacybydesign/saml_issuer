@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Unit tests for the pure output-escaping helpers in helpers.php.
+ * Unit tests for the pure helpers in helpers.php.
  *
  * These cover the security fix for the reflected XSS / attribute-injection
  * findings: h() must neutralise HTML/attribute metacharacters, and
@@ -67,6 +67,20 @@ check('https URL preserved',
 check('uppercase scheme accepted (case-insensitive)',
     'HTTPS://example.com',
     safe_http_url('HTTPS://example.com'));
+
+echo "normalize_dateofbirth():\n";
+// Absent attribute -> single-space fallback (dateofbirth is not optional).
+check('null -> single space', ' ', normalize_dateofbirth(null));
+// dd/mm/yyyy -> mm-dd-yyyy.
+check('dd/mm/yyyy reformatted to mm-dd-yyyy', '11-25-1990', normalize_dateofbirth('25/11/1990'));
+check('keeps leading zeros', '02-01-2000', normalize_dateofbirth('01/02/2000'));
+// Non-matching values pass through unchanged (no null to preg_match).
+check('already-normalised value unchanged', '11-25-1990', normalize_dateofbirth('11-25-1990'));
+check('ISO date unchanged', '1990-11-25', normalize_dateofbirth('1990-11-25'));
+check('empty string unchanged', '', normalize_dateofbirth(''));
+check('non-date string unchanged', 'not-a-date', normalize_dateofbirth('not-a-date'));
+// Too-short / malformed digit groups do not match the anchored pattern.
+check('single-digit groups unchanged', '1/2/1990', normalize_dateofbirth('1/2/1990'));
 
 echo "\n";
 if ($failures === 0) {

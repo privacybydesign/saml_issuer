@@ -14,7 +14,7 @@ if (!getenv('IRMA_ISSUER_ID')) {
 }
 define('IRMA_ISSUER_ID', getenv('IRMA_ISSUER_ID') ?: 'pbdf.pbdf');
 
-// Pure output-escaping helpers h() and safe_http_url() (unit-tested in tests/).
+// Pure, SSP-free helpers (unit-tested in tests/).
 require_once __DIR__ . '/helpers.php';
 
 require_once getenv('SSP_DIR') . '/vendor/autoload.php';

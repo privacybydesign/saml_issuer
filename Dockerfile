@@ -25,7 +25,7 @@ ENV SSP_NEW_UI=true
 # Install SimpleSAMLphp modules
 WORKDIR ${SSP_DIR}
 RUN composer config prefer-stable true \
-        && composer require --update-no-dev cirrusidentity/simplesamlphp-module-authoauth2:^5.0
+        && composer require --update-no-dev --with-all-dependencies cirrusidentity/simplesamlphp-module-authoauth2:^5.0
 
 RUN mkdir -p /var/data/simplesamlphp
 RUN mkdir -p /var/log/simplesamlphp

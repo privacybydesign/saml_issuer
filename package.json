@@ -4,7 +4,7 @@
   "repository": "https://github.com/privacybydesign/saml_issuer",
   "license": "MIT",
   "dependencies": {
-    "@privacybydesign/yivi-frontend": "^0.2.1",
-    "jquery": "^3.5.0"
+    "@privacybydesign/yivi-frontend": "^1.0.2",
+    "jquery": "^4.0.0"
   }
 }
