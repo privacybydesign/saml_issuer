@@ -1,3 +1,9 @@
+# Refuse to start with the well-known default admin password.
+if [ "${SSP_ADMIN_PASSWORD}" = "admin" ]; then
+    echo "FATAL: SSP_ADMIN_PASSWORD is set to the insecure default 'admin'. Refusing to start." >&2
+    exit 1
+fi
+
 # Higher memory limits are needed for EduGAIN metadata refresh.
 # As we are not using EduGAIN (yet), we don't need to update the memory limits now.
 

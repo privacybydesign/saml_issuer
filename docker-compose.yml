@@ -14,8 +14,9 @@ services:
       - SIMPLESAMLPHP_CONFIG_DIR=/mnt/simplesamlphp/config
       - SIMPLESAMLPHP_METADATA_DIR=/mnt/simplesamlphp/metadata
       - SIMPLESAMLPHP_CERT_DIR=/mnt/simplesamlphp/cert/
-      - SSP_SECRET_SALT=${SSP_SECRET_SALT:-defaultsecretchangeme123456789}
-      - SSP_ADMIN_PASSWORD=${SSP_ADMIN_PASSWORD:-admin}
+      # No defaults: startup fails loudly if these are not provided (see sample.env).
+      - SSP_SECRET_SALT=${SSP_SECRET_SALT:?SSP_SECRET_SALT must be set to a long random value (see sample.env)}
+      - SSP_ADMIN_PASSWORD=${SSP_ADMIN_PASSWORD:?SSP_ADMIN_PASSWORD must be set (see sample.env)}
 
       # Yivi/IRMA config
       - IRMA_SERVER_URL=${IRMA_SERVER_URL:-https://is.staging.yivi.app}

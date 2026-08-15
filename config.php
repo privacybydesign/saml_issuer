@@ -1,8 +1,5 @@
 <?php
 
-// Pure, SSP-free helpers (unit-tested in tests/).
-require_once __DIR__ . '/helpers.php';
-
 // Only set language if it is not already set in the querystring
 define('LANG', getenv('lang') ?: 'nl');
 
@@ -16,6 +13,9 @@ if (!getenv('IRMA_ISSUER_ID')) {
     fwrite(STDOUT, "WARNING: environment variable IRMA_ISSUER_ID not set, using default value 'pbdf.pbdf'." . PHP_EOL);
 }
 define('IRMA_ISSUER_ID', getenv('IRMA_ISSUER_ID') ?: 'pbdf.pbdf');
+
+// Pure, SSP-free helpers (unit-tested in tests/).
+require_once __DIR__ . '/helpers.php';
 
 require_once getenv('SSP_DIR') . '/vendor/autoload.php';
 require_once getenv('SSP_DIR') . '/lib/_autoload.php';
