@@ -31,10 +31,12 @@ A list of optional environment variables (expect for `APACHE_CERT_NAME`, which) 
 docker build . -t saml-issuer
 ```
 
-In case you're using the wildcard testing certificate (see below), make sure to always build using `--pull` to get the latest Cirrus image (so Docker updates the cached image if needed). This way, the testing certificate will always be valid.
+The image is built on `php:8.4-apache`. Build with `--pull` so Docker fetches the latest base image, which is where PHP security fixes land.
 ```bash
 docker build . -t saml-issuer --pull
 ```
+
+SimpleSAMLphp is pinned by `SSP_VERSION` and `SSP_HASH` in the `Dockerfile`. To upgrade, set both to the new release and its `simplesamlphp-<version>-full.tar.gz` sha256 shown on the [GitHub release page](https://github.com/simplesamlphp/simplesamlphp/releases).
 
 ### Configure `.env` file
 Create a `.env` file for the configuration of the container.
@@ -42,13 +44,7 @@ SimpleSAMLphp config and metadata template files can be found in the [SimpleSAML
 
 ### Obtain SSL key/cert
 In order to run the image, you need a valid SSL key/cert combo for the `HOST_NAME` you want to run.
-This is also true for local development. You can provide your own keys via volume-mounts, or use the local-stack key as described below.
-
-The image is created with a wildcard certificate for testing, which can be found at the locations below.
-If you use this cert, make sure the `HOST_NAME` matches `*.local.stack-dev.cirrusidentity.com`, where `*` can be any valid subdomain.
-The certificate expires every 90 days. If it is expired, you can delete the 
-- APACHE_CERT_PATH: /etc/ssl/certs/local-stack-dev.pem
-- APACHE_KEY_PATH: /etc/ssl/private/local-stack-dev.key
+This is also true for local development. The image does not contain a certificate: mount your own and point `APACHE_CERT_PATH` and `APACHE_KEY_PATH` at it. `setup-local.sh` generates a self-signed pair for local development.
 
 ### Change HOSTS file
 Make sure to add an entry to your HOSTS file, pointing the `HOST_NAME` configured in the `.env` file to `127.0.0.1`.
