@@ -17,8 +17,8 @@
 			$qs = $_SERVER['QUERY_STRING'] ? '?' . $_SERVER['QUERY_STRING'] : '';
 			?>
 			<div class="lang-switch">
-				<a href="/nl<?= $path . $qs ?>">NL</a>
-				<a href="/en<?= $path . $qs ?>" class="active">EN</a>
+				<a href="/nl<?= escape_html($path . $qs) ?>">NL</a>
+				<a href="/en<?= escape_html($path . $qs) ?>" class="active">EN</a>
 			</div>
 		</header>
 		<main>

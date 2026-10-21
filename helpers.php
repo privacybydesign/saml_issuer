@@ -8,6 +8,13 @@
  */
 
 /**
+ * Escape a value for HTML text and quoted attribute contexts.
+ */
+function escape_html($value): string {
+    return htmlspecialchars((string) $value, ENT_QUOTES);
+}
+
+/**
  * Normalise a SAML `dateofbirth` value for the IRMA attribute map.
  *
  * - absent / null            -> ' ' (dateofbirth is not (yet) optional, so a

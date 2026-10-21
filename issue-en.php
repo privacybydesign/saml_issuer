@@ -24,8 +24,8 @@
 			$qs = $_SERVER['QUERY_STRING'] ? '?' . $_SERVER['QUERY_STRING'] : '';
 			?>
 			<div class="lang-switch">
-				<a href="/nl<?= $path . $qs ?>">NL</a>
-				<a href="/en<?= $path . $qs ?>" class="active">EN</a>
+				<a href="/nl<?= escape_html($path . $qs) ?>">NL</a>
+				<a href="/en<?= escape_html($path . $qs) ?>" class="active">EN</a>
 			</div>
 		</header>
 		<main>
@@ -62,7 +62,7 @@
 				<p>Click here to add this attributes to your Yivi app.</p>
 
 				<hr />
-				<p class="small-text">You are logged in as <?= $irma_attributes['firstname'] ?> (<a href="?action=logout">Log out</a>)</p>
+				<p class="small-text">You are logged in as <?= escape_html($irma_attributes['firstname']) ?> (<a href="?action=logout">Log out</a>)</p>
 <?php } ?>
 			</div>
 		</main>
