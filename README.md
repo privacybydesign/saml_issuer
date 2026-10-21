@@ -5,7 +5,7 @@ Currently supports SURFconext and LinkedIN.
 
 # Environment variables
 See `sample.env` for a list of environment variables. Copy the file to `.env` and fill in the secrets.
-A list of optional environment variables (expect for `APACHE_CERT_NAME`, which) for SimpleSAMLphp Docker image [can be found here](https://github.com/cirrusidentity/docker-simplesamlphp/tree/master?tab=readme-ov-file#environmental-variables).
+The SimpleSAMLphp config in the image (`ssp-config/config-override-base.php`) also reads these optional environment variables: `SSP_BASE_URL_PATH`, `SSP_ADMIN_PASSWORD`, `SSP_SECRET_SALT`, `SSP_LOG_LEVEL`, `SSP_LOG_HANDLER`, `SSP_NEW_UI`, `SSP_ENABLE_IDP` and `SSP_ENABLED_MODULES` (space separated).
 
 | Variable | description | required |
 | --- | --- | --- |
