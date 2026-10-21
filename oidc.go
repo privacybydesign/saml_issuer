@@ -121,6 +121,7 @@ func (c *oidcClient) verifyIDToken(ctx context.Context, provider *oidc.Provider,
 	if err != nil {
 		return nil, err
 	}
+
 	if !slices.Contains(c.tokenIssuers, idToken.Issuer) {
 		return nil, fmt.Errorf("unexpected issuer %q", idToken.Issuer)
 	}
