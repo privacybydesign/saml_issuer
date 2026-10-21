@@ -65,8 +65,10 @@ needed by the service.
 
 Login state is kept in memory, behind an unguessable session cookie
 (`SameSite=None; Secure`, so it is sent with the cross-site POST to the ACS).
-A session lasts 8 hours from its creation and is replaced by a new ID at login.
-Because the state is in memory, run one replica.
+A session lasts 30 minutes until the user logs in. At login it is replaced by a
+new ID and lasts 8 hours from then. The store holds at most 50,000 sessions: when
+it is full, the oldest session without a login is dropped to make room, and
+logins are kept. Because the state is in memory, run one replica.
 
 ## SAML validation
 

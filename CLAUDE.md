@@ -43,5 +43,8 @@ LinkedIn (OIDC). It replaced a SimpleSAMLphp/PHP service.
   every file in the repository and expect it not to be served.
 - The session store is in memory, hence one replica. The cookie is
   `SameSite=None` because the SAML response is a cross-site POST.
+- Anyone can create a session. One without a login lives 30 minutes and is the
+  first to be evicted when the store is full. `Rotate` (the login) grants the 8
+  hours. Do not give a new session the full lifetime.
 - The ops repo (`saml_issuer_ops`) deploys on a PR, so changes to it are listed in
   the PR description instead of opened as a PR.
