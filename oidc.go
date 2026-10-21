@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"log/slog"
 	"net/http"
+	"slices"
 	"sync"
 	"time"
 
@@ -36,7 +37,9 @@ const (
 type oidcClient struct {
 	oauth  oauth2.Config
 	issuer string
-	http   *http.Client
+	// tokenIssuers are the values accepted in the iss claim of an ID token.
+	tokenIssuers []string
+	http         *http.Client
 
 	mu       sync.Mutex
 	provider *oidc.Provider
@@ -44,8 +47,9 @@ type oidcClient struct {
 
 func newOIDCClient(cfg config) *oidcClient {
 	return &oidcClient{
-		issuer: cfg.linkedInIssuer,
-		http:   &http.Client{Timeout: oidcTimeout},
+		issuer:       cfg.linkedInIssuer,
+		tokenIssuers: []string{cfg.linkedInIssuer, cfg.linkedInTokenIssuer},
+		http:         &http.Client{Timeout: oidcTimeout},
 		oauth: oauth2.Config{
 			ClientID:     cfg.linkedInClientID,
 			ClientSecret: cfg.linkedInClientSecret,
@@ -106,6 +110,24 @@ func (c *oidcClient) authURL(ctx context.Context, state string) (string, error) 
 	return conf.AuthCodeURL(state), nil
 }
 
+// verifyIDToken checks the signature, audience and expiry, and that the issuer
+// is one of tokenIssuers. The library compares iss with the one issuer of the
+// discovery document, but LinkedIn's documentation gives another one for its
+// tokens.
+func (c *oidcClient) verifyIDToken(ctx context.Context, provider *oidc.Provider, clientID, raw string) (*oidc.IDToken, error) {
+	verifier := provider.Verifier(&oidc.Config{ClientID: clientID, SupportedSigningAlgs: []string{oidc.RS256}, SkipIssuerCheck: true})
+
+	idToken, err := verifier.Verify(ctx, raw)
+	if err != nil {
+		return nil, err
+	}
+	if !slices.Contains(c.tokenIssuers, idToken.Issuer) {
+		return nil, fmt.Errorf("unexpected issuer %q", idToken.Issuer)
+	}
+
+	return idToken, nil
+}
+
 // claims exchanges the authorization code and returns the user's claims, as
 // released by the provider's userinfo endpoint. The ID token is verified and
 // must belong to the same subject.
@@ -126,7 +148,7 @@ func (c *oidcClient) claims(ctx context.Context, code string) (map[string][]stri
 		return nil, errors.New("no ID token in the token response")
 	}
 
-	idToken, err := provider.Verifier(&oidc.Config{ClientID: conf.ClientID, SupportedSigningAlgs: []string{oidc.RS256}}).Verify(ctx, rawIDToken)
+	idToken, err := c.verifyIDToken(ctx, provider, conf.ClientID, rawIDToken)
 	if err != nil {
 		return nil, fmt.Errorf("verify ID token: %w", err)
 	}

@@ -141,6 +141,8 @@ func TestLinkedInRejectsBadTokens(t *testing.T) {
 		"token endpoint": func(o *fakeOIDC) { o.failTokenEndpoint() },
 		"wrong audience": func(o *fakeOIDC) { o.setIDToken("aud", "someone-else") },
 		"wrong issuer":   func(o *fakeOIDC) { o.setIDToken("iss", "https://evil.example.org") },
+		"lookalike":      func(o *fakeOIDC) { o.setIDToken("iss", "https://www.linkedin.com.evil.example") },
+		"no issuer":      func(o *fakeOIDC) { o.setIDToken("iss", "") },
 		"expired":        func(o *fakeOIDC) { o.setIDToken("exp", time.Now().Add(-time.Hour).Unix()) },
 		"other subject":  func(o *fakeOIDC) { o.setUserinfo("sub", "linkedin-user-2") },
 		"no subject":     func(o *fakeOIDC) { o.setIDToken("sub", "") },
@@ -159,6 +161,17 @@ func TestLinkedInRejectsBadTokens(t *testing.T) {
 			assert.Equal(t, http.StatusUnauthorized, h.get("/linkedin/?output=irma-session").StatusCode)
 		})
 	}
+}
+
+// LinkedIn's documentation gives the bare domain as the issuer of its ID
+// tokens, while its discovery document says https://www.linkedin.com/oauth.
+func TestLinkedInBareDomainIssuer(t *testing.T) {
+	h := newHarness(t, harnessOptions{linkedIn: true})
+	h.oidc.setIDToken("iss", "https://www.linkedin.com")
+
+	h.loginLinkedIn("/linkedin/")
+
+	assert.Contains(t, body(t, h.get("/linkedin/")), "Beschikbare LinkedIn attributen")
 }
 
 func TestLinkedInWrongKey(t *testing.T) {

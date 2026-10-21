@@ -42,6 +42,7 @@ func TestConfigDefaults(t *testing.T) {
 	assert.Equal(t, 200, cfg.surfnetBatch)
 	assert.Empty(t, cfg.linkedInClientID)
 	assert.Equal(t, "https://www.linkedin.com/oauth", cfg.linkedInIssuer)
+	assert.Equal(t, "https://www.linkedin.com", cfg.linkedInTokenIssuer)
 	assert.NotNil(t, cfg.spCert)
 }
 

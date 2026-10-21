@@ -46,5 +46,8 @@ LinkedIn (OIDC). It replaced a SimpleSAMLphp/PHP service.
 - Anyone can create a session. One without a login lives 30 minutes and is the
   first to be evicted when the store is full. `Rotate` (the login) grants the 8
   hours. Do not give a new session the full lifetime.
+- LinkedIn's discovery document says the issuer is `https://www.linkedin.com/oauth`,
+  its documentation gives `https://www.linkedin.com` for ID tokens. `oidc.go`
+  accepts both. Narrow it once the `iss` of a real token is known.
 - The ops repo (`saml_issuer_ops`) deploys on a PR, so changes to it are listed in
   the PR description instead of opened as a PR.

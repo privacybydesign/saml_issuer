@@ -23,6 +23,8 @@ const (
 	idpMetadataFile = "saml20-idp-remote.xml"
 
 	linkedInIssuer = "https://www.linkedin.com/oauth"
+	// linkedInTokenIssuer is the issuer LinkedIn documents for its ID tokens.
+	linkedInTokenIssuer = "https://www.linkedin.com"
 )
 
 type config struct {
@@ -40,6 +42,7 @@ type config struct {
 	linkedInClientID     string
 	linkedInClientSecret string
 	linkedInIssuer       string
+	linkedInTokenIssuer  string
 }
 
 // loadConfig reads the environment variables the PHP service used, so the
@@ -53,6 +56,7 @@ func loadConfig(getenv func(string) string) (config, error) {
 		linkedInClientID:     getenv("LINKEDIN_CLIENT_ID"),
 		linkedInClientSecret: getenv("LINKEDIN_CLIENT_SECRET"),
 		linkedInIssuer:       linkedInIssuer,
+		linkedInTokenIssuer:  linkedInTokenIssuer,
 		surfnetBatch:         defaultBatchSize,
 	}
 
