@@ -316,6 +316,18 @@ func TestAssertionReplay(t *testing.T) {
 	assert.Nil(t, attributes)
 }
 
+func TestWrongResponseInResponseTo(t *testing.T) {
+	f := newFixture(t)
+	m := f.build(f.options())
+
+	// The assertion answers _request-1. Only the unsigned Response says otherwise.
+	m.Response.CreateAttr("InResponseTo", "_request-2")
+	attributes, err := f.validate(m)
+
+	require.ErrorIs(t, err, saml.ErrInResponseTo)
+	assert.Nil(t, attributes)
+}
+
 func TestTimeWindow(t *testing.T) {
 	skew := saml.ClockSkew
 	tests := map[string]struct {
