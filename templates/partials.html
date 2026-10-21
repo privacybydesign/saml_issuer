@@ -1,0 +1,4 @@
+{{define "langswitch"}}<div class="lang-switch">
+				<a href="{{.NLURL}}"{{if eq .Lang "nl"}} class="active"{{end}}>NL</a>
+				<a href="{{.ENURL}}"{{if eq .Lang "en"}} class="active"{{end}}>EN</a>
+			</div>{{end}}

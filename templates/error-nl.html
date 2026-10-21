@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link href="/css/style.css" rel="stylesheet" type="text/css" />
+	<title>Inloggen met {{.ProviderName}} mislukt</title>
+</head>
+<body>
+	<div id="container">
+		<header>
+			<div class="header-spacer"></div>
+			<h1>Inloggen met {{.ProviderName}} mislukt</h1>
+			{{template "langswitch" .}}
+		</header>
+		<main>
+			<div class="content">
+				<div class="alert alert-danger" role="alert">
+					<strong>Fout</strong>: {{.Message}}
+				</div>
+			</div>
+		</main>
+		<footer>
+			<div class="actions">
+				<div></div>
+				<a href="{{.RetryURL}}" class="primary">Probeer opnieuw</a>
+			</div>
+		</footer>
+	</div>
+</body>
+</html>
