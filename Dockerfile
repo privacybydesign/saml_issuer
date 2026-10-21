@@ -45,6 +45,7 @@ ENV COMPOSER_HOME=/opt/simplesamlphp/.composer \
 
 RUN cp $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
 
+# Lets ARM hosts run the image (as in Cirrus Identity's Dockerfile).
 RUN a2enmod ssl rewrite headers \
     && echo "Mutex posixsem" >> /etc/apache2/apache2.conf
 EXPOSE 443
