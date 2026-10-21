@@ -37,8 +37,18 @@ const (
 	actionDone   = "done"
 	outputIssue  = "irma-session"
 
-	headerCacheControl = "Cache-Control"
-	cacheNoStore       = "no-store"
+	headerCacheControl       = "Cache-Control"
+	cacheNoStore             = "no-store"
+	headerContentType        = "Content-Type"
+	contentTypeText          = "text/plain"
+	contentTypeHTML          = "text/html; charset=utf-8"
+	contentTypeSAMLMetadata  = "application/samlmetadata+xml"
+	headerContentTypeOptions = "X-Content-Type-Options"
+	noSniffValue             = "nosniff"
+
+	loginQuery = "?" + queryAction + "=" + actionLogin
+
+	msgInternalError = "internal error"
 
 	// firstNameKey is the credential attribute the pages greet the user with.
 	firstNameKey = "firstname"
@@ -170,7 +180,7 @@ func healthy(w http.ResponseWriter, r *http.Request) {
 
 func nosniff(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("X-Content-Type-Options", "nosniff")
+		w.Header().Set(headerContentTypeOptions, noSniffValue)
 		next.ServeHTTP(w, r)
 	})
 }

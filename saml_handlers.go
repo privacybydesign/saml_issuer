@@ -22,11 +22,11 @@ func (s *server) spMetadata(w http.ResponseWriter, r *http.Request) {
 	body, err := s.saml.Metadata()
 	if err != nil {
 		slog.Error("build SP metadata", "error", err)
-		http.Error(w, "internal error", http.StatusInternalServerError)
+		http.Error(w, msgInternalError, http.StatusInternalServerError)
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/samlmetadata+xml")
+	w.Header().Set(headerContentType, contentTypeSAMLMetadata)
 	_, _ = w.Write(body)
 }
 
@@ -36,7 +36,7 @@ func (s *server) startSAML(w http.ResponseWriter, r *http.Request, pg page, id s
 	request, err := s.saml.Login(s.idpID)
 	if err != nil {
 		slog.Error("build AuthnRequest", "error", err)
-		http.Error(w, "internal error", http.StatusInternalServerError)
+		http.Error(w, msgInternalError, http.StatusInternalServerError)
 		return
 	}
 

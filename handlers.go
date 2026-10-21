@@ -96,6 +96,6 @@ func (s *server) startIssuance(w http.ResponseWriter, r *http.Request, pg page, 
 		return
 	}
 
-	w.Header().Set("Content-Type", "text/plain")
+	w.Header().Set(headerContentType, contentTypeText)
 	_, _ = w.Write(reply)
 }

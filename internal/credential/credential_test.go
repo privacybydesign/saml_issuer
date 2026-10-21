@@ -9,6 +9,8 @@ import (
 	"github.com/privacybydesign/saml_issuer/internal/credential"
 )
 
+const issuerID = "pbdf.pbdf"
+
 func TestSurfnetMapsAllAttributes(t *testing.T) {
 	released := map[string][]string{
 		"urn:mace:terena.org:attribute-def:schacHomeOrganization": {"example.org"},
@@ -21,7 +23,7 @@ func TestSurfnetMapsAllAttributes(t *testing.T) {
 		"urn:mace:dir:attribute-def:mail":                         {"jane@example.org"},
 	}
 
-	attributes := credential.Surfnet("pbdf.pbdf", 200).Map(released)
+	attributes := credential.Surfnet(issuerID, 200).Map(released)
 
 	assert.Equal(t, []credential.Attribute{
 		{Key: "institute", Value: "example.org"},
@@ -43,7 +45,7 @@ func TestSurfnetSkipsMissing(t *testing.T) {
 		"urn:oid:0.9.2342.19200300.100.1.3":      {"not@used.example"},
 	}
 
-	attributes := credential.Surfnet("pbdf.pbdf", 200).Map(released)
+	attributes := credential.Surfnet(issuerID, 200).Map(released)
 
 	assert.Equal(t, []credential.Attribute{
 		{Key: "id", Value: "jdoe"},
@@ -60,7 +62,7 @@ func TestLinkedInMapsClaims(t *testing.T) {
 		"picture":     {"https://example.org/p.jpg"},
 	}
 
-	attributes := credential.LinkedIn("pbdf.pbdf").Map(released)
+	attributes := credential.LinkedIn(issuerID).Map(released)
 
 	assert.Equal(t, []credential.Attribute{
 		{Key: "fullname", Value: "Jane Doe"},
@@ -71,26 +73,26 @@ func TestLinkedInMapsClaims(t *testing.T) {
 }
 
 func TestMapOfNothingIsEmpty(t *testing.T) {
-	assert.Empty(t, credential.Surfnet("pbdf.pbdf", 200).Map(nil))
-	assert.Empty(t, credential.LinkedIn("pbdf.pbdf").Map(nil))
+	assert.Empty(t, credential.Surfnet(issuerID, 200).Map(nil))
+	assert.Empty(t, credential.LinkedIn(issuerID).Map(nil))
 }
 
 func TestCredentialIdentifiers(t *testing.T) {
-	assert.Equal(t, "pbdf.pbdf.surfnet-2", credential.Surfnet("pbdf.pbdf", 200).ID)
+	assert.Equal(t, "pbdf.pbdf.surfnet-2", credential.Surfnet(issuerID, 200).ID)
 	assert.Equal(t, "irma-demo.sidn-pbdf.surfnet-2", credential.Surfnet("irma-demo.sidn-pbdf", 200).ID)
-	assert.Equal(t, "pbdf.pbdf.linkedin", credential.LinkedIn("pbdf.pbdf").ID)
+	assert.Equal(t, "pbdf.pbdf.linkedin", credential.LinkedIn(issuerID).ID)
 }
 
 func TestValidity(t *testing.T) {
 	now := time.Date(2026, 10, 21, 12, 0, 0, 0, time.UTC)
 
-	assert.Equal(t, time.Date(2027, 1, 21, 12, 0, 0, 0, time.UTC), credential.Surfnet("pbdf.pbdf", 200).ValidUntil(now))
-	assert.Equal(t, time.Date(2027, 10, 21, 12, 0, 0, 0, time.UTC), credential.LinkedIn("pbdf.pbdf").ValidUntil(now))
+	assert.Equal(t, time.Date(2027, 1, 21, 12, 0, 0, 0, time.UTC), credential.Surfnet(issuerID, 200).ValidUntil(now))
+	assert.Equal(t, time.Date(2027, 10, 21, 12, 0, 0, 0, time.UTC), credential.LinkedIn(issuerID).ValidUntil(now))
 }
 
 func TestBatchSize(t *testing.T) {
-	assert.Equal(t, 200, credential.Surfnet("pbdf.pbdf", 200).BatchSize)
-	assert.Zero(t, credential.LinkedIn("pbdf.pbdf").BatchSize)
+	assert.Equal(t, 200, credential.Surfnet(issuerID, 200).BatchSize)
+	assert.Zero(t, credential.LinkedIn(issuerID).BatchSize)
 }
 
 func TestAsMap(t *testing.T) {

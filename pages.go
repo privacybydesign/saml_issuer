@@ -108,11 +108,11 @@ func (s *server) render(w http.ResponseWriter, status int, name string, pg page,
 	var body bytes.Buffer
 	if err := s.templates.ExecuteTemplate(&body, name+"-"+pg.lang()+".html", data); err != nil {
 		slog.Error("render page", "template", name, "error", err)
-		http.Error(w, "internal error", http.StatusInternalServerError)
+		http.Error(w, msgInternalError, http.StatusInternalServerError)
 		return
 	}
 
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	w.Header().Set(headerContentType, contentTypeHTML)
 	w.WriteHeader(status)
 	_, _ = w.Write(body.Bytes())
 }
@@ -121,7 +121,7 @@ func (s *server) render(w http.ResponseWriter, status int, name string, pg page,
 func (s *server) renderFailure(w http.ResponseWriter, status int, pg page) {
 	data := s.pageData(pg, "")
 	data.Message = failureMessages[pg.lang()]
-	data.RetryURL = pg.path() + "?action=login"
+	data.RetryURL = pg.path() + loginQuery
 
 	w.Header().Set(headerCacheControl, cacheNoStore)
 	s.render(w, status, "error", pg, data)

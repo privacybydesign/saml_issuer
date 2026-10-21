@@ -17,6 +17,10 @@ const (
 	sessionPath     = "/session"
 	requestTimeout  = 15 * time.Second
 	maxResponse     = 1 << 20
+
+	headerContentType   = "Content-Type"
+	headerAuthorization = "Authorization"
+	contentTypeJSON     = "application/json"
 )
 
 // Client talks to an IRMA server with the requestor API token.
@@ -77,9 +81,9 @@ func (c *Client) StartIssuance(ctx context.Context, issuance Issuance) ([]byte, 
 	if err != nil {
 		return nil, err
 	}
-	request.Header.Set("Content-Type", "application/json")
+	request.Header.Set(headerContentType, contentTypeJSON)
 	if c.token != "" {
-		request.Header.Set("Authorization", c.token)
+		request.Header.Set(headerAuthorization, c.token)
 	}
 
 	response, err := c.http.Do(request)

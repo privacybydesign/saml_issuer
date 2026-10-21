@@ -30,6 +30,8 @@ const (
 
 	keyBits      = 2048
 	attrNameForm = "urn:oasis:names:tc:SAML:2.0:attrname-format:uri"
+	samlVersion  = "2.0"
+	validWindow  = 4 * time.Minute
 )
 
 // Now is the instant the fixtures are built around.

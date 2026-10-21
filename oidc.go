@@ -21,6 +21,15 @@ import (
 const (
 	oidcTimeout = 15 * time.Second
 	stateBytes  = 32
+
+	scopeProfile = "profile"
+	scopeEmail   = "email"
+
+	paramState = "state"
+	paramCode  = "code"
+	paramError = "error"
+
+	tokenIDToken = "id_token"
 )
 
 // oidcClient logs users in with an OpenID Connect provider (LinkedIn).
@@ -41,7 +50,7 @@ func newOIDCClient(cfg config) *oidcClient {
 			ClientID:     cfg.linkedInClientID,
 			ClientSecret: cfg.linkedInClientSecret,
 			RedirectURL:  cfg.baseURL + linkbackPath,
-			Scopes:       []string{oidc.ScopeOpenID, "profile", "email"},
+			Scopes:       []string{oidc.ScopeOpenID, scopeProfile, scopeEmail},
 		},
 	}
 }
@@ -92,7 +101,7 @@ func (c *oidcClient) claims(ctx context.Context, code string) (map[string][]stri
 		return nil, fmt.Errorf("exchange code: %w", err)
 	}
 
-	rawIDToken, ok := token.Extra("id_token").(string)
+	rawIDToken, ok := token.Extra(tokenIDToken).(string)
 	if !ok {
 		return nil, errors.New("no ID token in the token response")
 	}
@@ -139,7 +148,7 @@ func (s *server) startLinkedIn(w http.ResponseWriter, r *http.Request, pg page, 
 	state, err := newState()
 	if err != nil {
 		slog.Error("create OAuth state", "error", err)
-		http.Error(w, "internal error", http.StatusInternalServerError)
+		http.Error(w, msgInternalError, http.StatusInternalServerError)
 		return
 	}
 
@@ -168,7 +177,7 @@ func (s *server) linkedInCallback(w http.ResponseWriter, r *http.Request) {
 	pending, ok := data.Pending[p.id]
 	pg := s.pageFor(pending, p)
 
-	state := query.Get("state")
+	state := query.Get(paramState)
 	if !ok || state == "" || subtle.ConstantTimeCompare([]byte(pending.Token), []byte(state)) != 1 {
 		slog.Warn("LinkedIn answer without a matching state")
 		s.renderFailure(w, http.StatusBadRequest, pg)
@@ -181,13 +190,13 @@ func (s *server) linkedInCallback(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if reason := query.Get("error"); reason != "" {
+	if reason := query.Get(paramError); reason != "" {
 		slog.Warn("LinkedIn login refused", "error", reason)
 		s.renderFailure(w, http.StatusForbidden, pg)
 		return
 	}
 
-	released, err := s.oidc.claims(r.Context(), query.Get("code"))
+	released, err := s.oidc.claims(r.Context(), query.Get(paramCode))
 	if err != nil {
 		slog.Warn("LinkedIn login failed", "error", err)
 		s.renderFailure(w, http.StatusForbidden, pg)

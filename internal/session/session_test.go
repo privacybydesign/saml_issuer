@@ -14,6 +14,8 @@ import (
 	"github.com/privacybydesign/saml_issuer/internal/session"
 )
 
+const providerID = "surfnet"
+
 func newStore() (*session.Store, *clockwork.FakeClock) {
 	clock := clockwork.NewFakeClockAt(time.Date(2026, 10, 21, 12, 0, 0, 0, time.UTC))
 
@@ -46,7 +48,7 @@ func TestNoSlidingExpiry(t *testing.T) {
 
 	for range 7 {
 		clock.Advance(time.Hour)
-		require.True(t, store.Update(id, func(d *session.Data) { d.Pending["surfnet"] = session.Pending{Token: "x"} }))
+		require.True(t, store.Update(id, func(d *session.Data) { d.Pending[providerID] = session.Pending{Token: "x"} }))
 	}
 	clock.Advance(time.Hour)
 
@@ -81,14 +83,14 @@ func TestUnknownSession(t *testing.T) {
 func TestGetReturnsACopy(t *testing.T) {
 	store, _ := newStore()
 	id, _ := store.Create()
-	store.Update(id, func(d *session.Data) { d.Pending["surfnet"] = session.Pending{Token: "a"} })
+	store.Update(id, func(d *session.Data) { d.Pending[providerID] = session.Pending{Token: "a"} })
 
 	data, _ := store.Get(id)
-	data.Pending["surfnet"] = session.Pending{Token: "changed"}
-	data.Login["surfnet"] = []credential.Attribute{{Key: "id", Value: "x"}}
+	data.Pending[providerID] = session.Pending{Token: "changed"}
+	data.Login[providerID] = []credential.Attribute{{Key: "id", Value: "x"}}
 
 	again, _ := store.Get(id)
-	assert.Equal(t, "a", again.Pending["surfnet"].Token)
+	assert.Equal(t, "a", again.Pending[providerID].Token)
 	assert.Empty(t, again.Login)
 }
 
@@ -96,7 +98,7 @@ func TestRotateMovesTheSession(t *testing.T) {
 	store, clock := newStore()
 	id, _ := store.Create()
 	store.Update(id, func(d *session.Data) {
-		d.Login["surfnet"] = []credential.Attribute{{Key: "id", Value: "jdoe"}}
+		d.Login[providerID] = []credential.Attribute{{Key: "id", Value: "jdoe"}}
 	})
 	clock.Advance(time.Hour)
 
@@ -108,7 +110,7 @@ func TestRotateMovesTheSession(t *testing.T) {
 	assert.False(t, ok, "the old ID must stop working")
 	data, ok := store.Get(rotated)
 	require.True(t, ok)
-	assert.Equal(t, "jdoe", data.Login["surfnet"][0].Value)
+	assert.Equal(t, "jdoe", data.Login[providerID][0].Value)
 
 	clock.Advance(session.MaxAge - time.Hour)
 	_, ok = store.Get(rotated)
@@ -140,15 +142,15 @@ func TestPurgeOnCreate(t *testing.T) {
 func TestUpdateIsAtomic(t *testing.T) {
 	store, _ := newStore()
 	id, _ := store.Create()
-	store.Update(id, func(d *session.Data) { d.Pending["surfnet"] = session.Pending{Token: "once"} })
+	store.Update(id, func(d *session.Data) { d.Pending[providerID] = session.Pending{Token: "once"} })
 
 	var consumed atomic.Int32
 	var wg sync.WaitGroup
 	for range 50 {
 		wg.Go(func() {
 			store.Update(id, func(d *session.Data) {
-				if _, ok := d.Pending["surfnet"]; ok {
-					delete(d.Pending, "surfnet")
+				if _, ok := d.Pending[providerID]; ok {
+					delete(d.Pending, providerID)
 					consumed.Add(1)
 				}
 			})

@@ -70,8 +70,8 @@ func NewOptions(idp *IdP, entityID, acsURL, requestID string) Options {
 		InResponseTo:             requestID,
 		Status:                   StatusSuccess,
 		NotBefore:                Now.Add(-time.Minute),
-		NotOnOrAfter:             Now.Add(4 * time.Minute),
-		ConfirmationNotOnOrAfter: Now.Add(4 * time.Minute),
+		NotOnOrAfter:             Now.Add(validWindow),
+		ConfirmationNotOnOrAfter: Now.Add(validWindow),
 		Attributes: []Attribute{
 			{Name: "urn:mace:dir:attribute-def:uid", Values: []string{"jdoe"}},
 			{Name: "urn:mace:dir:attribute-def:mail", Values: []string{"j.doe@example.org"}},
@@ -92,7 +92,7 @@ func (i *IdP) Build(o Options) *Message {
 	response.CreateAttr("xmlns:samlp", protocolNS)
 	response.CreateAttr("xmlns:saml", assertionNS)
 	response.CreateAttr("ID", ResponseID)
-	response.CreateAttr("Version", "2.0")
+	response.CreateAttr("Version", samlVersion)
 	response.CreateAttr("IssueInstant", formatTime(Now))
 	response.CreateAttr("Destination", o.Destination)
 	response.CreateAttr("InResponseTo", o.InResponseTo)
@@ -143,7 +143,7 @@ func buildAssertion(response *etree.Element, o Options) *etree.Element {
 	assertion.CreateAttr("xmlns:xs", "http://www.w3.org/2001/XMLSchema")
 	assertion.CreateAttr("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance")
 	assertion.CreateAttr("ID", AssertionID)
-	assertion.CreateAttr("Version", "2.0")
+	assertion.CreateAttr("Version", samlVersion)
 	assertion.CreateAttr("IssueInstant", formatTime(Now))
 	assertion.CreateElement("saml:Issuer").SetText(cmpOr(o.AssertionIssuer, o.Issuer))
 
