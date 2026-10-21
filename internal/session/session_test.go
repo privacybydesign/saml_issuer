@@ -83,15 +83,20 @@ func TestUnknownSession(t *testing.T) {
 func TestGetReturnsACopy(t *testing.T) {
 	store, _ := newStore()
 	id, _ := store.Create()
-	store.Update(id, func(d *session.Data) { d.Pending[providerID] = session.Pending{Token: "a"} })
+	store.Update(id, func(d *session.Data) {
+		d.Pending[providerID] = session.Pending{Token: "a"}
+		d.Login[providerID] = []credential.Attribute{{Key: "id", Value: "jdoe"}}
+	})
 
 	data, _ := store.Get(id)
 	data.Pending[providerID] = session.Pending{Token: "changed"}
-	data.Login[providerID] = []credential.Attribute{{Key: "id", Value: "x"}}
+	data.Login[providerID][0].Value = "changed"
+	data.Login["other"] = []credential.Attribute{{Key: "id", Value: "x"}}
 
 	again, _ := store.Get(id)
 	assert.Equal(t, "a", again.Pending[providerID].Token)
-	assert.Empty(t, again.Login)
+	assert.Equal(t, "jdoe", again.Login[providerID][0].Value)
+	assert.NotContains(t, again.Login, "other")
 }
 
 func TestRotateMovesTheSession(t *testing.T) {

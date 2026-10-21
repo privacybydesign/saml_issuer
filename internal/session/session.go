@@ -7,6 +7,7 @@ import (
 	"encoding/base64"
 	"errors"
 	"maps"
+	"slices"
 	"sync"
 	"time"
 
@@ -175,7 +176,9 @@ func newData() Data {
 func (d Data) clone() Data {
 	copied := newData()
 	maps.Copy(copied.Pending, d.Pending)
-	maps.Copy(copied.Login, d.Login)
+	for provider, attributes := range d.Login {
+		copied.Login[provider] = slices.Clone(attributes)
+	}
 
 	return copied
 }
