@@ -1,0 +1,36 @@
+# Status checks, using the shared workflows from privacybydesign/github-workflows.
+# The gate job "Status checks passed" is the one check to require.
+name: Status checks
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  merge_group:
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  go:
+    uses: privacybydesign/github-workflows/.github/workflows/go-checks.yml@v1
+    permissions:
+      contents: read
+    with:
+      test-dockerfile: Dockerfile.test
+      coverage-file: /coverage/coverage.out # Dockerfile.test writes here
+
+  passed:
+    name: Status checks passed
+    if: always()
+    needs: [go]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions: {}
+    steps:
+      - name: All required jobs succeeded
+        env:
+          RESULTS: ${{ toJSON(needs.*.result) }}
+        run: |
+          echo "$RESULTS"
+          if grep -qE '"(failure|cancelled)"' <<< "$RESULTS"; then exit 1; fi
