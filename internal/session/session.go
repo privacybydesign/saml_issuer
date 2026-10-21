@@ -181,7 +181,7 @@ func (s *Store) lookup(id string) *entry {
 	return found
 }
 
-// purge drops the expired sessions. It must be called with the lock held.
+// purge must be called with the lock held.
 func (s *Store) purge() {
 	now := s.now()
 	for _, queue := range []*list.List{&s.pending, &s.active} {
