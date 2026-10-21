@@ -159,6 +159,7 @@ func (s *server) routes() http.Handler {
 	for path, pg := range s.pages {
 		mux.HandleFunc("GET "+path+"{$}", func(w http.ResponseWriter, r *http.Request) { s.page(w, r, pg) })
 	}
+
 	for _, prefix := range []string{prefixNL, prefixEN} {
 		mux.HandleFunc("GET "+prefix+"/{$}", func(w http.ResponseWriter, r *http.Request) {
 			http.Redirect(w, r, prefix+s.surfnet.path, http.StatusMovedPermanently)

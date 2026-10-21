@@ -151,9 +151,11 @@ func (s *Store) lookup(id string) *entry {
 func (s *Store) purge() {
 	now := s.now()
 	for id, found := range s.sessions {
-		if !now.Before(found.expires) {
-			delete(s.sessions, id)
+		if now.Before(found.expires) {
+			continue
 		}
+
+		delete(s.sessions, id)
 	}
 }
 

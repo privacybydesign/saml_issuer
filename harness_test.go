@@ -331,6 +331,7 @@ func (f *fakeOIDC) reset() {
 	if f.server != nil {
 		issuer = f.server.URL
 	}
+
 	f.tokenErr = false
 	f.idToken = jwt.MapClaims{
 		"iss": issuer,

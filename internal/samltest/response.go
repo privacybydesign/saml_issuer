@@ -209,9 +209,11 @@ func (m *Message) Encode() string { return base64.StdEncoding.EncodeToString(m.B
 // RemoveSignature removes the signature that is a direct child of el.
 func RemoveSignature(el *etree.Element) {
 	for _, child := range el.ChildElements() {
-		if child.Tag == "Signature" {
-			el.RemoveChild(child)
+		if child.Tag != "Signature" {
+			continue
 		}
+
+		el.RemoveChild(child)
 	}
 }
 

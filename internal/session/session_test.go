@@ -149,10 +149,12 @@ func TestUpdateIsAtomic(t *testing.T) {
 	for range 50 {
 		wg.Go(func() {
 			store.Update(id, func(d *session.Data) {
-				if _, ok := d.Pending[providerID]; ok {
-					delete(d.Pending, providerID)
-					consumed.Add(1)
+				if _, ok := d.Pending[providerID]; !ok {
+					return
 				}
+
+				delete(d.Pending, providerID)
+				consumed.Add(1)
 			})
 		})
 	}

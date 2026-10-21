@@ -374,6 +374,7 @@ func TestOldPathsStillWork(t *testing.T) {
 	for _, path := range []string{"/surfconext/", "/nl/surfconext/", "/en/surfconext/", "/healthy.html", "/"} {
 		assert.Equal(t, http.StatusOK, h.get(path).StatusCode, path)
 	}
+
 	for _, prefix := range []string{"/nl/", "/en/"} {
 		response := h.get(prefix)
 		assert.Equal(t, http.StatusMovedPermanently, response.StatusCode)
