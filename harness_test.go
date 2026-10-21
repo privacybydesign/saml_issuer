@@ -34,6 +34,8 @@ const (
 	irmaToken    = "test-irma-token"
 	linkedInID   = "linkedin-client-id"
 	linkedInPass = "linkedin-client-secret"
+
+	headerAuthorization = "Authorization"
 )
 
 // harness runs the whole service over TLS, with a fake identity provider, IRMA
@@ -256,8 +258,8 @@ func newFakeIRMA(t *testing.T) *fakeIRMA {
 		f.requests = append(f.requests, irmaRequest{
 			method:        r.Method,
 			path:          r.URL.Path,
-			authorization: r.Header.Get("Authorization"),
-			contentType:   r.Header.Get("Content-Type"),
+			authorization: r.Header.Get(headerAuthorization),
+			contentType:   r.Header.Get(headerContentType),
 			body:          parsed,
 		})
 		w.WriteHeader(f.status)
