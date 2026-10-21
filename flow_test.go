@@ -171,8 +171,9 @@ func TestReplayOtherSession(t *testing.T) {
 	replay := attacker.postACS(samlResponse)
 	assert.Equal(t, http.StatusForbidden, replay.StatusCode)
 
-	// The attacker's pending login is still theirs to complete.
-	assert.NotEmpty(t, attackerRequest)
+	// The attacker's own pending login still completes.
+	own := attacker.postACS(attacker.samlResponse(attackerRequest, nil))
+	assert.Equal(t, http.StatusSeeOther, own.StatusCode)
 }
 
 func TestUnknownRequest(t *testing.T) {
@@ -240,7 +241,7 @@ func TestOversizedBodyIsRejected(t *testing.T) {
 	h := newHarness(t, harnessOptions{})
 	h.startSAMLLogin("/surfconext/")
 
-	response := h.postForm(acsPath, url.Values{"SAMLResponse": {strings.Repeat("A", 2<<20)}})
+	response := h.postACS(strings.Repeat("A", 2<<20))
 
 	assert.Equal(t, http.StatusRequestEntityTooLarge, response.StatusCode)
 }
