@@ -27,7 +27,7 @@ fi
 # Create .env file if it doesn't exist
 if [ ! -f "$(dirname "$0")/.env" ]; then
     echo "Creating .env file..."
-    cat > "$(dirname "$0")/.env" << 'EOF2'
+    cat > "$(dirname "$0")/.env" << 'EOF'
 # Yivi/IRMA configuration
 IRMA_SERVER_URL=https://is.staging.yivi.app
 API_TOKEN=
@@ -36,7 +36,7 @@ IRMA_ISSUER_ID=irma-demo.sidn-pbdf
 # LinkedIn OAuth (optional)
 LINKEDIN_CLIENT_ID=
 LINKEDIN_CLIENT_SECRET=
-EOF2
+EOF
     echo ".env file created. Edit it with your actual credentials."
 else
     echo ".env file already exists, skipping."

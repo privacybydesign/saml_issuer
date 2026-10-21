@@ -6,8 +6,8 @@ services:
     environment:
       - HTTP_PROTOCOL=http
       - HOST_NAME=localhost:8080
-      - SIMPLESAMLPHP_CERT_DIR=/mnt/simplesamlphp/cert
       - SIMPLESAMLPHP_METADATA_DIR=/mnt/simplesamlphp/metadata
+      - SIMPLESAMLPHP_CERT_DIR=/mnt/simplesamlphp/cert/
 
       # Yivi/IRMA config
       - IRMA_SERVER_URL=${IRMA_SERVER_URL:-https://is.staging.yivi.app}
