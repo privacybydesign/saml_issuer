@@ -55,26 +55,46 @@ func newOIDCClient(cfg config) *oidcClient {
 	}
 }
 
-// discover fetches the provider's configuration on first use, so that the
+// discover fetches the provider's configuration on first use, so the
 // service starts while LinkedIn is unreachable.
 func (c *oidcClient) discover(ctx context.Context) (*oidc.Provider, oauth2.Config, error) {
+	provider, err := c.loadProvider(ctx)
+	if err != nil {
+		return nil, oauth2.Config{}, err
+	}
+
+	conf := c.oauth
+	conf.Endpoint = provider.Endpoint()
+	// LinkedIn expects the client credentials in the body of the token request.
+	conf.Endpoint.AuthStyle = oauth2.AuthStyleInParams
+
+	return provider, conf, nil
+}
+
+// loadProvider fetches outside the lock: a slow provider must not queue every
+// login behind one request.
+func (c *oidcClient) loadProvider(ctx context.Context) (*oidc.Provider, error) {
+	c.mu.Lock()
+	cached := c.provider
+	c.mu.Unlock()
+
+	if cached != nil {
+		return cached, nil
+	}
+
+	provider, err := oidc.NewProvider(oidc.ClientContext(ctx, c.http), c.issuer)
+	if err != nil {
+		return nil, err
+	}
+
 	c.mu.Lock()
 	defer c.mu.Unlock()
 
 	if c.provider == nil {
-		provider, err := oidc.NewProvider(oidc.ClientContext(ctx, c.http), c.issuer)
-		if err != nil {
-			return nil, oauth2.Config{}, err
-		}
 		c.provider = provider
 	}
 
-	conf := c.oauth
-	conf.Endpoint = c.provider.Endpoint()
-	// LinkedIn expects the client credentials in the body of the token request.
-	conf.Endpoint.AuthStyle = oauth2.AuthStyleInParams
-
-	return c.provider, conf, nil
+	return c.provider, nil
 }
 
 func (c *oidcClient) authURL(ctx context.Context, state string) (string, error) {
