@@ -25,21 +25,7 @@ function check(string $label, $expected, $actual): void {
     }
 }
 
-echo "normalize_dateofbirth():\n";
-// Absent attribute -> single-space fallback (dateofbirth is not optional).
-check('null -> single space', ' ', normalize_dateofbirth(null));
-// dd/mm/yyyy -> mm-dd-yyyy.
-check('dd/mm/yyyy reformatted to mm-dd-yyyy', '11-25-1990', normalize_dateofbirth('25/11/1990'));
-check('keeps leading zeros', '02-01-2000', normalize_dateofbirth('01/02/2000'));
-// Non-matching values pass through unchanged (no null to preg_match).
-check('already-normalised value unchanged', '11-25-1990', normalize_dateofbirth('11-25-1990'));
-check('ISO date unchanged', '1990-11-25', normalize_dateofbirth('1990-11-25'));
-check('empty string unchanged', '', normalize_dateofbirth(''));
-check('non-date string unchanged', 'not-a-date', normalize_dateofbirth('not-a-date'));
-// Too-short / malformed digit groups do not match the anchored pattern.
-check('single-digit groups unchanged', '1/2/1990', normalize_dateofbirth('1/2/1990'));
-
-echo "\nescape_html():\n";
+echo "escape_html():\n";
 check('angle brackets', '&lt;script&gt;alert(1)&lt;/script&gt;', escape_html('<script>alert(1)</script>'));
 check('double quote', '&quot;', escape_html('"'));
 check('single quote', '&#039;', escape_html("'"));

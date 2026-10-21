@@ -51,25 +51,6 @@
 					laden. Wij zullen deze gegevens niet bewaren.
 				</p>
 
-<?php } else if (PROVIDER == 'twitter') { ?>
-				<p>
-					Attributen van Twitter (naam, email adres, enz.) kunnen eenvoudig in
-					de Yivi app geladen worden. Hiervoor dient u in te loggen in Twitter
-					via de knop hieronder.
-				</p>
-
-				<p>
-					Twitter geeft ook toestemming tot allerlei informatie (tweets,
-					volgers) die wij niet gebruiken. Helaas is het op dit moment
-					onmogelijk om dat uit te zetten. Wij downloaden deze informatie niet
-					van Twitter dus zullen het zeker niet bewaren.
-				</p>
-
-				<p>
-					Na het inloggen kunt u direct uw Twitter attributen in de Yivi app
-					laden. Wij zullen deze gegevens niet bewaren.
-				</p>
-
 <?php } ?>
 
 <?php if (PROVIDER_NAME == 'eduGAIN') { ?>

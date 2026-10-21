@@ -52,26 +52,6 @@
 					loaded into your Yivi app.
 				</p>
 
-<?php } else if (PROVIDER == 'twitter') { ?>
-				<p>
-					Attributes from Twitter can now be loaded into your Yivi app.
-					To load these attributes it is necessary that you log in on Twitter,
-					and give Yivi access to your basic profile data. We use this data only
-					during attribute loading.
-				</p>
-
-				<p>
-					Twitter also gives us access to more information than neccessary, such
-					as your tweets and follows, that we do not use. Unfortunately it is
-					impossible for us to disable this. However, we do not download or use
-					this data in any way.
-				</p>
-
-				<p>
-					After you have given this permission on Twitter the attributes can be
-					loaded into your Yivi app.
-				</p>
-
 <?php } ?>
 
 <?php if (PROVIDER_NAME == 'eduGAIN') { ?>

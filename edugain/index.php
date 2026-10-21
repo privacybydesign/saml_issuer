@@ -5,7 +5,6 @@ require_once '../config.php';
 define('PROVIDER', 'surfnet');
 define('PROVIDER_NAME', 'eduGAIN');
 define('CREDENTIAL', IRMA_ISSUER_ID . '.surfnet-2');
-define('IRMA_NAME_ATTRIBUTE', 'fullname');
 define('VALIDITY', '+3 months');
 
 $MAP_IRMA_SAML_ATTRIBUTES = [

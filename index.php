@@ -17,12 +17,10 @@ if (LANG == 'nl') {
         'id'          => 'Gebruiker ID',
         'fullid'      => 'Volledig ID',
         'username'    => 'Gebruikersnaam',
-        'profileurl'  => 'Profiel',
         'fullname'    => 'Volledige naam',
         'firstname'   => 'Voornaam',
         'familyname'  => 'Achternaam',
         'email'       => 'E-mailadres',
-        'dateofbirth' => 'Geboortedatum',
         'institute'   => 'Instituut',
         'type'        => 'Type',
     ];
@@ -32,12 +30,10 @@ if (LANG == 'nl') {
         'id'          => 'User ID',
         'fullid'      => 'Full ID',
         'username'    => 'Username',
-        'profileurl'  => 'Profile',
         'fullname'    => 'Full name',
         'firstname'   => 'First name',
         'familyname'  => 'Family name',
         'email'       => 'Email address',
-        'dateofbirth' => 'Birthdate',
         'institute'   => 'Institute',
         'type'        => 'Type',
     ];
@@ -53,17 +49,9 @@ function map_saml_attributes($saml_attributes) {
                 $saml_attributes[$saml_key] !== NULL) {
             $value = $saml_attributes[$saml_key][0];
         }
-        if ($irma_key === 'dateofbirth') {
-            $value = normalize_dateofbirth($value);
-        }
         if ($value !== NULL) {
             $irma_attributes[$irma_key] = $value;
         }
-    }
-
-    // Add profileurl from username
-    if (array_key_exists('username', $irma_attributes) && !array_key_exists('profileurl', $irma_attributes) && defined('PROFILE_URL_FORMAT')) {
-        $irma_attributes['profileurl'] = str_replace(':username:', $irma_attributes['username'], PROFILE_URL_FORMAT);
     }
 
     return $irma_attributes;
@@ -103,15 +91,6 @@ function start_issuance_session($irma_attributes, $validity) {
     return start_session($iprequest);
 }
 
-function start_verification_session($attributes) {
-    $sprequest = [
-        "@context" => "https://irma.app/ld/request/disclosure/v2",
-        "disclose" => $attributes
-    ];
-
-    return start_session($sprequest);
-}
-
 function handle_request() {
     global $ATTRIBUTE_HUMAN_NAMES, $MAP_IRMA_SAML_ATTRIBUTES;
 
@@ -128,13 +107,7 @@ function handle_request() {
     } else if ($action === 'logout' && $saml_authenticator->isAuthenticated()) {
         $saml_authenticator->logout();
     } else if ($action === 'done') {
-        if (isset($_GET['output']) && $_GET['output'] == 'irma-session') {
-            header('Content-Type: text/plain');
-            $fullname_attribute = CREDENTIAL . '.' . IRMA_NAME_ATTRIBUTE;
-            echo start_verification_session([[[$fullname_attribute]]]);
-        } else {
-            require PAGE_DONE;
-        }
+        require PAGE_DONE;
     } elseif ($saml_authenticator->isAuthenticated()) {
         $attrs = $saml_authenticator->getAttributes();
 
