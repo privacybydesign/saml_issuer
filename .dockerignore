@@ -1,0 +1,6 @@
+.git
+.github
+.env
+config/
+mounts/
+node_modules/

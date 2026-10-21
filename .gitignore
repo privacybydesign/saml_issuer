@@ -2,3 +2,7 @@
 mounts/
 config/
 node_modules/
+
+# Built from node_modules by build.sh and embedded into the binary
+js/jquery.min.js
+js/yivi.js
