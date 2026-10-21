@@ -1,5 +1,5 @@
 // Package credential maps what an identity provider released onto the
-// attributes of the Yivi credential that is issued from it.
+// attributes of the Yivi credential issued from it.
 package credential
 
 import "time"

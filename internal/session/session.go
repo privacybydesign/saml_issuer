@@ -105,8 +105,8 @@ func (s *Store) Update(id string, change func(*Data)) bool {
 	return true
 }
 
-// Rotate gives the session a new ID, keeping its expiry, so that an ID that
-// was known before login is useless after it.
+// Rotate gives the session a new ID, keeping its expiry, so an ID known
+// before login is useless after it.
 func (s *Store) Rotate(id string) (string, bool) {
 	s.mu.Lock()
 	defer s.mu.Unlock()

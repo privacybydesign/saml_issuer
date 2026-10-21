@@ -49,7 +49,7 @@ func TestLinkedInLogin(t *testing.T) {
 	for _, want := range []string{"Volledige naam", "Jane Doe", "Voornaam", "Jane", "Achternaam", "Doe", "E-mailadres", "jane@example.org"} {
 		assert.Contains(t, issue, want)
 	}
-	assert.NotContains(t, issue, "media.example", "claims that are not issued are not shown")
+	assert.NotContains(t, issue, "media.example", "claims not issued are not shown")
 
 	require.Equal(t, http.StatusOK, h.get("/linkedin/?output=irma-session").StatusCode)
 	require.Len(t, h.irma.seen(), 1)
