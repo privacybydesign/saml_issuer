@@ -42,7 +42,7 @@ func TestLoginExpiresAfterMaxAge(t *testing.T) {
 	assert.False(t, store.Update(rotated, func(*session.Data) {}))
 }
 
-func TestPendingSessionIsShortLived(t *testing.T) {
+func TestPendingIsShortLived(t *testing.T) {
 	store, clock := newStore()
 	id, err := store.Create()
 	require.NoError(t, err)
@@ -133,7 +133,7 @@ func TestRotateMovesTheSession(t *testing.T) {
 	assert.Equal(t, "jdoe", data.Login[providerID][0].Value)
 }
 
-func TestRotateGrantsTheLoginLifetime(t *testing.T) {
+func TestRotateGrantsLoginLifetime(t *testing.T) {
 	store, clock := newStore()
 	id, _ := store.Create()
 	clock.Advance(10 * time.Minute)
@@ -146,7 +146,7 @@ func TestRotateGrantsTheLoginLifetime(t *testing.T) {
 	assert.True(t, ok, "the lifetime counts from the login")
 }
 
-func TestRotateAgainKeepsTheLifetime(t *testing.T) {
+func TestRotateAgainKeepsLifetime(t *testing.T) {
 	store, clock := newStore()
 	id, _ := store.Create()
 	first, _ := store.Rotate(id)
@@ -190,7 +190,7 @@ func fill(t *testing.T, store *session.Store, count int) []string {
 	return ids
 }
 
-func TestFullStoreEvictsPendingSessions(t *testing.T) {
+func TestFullStoreEvictsPending(t *testing.T) {
 	store, clock := newStore()
 	ids := fill(t, store, session.MaxSessions)
 	loggedIn, _ := store.Rotate(ids[0])

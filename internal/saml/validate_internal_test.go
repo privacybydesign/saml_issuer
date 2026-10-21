@@ -9,7 +9,7 @@ import (
 
 // No document makes the library verify another assertion than the one checkShape
 // saw, so the guard is tested on its own.
-func TestVerifiedAssertionIsTheCheckedOne(t *testing.T) {
+func TestAssertionIDMatchesShape(t *testing.T) {
 	sp := &ServiceProvider{}
 	response := &types.Response{Assertions: []types.Assertion{{ID: "_verified"}}}
 
