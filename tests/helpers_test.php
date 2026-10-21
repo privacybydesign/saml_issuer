@@ -34,6 +34,7 @@ check('null -> empty string', '', escape_html(null));
 // Invalid UTF-8 must not blank the whole value (e.g. the language link).
 check('invalid UTF-8 substituted', "a\u{FFFD}b", escape_html("a\xffb"));
 
+// The templates read these constants and $_SERVER directly.
 define('PROVIDER', 'surfnet');
 define('PROVIDER_NAME', 'SURFconext');
 define('IRMA_SERVER_URL', 'https://irma.example');
@@ -46,6 +47,7 @@ function render_page(string $page, array $irma_attributes): string {
     return ob_get_clean();
 }
 
+// Hostile request values: the language links must print them escaped.
 $script = '<script>alert(1)</script>';
 $_SERVER['REQUEST_URI'] = '/nl/surfconext/"' . $script . '?q="' . $script;
 $_SERVER['QUERY_STRING'] = 'q="' . $script;
