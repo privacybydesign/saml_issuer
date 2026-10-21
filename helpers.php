@@ -11,5 +11,5 @@
  * Escape a value for HTML text and quoted attribute contexts.
  */
 function escape_html($value): string {
-    return htmlspecialchars((string) $value, ENT_QUOTES);
+    return htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE);
 }

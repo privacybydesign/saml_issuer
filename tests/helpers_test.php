@@ -31,6 +31,8 @@ check('double quote', '&quot;', escape_html('"'));
 check('single quote', '&#039;', escape_html("'"));
 check('ampersand', '&amp;', escape_html('&'));
 check('null -> empty string', '', escape_html(null));
+// Invalid UTF-8 must not blank the whole value (e.g. the language link).
+check('invalid UTF-8 substituted', "a\u{FFFD}b", escape_html("a\xffb"));
 
 define('PROVIDER', 'surfnet');
 define('PROVIDER_NAME', 'SURFconext');
