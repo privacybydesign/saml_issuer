@@ -1,77 +1,118 @@
 # saml_issuer
 
-A SimpleSAMLphp library for issuing attributes coming from a SAML Identity Provider.
-Currently supports SURFconext and LinkedIN.
+A Go service that issues Yivi credentials from attributes released by an
+identity provider. It supports SURFconext (SAML 2.0) and LinkedIn (OpenID
+Connect).
 
-# Environment variables
-See `sample.env` for a list of environment variables. Copy the file to `.env` and fill in the secrets.
-A list of optional environment variables (expect for `APACHE_CERT_NAME`, which) for SimpleSAMLphp Docker image [can be found here](https://github.com/cirrusidentity/docker-simplesamlphp/tree/master?tab=readme-ov-file#environmental-variables).
+| Page | Credential |
+| --- | --- |
+| `/surfconext/` | `pbdf.pbdf.surfnet-2`, valid for 3 months |
+| `/linkedin/` | `pbdf.pbdf.linkedin`, valid for 1 year |
 
-| Variable | description | required |
+Both pages also exist under `/nl/` and `/en/`. Dutch is the default.
+
+Other endpoints:
+
+| Path | Purpose |
+| --- | --- |
+| `/simplesaml/module.php/saml/sp/metadata/surfnet` | SP metadata, and the SP entity ID |
+| `/simplesaml/module.php/saml/sp/saml2-acs.php/surfnet` | SAML assertion consumer service (HTTP-POST) |
+| `/simplesaml/module.php/authoauth2/linkback` | LinkedIn redirect URI |
+| `/` and `/healthy.html` | Health probes, 200 |
+
+These paths are the ones SimpleSAMLphp used, so the SURFconext and LinkedIn
+registrations stay as they are.
+
+The service listens on plain HTTP on port 8080. TLS is terminated by the
+ingress.
+
+## Configuration
+
+| Variable | Description | Required |
 | --- | --- | --- |
-| `HOST_NAME` | Url on which this issuer runs | ✅ |
-| `IRMA_SERVER_URL` | Url for the IRMA server this issuer talks to | ✅ |
-| `API_TOKEN` | API token for the IRMA server | ✅ |
-| `SURFCONEXT_IDP_METADATA_URL` | URL to the metadata of SURFconext IdP | ✅ |
-| `LINKEDIN_CLIENT_ID` | LinkedIN Client ID | ✅ |
-| `LINKEDIN_CLIENT_SECRET` | LinkedIN Client Secret | ✅ |
-| `APACHE_CERT_PATH` | Path to the SSL certificate Apache will use for the host. The cert needs to be mounted inside the pod. | ✅ |
-| `APACHE_KEY_PATH` | Path to the SSL key Apache will use for the host. The key needs to be mounted inside the pod. | ✅ |
-| `IRMA_ISSUER_ID` | Combination of the schememanager + IssuerID (i.e. `irma-demo.pbdf`). Defaults to `pbdf.pbdf` if unspecified | |
-| `HTTP_PROTOCOL` | 'http' or 'https'; defaults to 'https' if unspecified | |
-| `SIMPLESAMLPHP_CONFIG_DIR` | Path to load SimpleSAMLphp config files from. Defaults to `/var/simplesamlphp/config` if unspecified | |
-| `SIMPLESAMLPHP_METADATA_DIR` | Path to load SimpleSAMLphp default metadata files from. Defaults to `/var/simplesamlphp/metadata` if unspecified | |
-| `SIMPLESAMLPHP_CERT_DIR` | Path to load SimpleSAMLphp certificate files from. Defaults to `/var/simplesamlphp/cert` if unspecified | |
-| `ENABLE_IRMA_LOGGING` | Enable logging of SAML -> IRMA mapping data. Default: false. Note: only use for debugging purpose, as this logs personal data! | |
+| `HOST_NAME` | Host the issuer is served on. Builds the entity ID and the ACS URL | yes |
+| `IRMA_SERVER_URL` | URL of the IRMA server this issuer talks to | yes |
+| `API_TOKEN` | Token for the IRMA server, sent as the `Authorization` header | |
+| `IRMA_ISSUER_ID` | Scheme manager and issuer ID, e.g. `irma-demo.sidn-pbdf`. Defaults to `pbdf.pbdf` | |
+| `IRMA_SDJWT_BATCH_SIZE_SURFCONTEXT` | SD-JWT batch size for the SURFconext credential. Defaults to `200` | |
+| `HTTP_PROTOCOL` | `http` or `https`. Defaults to `https` | |
+| `SIMPLESAMLPHP_CERT_DIR` | Directory with `saml.crt`, the SP certificate. Defaults to `/var/simplesamlphp/cert` | |
+| `SIMPLESAMLPHP_METADATA_DIR` | Directory with `saml20-idp-remote.xml`, the IdP metadata. Defaults to `/var/simplesamlphp/metadata` | |
+| `SURFCONEXT_IDP_ENTITY_ID` | IdP to send users to. Only needed when the metadata holds more than one | |
+| `LINKEDIN_CLIENT_ID` | LinkedIn client ID. LinkedIn is off when unset | |
+| `LINKEDIN_CLIENT_SECRET` | LinkedIn client secret | |
 
-## Run with docker
+`sample.env` lists the same variables.
 
-### Build image
+### IdP metadata
+
+`saml20-idp-remote.xml` is standard SAML metadata: one `EntityDescriptor`, or an
+`EntitiesDescriptor` holding several. SURFconext publishes it. The signing
+certificates of the IdP that users are sent to are the only keys a SAML response
+is accepted with. When the file holds several IdPs, set `SURFCONEXT_IDP_ENTITY_ID`.
+There is no metadata refresh: replace the file when SURFconext rotates its key.
+
+The certificate must be valid at the time of login. goxmldsig checks its
+validity period, which SimpleSAMLphp did not.
+
+### SP certificate
+
+Only `saml.crt` is read. It is published in the SP metadata. Requests are not
+signed and assertions are not encrypted, so the private key (`saml.pem`) is not
+needed by the service.
+
+## Sessions
+
+Login state is kept in memory, behind an unguessable session cookie
+(`SameSite=None; Secure`, so it is sent with the cross-site POST to the ACS).
+A session lasts 8 hours from its creation and is replaced by a new ID at login.
+Because the state is in memory, run one replica.
+
+## SAML validation
+
+A response is accepted only if all of these hold. The code is in
+`internal/saml`.
+
+- It is at most 128 KiB of plain XML, without comments or a DTD.
+- It holds exactly one `Assertion`, a child of the `Response`, that carries its
+  own enveloped signature referencing the assertion's ID. A signed `Response`
+  around an unsigned `Assertion` is rejected.
+- The signature verifies with the IdP's pinned certificate. A certificate in
+  `KeyInfo` is not trusted, and is rejected unless it is the pinned one.
+- Issuer, audience, destination and recipient match, the status is Success, and
+  `NotBefore` and `NotOnOrAfter` hold with 180 s of clock skew.
+- `InResponseTo` is the ID of the AuthnRequest stored in the user's session.
+  The ID is used once.
+
+Attributes are read only from the assertion that was verified. The NameID is not
+used.
+
+## Run
+
+Build and test:
+
 ```bash
-docker build . -t saml-issuer
+go vet ./...
+go test ./...
 ```
 
-In case you're using the wildcard testing certificate (see below), make sure to always build using `--pull` to get the latest Cirrus image (so Docker updates the cached image if needed). This way, the testing certificate will always be valid.
-```bash
-docker build . -t saml-issuer --pull
-```
+The pages need `js/jquery.min.js` and `js/yivi.js`, which the Docker build
+creates with `yarn install && ./build.sh`. Without them the issue page cannot
+start the Yivi popup, but the tests do not need them.
 
-### Configure `.env` file
-Create a `.env` file for the configuration of the container.
-SimpleSAMLphp config and metadata template files can be found in the [SimpleSAMLphp Github repository](https://github.com/simplesamlphp/simplesamlphp).
-
-### Obtain SSL key/cert
-In order to run the image, you need a valid SSL key/cert combo for the `HOST_NAME` you want to run.
-This is also true for local development. You can provide your own keys via volume-mounts, or use the local-stack key as described below.
-
-The image is created with a wildcard certificate for testing, which can be found at the locations below.
-If you use this cert, make sure the `HOST_NAME` matches `*.local.stack-dev.cirrusidentity.com`, where `*` can be any valid subdomain.
-The certificate expires every 90 days. If it is expired, you can delete the 
-- APACHE_CERT_PATH: /etc/ssl/certs/local-stack-dev.pem
-- APACHE_KEY_PATH: /etc/ssl/private/local-stack-dev.key
-
-### Change HOSTS file
-Make sure to add an entry to your HOSTS file, pointing the `HOST_NAME` configured in the `.env` file to `127.0.0.1`.
-
-### Run container
-Run the container with volumes mounted like below (make sure to configure the correct `SIMPLESAMLPHP_*_DIR` and `APACHE_*_PATH` variables in the `.env` file).
-Replace the {{HOST_NAME}} variable below, with the hostname from the `.env` file.
+With Docker:
 
 ```bash
-docker run  -d \
-    --env-file .env \
-    -p 443:443 saml-issuer \
-    --name saml_issuer \
-    --hostname "{{HOST_NAME}}" \
-    -v /local/path/to/simplesamlphp/config:/var/simplesamlphp/config \
-    -v /local/path/to/simplesamlphp/metadata:/var/simplesamlphp/metadata \
-    -v /local/path/to/simplesamlphp/metadata_certs:/var/simplesamlphp/cert \
-    -v /local/path/to/.secret/tls.pem:/etc/ssl/certs/tls.pem \
-    -v /local/path/to/.secret/tls.key:/etc/ssl/private/tls.key \
-    saml-issuer
+./setup-local.sh
+# put the IdP metadata in config/metadata/saml20-idp-remote.xml
+docker compose up --build
 ```
 
-# Documentation
-Documentation regarding the supported IdPs can be found:
+SURFconext sends users back to the ACS URL it has registered for the entity ID,
+so a full SURFconext login needs a public HTTPS host. The `__Host-session`
+cookie is `Secure`: browsers accept it on `http://localhost`, Safari does not.
+
+## Documentation
+
 - [SURFconext](https://servicedesk.surf.nl/wiki/spaces/IAM/pages/128909810/SURFconext+for+Service+Providers)
-- [LinkedIN](https://learn.microsoft.com/en-us/linkedin/shared/authentication/authentication)
+- [LinkedIn](https://learn.microsoft.com/en-us/linkedin/shared/authentication/authentication)

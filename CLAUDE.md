@@ -1,20 +1,47 @@
 # saml_issuer — repo notes
 
-## Docker build: composer require needs `--with-all-dependencies`
+Go service (module root) that issues Yivi credentials from SURFconext (SAML) and
+LinkedIn (OIDC). It replaced a SimpleSAMLphp/PHP service.
 
-The runtime stage installs `cirrusidentity/simplesamlphp-module-authoauth2`
-on top of the `cirrusid/simplesamlphp` base image, which ships its own
-`composer.lock`. That lock pins transitive packages (e.g. `guzzlehttp/psr7`
-at 2.9.0). A plain `composer require` is a partial update and will not move
-those pins, so once a newer `guzzlehttp/guzzle` (pulled in via
-`guzzle-cache-middleware`) requires `psr7 ^2.12`, the build fails with a
-"fixed to 2.9.0 (lock file version) by a partial update" resolver error.
+## Build & test
 
-Keep the `--with-all-dependencies` flag on that `composer require` so the
-transitive deps can be upgraded together. This also lets composer pick
-`authoauth2 v5.2.0` + `firebase/php-jwt` v7, which are free of the php-jwt
-security advisories that block the older `^5.5|^6` range.
+- `go vet ./... && go test ./...`. The Go version is set in `go.mod`.
+- The tests run the whole service over TLS against a fake IdP, IRMA server and
+  LinkedIn (`harness_test.go`); no network or Docker is needed.
+- `js/jquery.min.js` and `js/yivi.js` are built by the Dockerfile's node stage
+  (`build.sh`) and embedded. They are not in the repository.
+- No Docker daemon in CI-adjacent sandboxes: build the image's steps by hand
+  (`yarn install && ./build.sh`, then `CGO_ENABLED=0 go build`).
 
-No Docker daemon in CI-adjacent sandboxes: reproduce dependency resolution
-locally by fetching the matching simplesamlphp tag's `composer.json` +
-`composer.lock` and running `composer require --dry-run --ignore-platform-reqs`.
+## Layout
+
+- `internal/saml`: gosaml2 wrapper. `shape.go` runs before the library,
+  `validate.go` after it.
+- `internal/samltest`: builds signed SAML responses with generated keys. Used by
+  the tests only.
+- `internal/session`, `internal/credential`, `internal/irma`: sessions,
+  attribute mapping, IRMA session call.
+- Root: config, routes, handlers, `templates/`, `oidc.go`.
+
+## Gotchas
+
+- Do not loosen `internal/saml`. A mistake there fails silently: an attacker
+  gets a valid `surfnet-2` credential for any institution. Every relaxation
+  needs a test in `validate_test.go` or `xsw_test.go` that shows what is let in.
+- gosaml2 alone rejects the XSW1 to XSW8 variants in `xsw_test.go`, but accepts a
+  signed `Response` around an unsigned `Assertion`, duplicate IDs, comments, DTDs
+  and deflated input. `checkShape` closes those. Keep both layers.
+- gosaml2 checks `SubjectConfirmationData/@NotOnOrAfter` without skew, so the
+  library runs with a clock set back by `saml.ClockSkew`. The AuthnRequest is
+  built by a second library instance with the real clock. `Conditions` are checked
+  in `validate.go`.
+- goxmldsig rejects a pinned certificate outside its validity period.
+- `etree` is pinned to v1.7.0, the version gosaml2 and goxmldsig declare. Do not
+  float it to `@latest`.
+- The embedded files are listed in `assetFS` (`server.go`) and in
+  `static_test.go`. Add a file to both, or the test fails. The tests also request
+  every file in the repository and expect it not to be served.
+- The session store is in memory, hence one replica. The cookie is
+  `SameSite=None` because the SAML response is a cross-site POST.
+- The ops repo (`saml_issuer_ops`) deploys on a PR, so changes to it are listed in
+  the PR description instead of opened as a PR.
