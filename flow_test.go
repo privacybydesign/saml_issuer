@@ -41,10 +41,10 @@ func TestSurfconextLogin(t *testing.T) {
 
 	require.Len(t, h.irma.seen(), 1)
 	request := h.irma.seen()[0]
-	assert.Equal(t, http.MethodPost, request.Method)
-	assert.Equal(t, "/session", request.Path)
-	assert.Equal(t, irmaToken, request.Authorization)
-	assert.Equal(t, "application/json", request.ContentType)
+	assert.Equal(t, http.MethodPost, request.method)
+	assert.Equal(t, "/session", request.path)
+	assert.Equal(t, irmaToken, request.authorization)
+	assert.Equal(t, "application/json", request.contentType)
 	assert.Equal(t, map[string]any{
 		"@context": "https://irma.app/ld/request/issuance/v2",
 		"credentials": []any{map[string]any{
@@ -56,7 +56,7 @@ func TestSurfconextLogin(t *testing.T) {
 			},
 			"sdJwtBatchSize": float64(200),
 		}},
-	}, request.Body)
+	}, request.body)
 
 	done := h.get("/surfconext/?action=done")
 	assert.Equal(t, http.StatusOK, done.StatusCode)

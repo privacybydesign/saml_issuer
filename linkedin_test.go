@@ -63,7 +63,7 @@ func TestLinkedInLogin(t *testing.T) {
 			},
 			"sdJwtBatchSize": float64(0),
 		}},
-	}, h.irma.seen()[0].Body)
+	}, h.irma.seen()[0].body)
 }
 
 func TestLinkedInRedirect(t *testing.T) {

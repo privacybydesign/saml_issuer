@@ -126,14 +126,6 @@ func (s *Store) Rotate(id string) (string, bool) {
 	return rotated, true
 }
 
-// Delete ends the session.
-func (s *Store) Delete(id string) {
-	s.mu.Lock()
-	defer s.mu.Unlock()
-
-	delete(s.sessions, id)
-}
-
 // lookup must be called with the lock held.
 func (s *Store) lookup(id string) *entry {
 	found, ok := s.sessions[id]

@@ -10,7 +10,6 @@ import (
 	"encoding/json"
 	"encoding/pem"
 	"io"
-	"maps"
 	"math/big"
 	"net/http"
 	"net/http/cookiejar"
@@ -53,8 +52,6 @@ type harness struct {
 
 type harnessOptions struct {
 	linkedIn bool
-	// env overrides variables of the default environment.
-	env map[string]string
 }
 
 func newHarness(t *testing.T, opts harnessOptions) *harness {
@@ -87,7 +84,6 @@ func newHarness(t *testing.T, opts harnessOptions) *harness {
 		h.env["LINKEDIN_CLIENT_ID"] = linkedInID
 		h.env["LINKEDIN_CLIENT_SECRET"] = linkedInPass
 	}
-	maps.Copy(h.env, opts.env)
 
 	cfg, err := loadConfig(func(name string) string { return h.env[name] })
 	require.NoError(t, err)
@@ -237,11 +233,11 @@ type fakeIRMA struct {
 }
 
 type irmaRequest struct {
-	Method        string
-	Path          string
-	Authorization string
-	ContentType   string
-	Body          map[string]any
+	method        string
+	path          string
+	authorization string
+	contentType   string
+	body          map[string]any
 }
 
 const irmaReply = `{"token":"session-token","sessionPtr":{"u":"https://irma.example/irma/session/abc","irmaqr":"issuing"}}`
@@ -258,11 +254,11 @@ func newFakeIRMA(t *testing.T) *fakeIRMA {
 		f.mu.Lock()
 		defer f.mu.Unlock()
 		f.requests = append(f.requests, irmaRequest{
-			Method:        r.Method,
-			Path:          r.URL.Path,
-			Authorization: r.Header.Get("Authorization"),
-			ContentType:   r.Header.Get("Content-Type"),
-			Body:          parsed,
+			method:        r.Method,
+			path:          r.URL.Path,
+			authorization: r.Header.Get("Authorization"),
+			contentType:   r.Header.Get("Content-Type"),
+			body:          parsed,
 		})
 		w.WriteHeader(f.status)
 		_, _ = io.WriteString(w, irmaReply)
@@ -308,7 +304,6 @@ func newFakeOIDC(t *testing.T) *fakeOIDC {
 	require.NoError(t, err)
 
 	f := &fakeOIDC{key: key, signingKey: key, codes: map[string]bool{"good-code": true}}
-	f.reset()
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /.well-known/openid-configuration", f.discovery)

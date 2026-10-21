@@ -122,16 +122,6 @@ func TestRotateMovesTheSession(t *testing.T) {
 	assert.False(t, ok, "rotating must not extend the lifetime")
 }
 
-func TestDelete(t *testing.T) {
-	store, _ := newStore()
-	id, _ := store.Create()
-
-	store.Delete(id)
-
-	_, ok := store.Get(id)
-	assert.False(t, ok)
-}
-
 func TestPurgeOnCreate(t *testing.T) {
 	store, clock := newStore()
 	old, _ := store.Create()
