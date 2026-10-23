@@ -1,52 +1,44 @@
 ####################
-# Build image
+# Frontend assets
 ####################
-FROM node:22-alpine AS builder
+FROM node:22-alpine AS frontend
 WORKDIR /app
 
-COPY js/ ./js/
-COPY css/ ./css/
-COPY yarn.lock .
-COPY package.json .
-COPY build.sh .
-
+COPY package.json yarn.lock build.sh ./
 RUN yarn install
 
+COPY js/ ./js/
 RUN chmod +x build.sh
 RUN ./build.sh
 
 ####################
+# Go build
+####################
+FROM golang:1.26.10 AS build
+WORKDIR /app
+
+COPY go.mod go.sum ./
+RUN go mod download
+
+COPY . .
+COPY --from=frontend /app/js/ ./js/
+
+# The yivi frontend and jQuery are built by the stage above and embedded
+# into the binary: fail the build if they are missing.
+RUN test -s js/yivi.js && test -s js/jquery.min.js
+
+RUN CGO_ENABLED=0 go build -trimpath -o /saml_issuer .
+
+####################
 # Runtime image
 ####################
-FROM cirrusid/simplesamlphp:v2.5.0 AS runtime
+FROM gcr.io/distroless/static-debian12:nonroot AS runtime
 
-ENV SSP_NEW_UI=true
+COPY --from=build /saml_issuer /saml_issuer
 
-# Install SimpleSAMLphp modules
-WORKDIR ${SSP_DIR}
-RUN composer config prefer-stable true \
-        && composer require --update-no-dev --with-all-dependencies cirrusidentity/simplesamlphp-module-authoauth2:^5.0
+# Declared explicitly to satisfy static scanners; the :nonroot tag already
+# defaults to this same user (UID 65532).
+USER nonroot:nonroot
 
-RUN mkdir -p /var/data/simplesamlphp
-RUN mkdir -p /var/log/simplesamlphp
-
-RUN chown -R www-data:www-data /var/data/simplesamlphp && chmod -R 750 /var/data/simplesamlphp
-RUN chown -R www-data:www-data /var/log/simplesamlphp && chmod -R 750 /var/log/simplesamlphp
-
-# Add build files
-COPY --from=builder /app/css/                /var/www/css/
-COPY --from=builder /app/js/                 /var/www/js/
-COPY fonts/                                  /var/www/fonts/
-COPY images/                                 /var/www/images/
-
-# Overwrite default Apache config
-COPY apache.conf /etc/apache2/sites-available/ssp.conf
-
-# Add runtime startup script
-COPY run-on-start.sh /opt/simplesaml/
-RUN chmod +x /opt/simplesaml/run-on-start.sh
-
-# Add project files
-COPY linkedin/      /var/www/linkedin/
-COPY surfconext/    /var/www/surfconext/
-COPY *.html *.php   /var/www/
+EXPOSE 8080
+ENTRYPOINT ["/saml_issuer"]

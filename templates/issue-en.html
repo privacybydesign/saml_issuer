@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link href="/css/style.css" rel="stylesheet" type="text/css" />
+	<script type="application/javascript">
+		let irma_server_url = {{.IrmaServerURL}};
+		let lang = {{.Lang}};
+	</script>
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/yivi.js"></script>
+	<script type="text/javascript" src="/js/enroll.js"></script>
+	<title>{{.ProviderName}} attributes</title>
+</head>
+<body>
+	<div id="container">
+		<header>
+			<div class="header-spacer"></div>
+			<h1>Available {{.ProviderName}} attributes</h1>
+			{{template "langswitch" .}}
+		</header>
+		<main>
+			<div class="content">
+				<div id="warning" class="alert alert-warning hide" role="alert">
+					<strong>Cancelled</strong><br/>
+					<small class="message"></small>
+				</div>
+				<div id="error" class="alert alert-danger hide" role="alert">
+					<strong>Error</strong>: cannot issue credential.<br/>
+					<small class="message"></small>
+				</div>
+
+{{if not .Attributes}}
+				<div id="no-attributes" class="alert alert-danger" role="alert">
+					<strong>Error</strong>: cannot issue credential.<br/>
+					<small class="message">Issuance was aborted because no attributes were received.</small>
+				</div>
+{{else}}
+				<p>The attributes below can be added to your Yivi app:</p>
+				<table class="table">
+{{range .Attributes}}
+					<tr>
+						<th scope="row">{{.Label}}</th>
+						<td>{{.Value}}</td>
+					</tr>
+{{end}}
+				</table>
+
+				<p>Click here to add this attributes to your Yivi app.</p>
+
+				<hr />
+				<p class="small-text">You are logged in as {{.FirstName}} (<a href="?action=logout">Log out</a>)</p>
+{{end}}
+			</div>
+		</main>
+{{if .Attributes}}
+		<footer>
+			<div class="actions">
+				<a href="?action=logout" class="secondary">Log out</a>
+				<button id="enroll" class="primary">Load attributes in Yivi app</button>
+			</div>
+		</footer>
+{{end}}
+	</div>
+</body>
+</html>

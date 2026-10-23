@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link href="/css/style.css" rel="stylesheet" type="text/css" />
+	<title>{{.ProviderName}} attributen</title>
+</head>
+<body>
+	<div id="container">
+		<header>
+			<div class="header-spacer"></div>
+			<h1>Laad attributen via {{.ProviderName}}</h1>
+			{{template "langswitch" .}}
+		</header>
+		<main>
+			<div class="content">
+{{if eq .Provider "surfnet"}}
+				<p>
+					Uw persoonsgegevens bij uw hoger onderwijsinstelling (zoals
+					naam, e-mail, of registratienummer) kunnen in uw
+					Yivi-app geladen worden, via een samenwerking tussen {{.ProviderName}}
+					en de stichting Privacy by Design.
+				</p>
+
+				<p>
+					Om uw attributen te laden logt u eerst in bij uw eigen onderwijsinstelling.
+					De stichting ontvangt dan uw attributen via {{.ProviderName}}
+					en laadt ze in uw Yivi-app. Vervolgens verwijdert de stichting uw gegevens.
+					Uw gegevens in de Yivi-app blijven drie maanden geldig.
+				</p>
+{{else if eq .Provider "linkedin"}}
+				<p>
+					Attributen van LinkedIn (naam, email adres, enz.) kunnen eenvoudig in
+					de Yivi app geladen worden. Hiervoor dient u in te loggen in LinkedIn
+					via de knop hieronder.
+				</p>
+
+				<p>
+					Na het inloggen kunt u direct uw LinkedIn attributen in de Yivi app
+					laden. Wij zullen deze gegevens niet bewaren.
+				</p>
+{{end}}
+			</div>
+		</main>
+		<footer>
+			<div class="actions">
+				<div></div>
+				<a href="?action=login" class="primary">Log in om attributen te laden</a>
+			</div>
+		</footer>
+	</div>
+</body>
+</html>
