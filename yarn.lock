@@ -7,10 +7,10 @@
   resolved "https://registry.npmjs.org/@privacybydesign/yivi-css/-/yivi-css-1.0.1.tgz"
   integrity sha512-4cN1cSrgmbm5+syhgFOMV0zW0jJMED1WD0vAGlYKrEhf4vMWIZCE0pwFjRwRDlR+Qgy6fNtgW27Qt8EyF0pkfg==
 
-"@privacybydesign/yivi-frontend@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.npmjs.org/@privacybydesign/yivi-frontend/-/yivi-frontend-1.0.2.tgz"
-  integrity sha512-23LYQqTVmYgVYPuJaZD5KzsvxHtgLOKSUCb8hS55BsidA31so8bWNnnmtkrl7JZTK7QX6S5RVakeI05qHyjW1g==
+"@privacybydesign/yivi-frontend@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@privacybydesign/yivi-frontend/-/yivi-frontend-1.0.5.tgz#9575c8c1fb1561c678088ca2ae1d81f2d80519b4"
+  integrity sha512-OqlwhaU+vnMPXdcmi5m3dnWS1LDbSySK6QP2yhte2nBEbB92ODYl6AVzK0slQIyPEJUFE46kIGSXQqWTUZqHzQ==
   dependencies:
     "@privacybydesign/yivi-css" "1.0.1"
 
