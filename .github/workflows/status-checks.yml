@@ -7,6 +7,8 @@ on:
     branches: [master]
   pull_request:
   merge_group:
+  schedule:
+    - cron: "17 6 * * 1" # Mondays 06:17 UTC
   workflow_dispatch:
 
 permissions: {}
@@ -20,10 +22,35 @@ jobs:
       test-dockerfile: Dockerfile.test
       coverage-file: /coverage/coverage.out # Dockerfile.test writes here
 
+  # Builds and scans the image without pushing it; Delivery pushes from master.
+  docker:
+    if: github.event_name == 'pull_request' || github.event_name == 'merge_group'
+    uses: privacybydesign/github-workflows/.github/workflows/docker-publish.yml@v1
+    permissions:
+      contents: read
+      packages: write
+      security-events: write
+      id-token: write
+      attestations: write
+    with:
+      push-image: false
+
+  dependency-review:
+    if: github.event_name == 'pull_request'
+    uses: privacybydesign/github-workflows/.github/workflows/dependency-review.yml@v1
+    permissions:
+      contents: read
+      pull-requests: write
+
+  workflow-lint:
+    uses: privacybydesign/github-workflows/.github/workflows/workflow-lint.yml@v1
+    permissions:
+      contents: read
+
   passed:
     name: Status checks passed
     if: always()
-    needs: [go]
+    needs: [go, docker, dependency-review, workflow-lint]
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions: {}
