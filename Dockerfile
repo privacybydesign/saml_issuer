@@ -1,7 +1,7 @@
 ####################
 # Frontend assets
 ####################
-FROM node:22-alpine AS frontend
+FROM node:25-alpine AS frontend
 WORKDIR /app
 
 COPY package.json yarn.lock build.sh ./
@@ -14,7 +14,7 @@ RUN ./build.sh
 ####################
 # Go build
 ####################
-FROM golang:1.26.10 AS build
+FROM golang:1.27.2 AS build
 WORKDIR /app
 
 COPY go.mod go.sum ./
