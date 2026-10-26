@@ -1,0 +1,28 @@
+# Delivery: builds, scans and pushes ghcr.io/privacybydesign/saml_issuer.
+# Push to master -> :edge, release vX.Y.Z -> :X.Y.Z and :latest. PR builds are
+# scanned in Status checks; published images are re-scanned weekly by
+# image-rescan.yml.
+name: Delivery
+
+on:
+  push:
+    branches: [master]
+  release:
+    # Note: a current limitation is that when a release is edited after publication, then the Docker tags are not automatically updated.
+    types: [published]
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  docker:
+    uses: privacybydesign/github-workflows/.github/workflows/docker-publish.yml@v1
+    permissions:
+      contents: read
+      packages: write
+      security-events: write
+      id-token: write
+      attestations: write
+    with:
+      # The old Delivery tagged :latest on every stable release; keep doing so.
+      tag-latest: true
