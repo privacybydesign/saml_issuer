@@ -77,12 +77,18 @@ func newServer(cfg config, clock clockwork.Clock) (*server, error) {
 		return nil, err
 	}
 
+	surfnet := surfnetProvider(cfg)
+
 	sp, err := saml.New(saml.Config{
 		EntityID: cfg.baseURL + spMetadataPath,
 		ACSURL:   cfg.baseURL + acsPath,
-		Cert:     cfg.spCert,
-		IdPs:     []saml.IdP{idp},
-		Clock:    clock,
+		InfoURLs: []saml.Localized{
+			{Lang: langEN, Value: cfg.baseURL + prefixEN + surfnet.path},
+			{Lang: langNL, Value: cfg.baseURL + prefixNL + surfnet.path},
+		},
+		Cert:  cfg.spCert,
+		IdPs:  []saml.IdP{idp},
+		Clock: clock,
 	})
 	if err != nil {
 		return nil, err
@@ -101,7 +107,7 @@ func newServer(cfg config, clock clockwork.Clock) (*server, error) {
 		idpID:     idp.EntityID,
 		irma:      irma.NewClient(cfg.irmaServerURL, cfg.irmaToken),
 		templates: templates,
-		surfnet:   surfnetProvider(cfg),
+		surfnet:   surfnet,
 		pages:     map[string]page{},
 	}
 	s.providers = []provider{s.surfnet}

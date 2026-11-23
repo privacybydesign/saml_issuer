@@ -354,7 +354,8 @@ func TestSPMetadata(t *testing.T) {
 				Binding  string `xml:"Binding,attr"`
 				Location string `xml:"Location,attr"`
 			} `xml:"AssertionConsumerService"`
-			SLO []struct{} `xml:"SingleLogoutService"`
+			SLO      []struct{} `xml:"SingleLogoutService"`
+			InfoURLs []string   `xml:"Extensions>UIInfo>InformationURL"`
 		} `xml:"SPSSODescriptor"`
 	}
 	require.NoError(t, xml.Unmarshal([]byte(body(t, response)), &metadata))
@@ -367,6 +368,7 @@ func TestSPMetadata(t *testing.T) {
 	assert.Equal(t, "signing", metadata.SPSSO.Keys[0].Use)
 	assert.Equal(t, h.srv.cfg.spCert.Raw, mustDecode(t, metadata.SPSSO.Keys[0].Cert))
 	assert.Empty(t, metadata.SPSSO.SLO, "logout is local only")
+	assert.Equal(t, []string{h.baseURL() + "/en/surfconext/", h.baseURL() + "/nl/surfconext/"}, metadata.SPSSO.InfoURLs)
 }
 
 func TestOldPathsStillWork(t *testing.T) {

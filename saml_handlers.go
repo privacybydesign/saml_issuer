@@ -17,7 +17,8 @@ const (
 	samlResponseField = "SAMLResponse"
 )
 
-// spMetadata publishes the entity ID, certificate and ACS for SURFconext.
+// spMetadata publishes the SP metadata, which SURFconext reads and republishes
+// in eduGAIN.
 func (s *server) spMetadata(w http.ResponseWriter, r *http.Request) {
 	body, err := s.saml.Metadata()
 	if err != nil {
@@ -54,8 +55,7 @@ func (s *server) acs(w http.ResponseWriter, r *http.Request) {
 
 	r.Body = http.MaxBytesReader(w, r.Body, maxBodyBytes)
 	if err := r.ParseForm(); err != nil {
-		var tooLarge *http.MaxBytesError
-		if errors.As(err, &tooLarge) {
+		if _, ok := errors.AsType[*http.MaxBytesError](err); ok {
 			s.renderFailure(w, http.StatusRequestEntityTooLarge, page{provider: p})
 			return
 		}

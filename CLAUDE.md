@@ -36,6 +36,10 @@ LinkedIn (OIDC). It replaced a SimpleSAMLphp/PHP service.
   built by a second library instance with the real clock. `Conditions` are checked
   in `validate.go`.
 - goxmldsig rejects a pinned certificate outside its validity period.
+- SURFconext republishes the SP metadata in eduGAIN. eduGAIN requires the
+  `Organization` and both `ContactPerson`s, and expects the `mdui:UIInfo`.
+  `TestMetadata` compares the whole document with `testdata/sp-metadata.xml`. Do
+  not publish an encryption key while encrypted assertions are rejected.
 - `etree` is pinned to v1.7.0, the version gosaml2 and goxmldsig declare. Do not
   float it to `@latest`.
 - The embedded files are listed in `assetFS` (`server.go`) and in
