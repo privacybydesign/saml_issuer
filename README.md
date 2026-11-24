@@ -61,6 +61,21 @@ Only `saml.crt` is read. It is published in the SP metadata. Requests are not
 signed and assertions are not encrypted, so the private key (`saml.pem`) is not
 needed by the service.
 
+### SP metadata
+
+SURFconext reads the SP metadata from the entity ID's URL and republishes it in
+eduGAIN. Besides the certificate and the ACS it holds:
+
+- the organization, and a technical and a support contact. eduGAIN
+  [requires](https://servicedesk.surf.nl/wiki/spaces/IAM/pages/128910147) these
+- the name, description, logo, information page and privacy statement shown to
+  users (`mdui:UIInfo`)
+- the requested attributes
+
+It has no encryption key, because encrypted assertions are rejected. The values
+are in `internal/saml/metadata.go`. The whole document is in
+`internal/saml/testdata/sp-metadata.xml`.
+
 ## Sessions
 
 Login state is kept in memory, behind an unguessable session cookie

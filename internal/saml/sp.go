@@ -2,17 +2,13 @@ package saml
 
 import (
 	"crypto/x509"
-	"encoding/base64"
-	"encoding/xml"
 	"errors"
 	"fmt"
 	"time"
 
 	"github.com/jonboulle/clockwork"
 	saml2 "github.com/russellhaering/gosaml2"
-	"github.com/russellhaering/gosaml2/types"
 	dsig "github.com/russellhaering/goxmldsig"
-	dsigtypes "github.com/russellhaering/goxmldsig/types"
 )
 
 const (
@@ -22,14 +18,16 @@ const (
 	// MaxResponseBytes bounds a decoded SAML response.
 	MaxResponseBytes = 128 << 10
 
-	metadataValidity = 7 * 24 * time.Hour
-	requestIDAttr    = "ID"
+	requestIDAttr = "ID"
 )
 
 // Config describes this service provider and the identity providers it trusts.
 type Config struct {
 	EntityID string
 	ACSURL   string
+	// InfoURLs are the pages that tell users about the service, published in
+	// the SP metadata.
+	InfoURLs []Localized
 	// Cert is the signing certificate published in the SP metadata.
 	Cert *x509.Certificate
 	IdPs []IdP
@@ -133,37 +131,4 @@ func (sp *ServiceProvider) Login(idpID string) (AuthnRequest, error) {
 	}
 
 	return AuthnRequest{ID: doc.Root().SelectAttrValue(requestIDAttr, ""), URL: url}, nil
-}
-
-// Metadata returns the SP metadata: entity ID, signing certificate and the
-// HTTP-POST assertion consumer service.
-func (sp *ServiceProvider) Metadata() ([]byte, error) {
-	desc := types.EntityDescriptor{
-		ValidUntil: sp.cfg.Clock.Now().UTC().Add(metadataValidity).Truncate(time.Second),
-		EntityID:   sp.cfg.EntityID,
-		SPSSODescriptor: &types.SPSSODescriptor{
-			WantAssertionsSigned:       true,
-			ProtocolSupportEnumeration: saml2.SAMLProtocolNamespace,
-			NameIDFormats:              []string{saml2.NameIdFormatTransient},
-			KeyDescriptors: []types.KeyDescriptor{{
-				Use: keyUseSigning,
-				KeyInfo: dsigtypes.KeyInfo{X509Data: dsigtypes.X509Data{
-					X509Certificates: []dsigtypes.X509Certificate{{
-						Data: base64.StdEncoding.EncodeToString(sp.cfg.Cert.Raw),
-					}},
-				}},
-			}},
-			AssertionConsumerServices: []types.IndexedEndpoint{{
-				Binding:  saml2.BindingHttpPost,
-				Location: sp.cfg.ACSURL,
-			}},
-		},
-	}
-
-	body, err := xml.MarshalIndent(desc, "", "  ")
-	if err != nil {
-		return nil, err
-	}
-
-	return append([]byte(xml.Header), body...), nil
 }
